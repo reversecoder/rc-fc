@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_bg">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="true"
+        android:fadingEdge="none"
+        android:scrollbars="none"
+        android:fillViewport="true"
+        android:background="@drawable/img_bg"
+      >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/rel_bottom_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginBottom="10dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_home"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_home" />
+
+            <ImageView
+                android:id="@+id/ic_back"
+                android:layout_width="70dip"
+                android:layout_height="70dip"
+                android:layout_below="@+id/iv_home"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_back" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/rel_bottom_button"
+            android:layout_toEndOf="@+id/rel_bottom_button"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dip">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/rel_bottom_button"
+                android:layout_toEndOf="@+id/rel_bottom_button"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/iv_famous_commercials"
+                    android:layout_width="0dip"
+                    android:layout_height="150dip"
+                    android:layout_weight=".33"
+                    android:padding="10dp"
+                    android:layout_marginRight="5dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_famouscommercials" />
+
+                <ImageView
+                    android:id="@+id/iv_famousacronyms"
+                    android:layout_width="0dip"
+                    android:layout_height="150dip"
+                    android:layout_weight=".33"
+                    android:padding="10dp"
+                    android:layout_marginRight="5dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_famousacronyms"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_sounds"
+                    android:layout_width="0dip"
+                    android:layout_height="150dip"
+                    android:layout_weight=".33"
+                    android:layout_marginRight="5dip"
+                    android:padding="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_sounds" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/rel_bottom_button"
+                android:layout_toEndOf="@+id/rel_bottom_button"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dip"
+                android:weightSum="1">
+
+                <ImageView
+                    android:id="@+id/iv_childrens"
+                    android:layout_width="0dip"
+                    android:layout_height="150dip"
+                    android:layout_weight=".33"
+                    android:padding="10dp"
+                    android:layout_marginRight="5dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_childrens" />
+
+                <ImageView
+                    android:id="@+id/iv_oldtime_favorites"
+                    android:layout_width="0dip"
+                    android:layout_height="150dip"
+                    android:layout_weight=".33"
+                    android:padding="10dp"
+                    android:layout_marginRight="5dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_oldtimefavorites"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_holiday_patrioticmusic"
+                    android:layout_width="0dip"
+                    android:layout_height="150dip"
+                    android:layout_weight=".33"
+                    android:padding="10dp"
+                    android:layout_marginRight="5dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_holidaypatrioticmusic" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

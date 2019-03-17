@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">FaceCase</string>
+
+
+    <string name="txt_category">Choose a Category</string>
+    <string name="txt_before_playing">BEFORE PLAYING</string>
+
+    <string name="txt_before_playing_list">Thoroughly shuffle the card deck\n
+        Divide chips evenly between individuals/groups of players\n
+        Each player/group-Choose one category from music/sounds and one from pictures\n
+        Each player/group-Take2 decision cards-One for betting a wrong answer and one for betting a right answer.\n
+        Each player/group is responsible for their own chip count.\n
+        Each player/group-Ante $25.00 Chip\n
+        Pick a card from the card deck first.  Follow the instructions on the card and choose a category to begin.</string>
+    <string name="txt_pic_category">Picture Category</string>
+
 </resources>

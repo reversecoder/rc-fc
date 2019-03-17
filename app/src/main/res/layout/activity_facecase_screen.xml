@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_bg">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="true"
+        android:fadingEdge="none"
+        android:scrollbars="none"
+        android:fillViewport="true"
+        android:background="@drawable/img_bg"
+      >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rel_bottom_button"
+            android:layout_width="200dip"
+            android:layout_height="270dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            >
+
+            <ImageView
+                android:id="@+id/iv_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="25dip"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_facecaseguy" />
+
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/rel_bottom_button"
+            android:layout_toEndOf="@+id/rel_bottom_button"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="270dip"
+                android:layout_height="100dip"
+                android:scaleType="centerCrop"
+                android:padding="16dip"
+                android:gravity="center"
+                android:text="FACECASE"
+                android:textSize="35sp"
+                android:textStyle="bold|italic"
+                android:textColor="@color/white"/>
+
+            <ImageView
+                android:id="@+id/iv_play"
+                android:layout_width="270dip"
+                android:layout_height="100dip"
+                android:scaleType="centerCrop"
+                android:padding="16dip"
+                android:src="@drawable/ic_play" />
+            <ImageView
+                android:id="@+id/iv_intro_video"
+                android:layout_width="270dip"
+                android:layout_height="100dip"
+                android:padding="16dip"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_video" />
+            <ImageView
+                android:id="@+id/iv_pokerchips"
+                android:layout_width="270dip"
+                android:layout_height="200dip"
+                android:scaleType="centerCrop"
+                android:padding="16dip"
+                android:src="@drawable/ic_pokerchips" />
+        </LinearLayout>
+    </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>
