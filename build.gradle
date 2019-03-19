@@ -4,6 +4,16 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        maven {
+            url "https://jitpack.io"
+        }
+        maven {
+            url "https://maven.google.com"
+        }
+        maven {
+            url "https://raw.github.com/reversecoder/rc-librarydemo-androidstudio/snapshots"
+        }
         
     }
     dependencies {
@@ -18,8 +28,46 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        maven {
+            url "https://jitpack.io"
+        }
+        maven {
+            url "https://maven.google.com"
+        }
+        maven {
+            url "https://raw.github.com/reversecoder/rc-librarydemo-androidstudio/snapshots"
+        }
         
     }
+    ext.appUserVersionCode = 101
+    ext.appUserVersionName = '1.0.1'
+    ext.appMinSdkVersion = 15
+    ext.appTargetSdkVersion = 28
+    ext.appCompileSdkVersion = 28
+    ext.appBuildToolsVersion = '28.0.3'
+    ext.supportLibraryVersion = '28.0.0'
+    ext.androidxAppCompatVersion = '1.0.2'
+    ext.androidxRecyclerViewVersion = '1.0.0'
+    ext.constraintLayoutVersion = '1.1.3'
+    ext.libraryVersion = '1.0.1-SNAPSHOT'
+    ext.multiDexVersion = '1.0.3'
+    ext.glideVersion = '4.8.0'
+    ext.gsonVersion = '2.8.2'
+    ext.googlePlayServiceLocationVersion = '16.0.0'
+    ext.fastScrollVersion = '0.2.5'
+    ext.phoneNumberVersion = '8.8.5'
+    ext.sectionedRecyclerViewVersion = '0.5.0'
+    ext.androidTestRunnerVersion = '1.0.1'
+    ext.espressoCoreVersion = '3.0.1'
+    ext.junitVersion = '4.12'
+    ext.flexBoxVersion = '0.3.2'
+    ext.picassoVersion = '2.5.2'
+    ext.nineOldAndroidsVersion = '2.4.0'
+    ext.firebaseCoreVersion = '16.0.3'
+    ext.firebaseMessagingVersion = '17.3.1'
+    ext.volleyVersion = '1.1.1'
+
 }
 
 task clean(type: Delete) {
