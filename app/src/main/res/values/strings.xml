@@ -16,4 +16,10 @@
 
     <!-- View text -->
     <string name="view_loading">Loading...</string>
+
+
+    <!-- Toast message -->
+    <string name="toast_could_not_retrieve_info">Could not retrieve info</string>
+    <string name="toast_network_error">You have no internet connection!\nPlease connect to internet.</string>
+    <string name="toast_no_info_found">No info found</string>
 </resources>
