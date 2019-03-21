@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -182,18 +183,17 @@ public class HomeActivity extends BaseActivity {
                     if (data != null && data.getStatus().equalsIgnoreCase("1")) {
                         Logger.d(TAG, TAG + " >>> " + "APIResponse(DoCreateUser()): onResponse-object = " + data.toString());
 
-                        if (data.getData().size() == 1) {
                             //Save data into session
                             String jsonAppUser = APIResponse.getResponseString(data.getData().get(0));
                             Logger.d(TAG, TAG + " >>> " + "APIResponse(DoCreateUser()): app-user = " + jsonAppUser);
                             Logger.d(TAG, TAG + " >>> " + "AppUser(home-response): " + jsonAppUser);
-                            SessionManager.setStringSetting(getActivity(), AllConstants.SESSION_KEY_USER, jsonAppUser);
+                            Log.e("AppUser>>>",data.getData().toString()+">>>");
+                            SessionManager.setStringSetting(getActivity(), AllConstants.SESSION_KEY_USER,  jsonAppUser);
+//                            //Navigate to the home
+//                            Intent intentHome = new Intent(getActivity(), HomeActivity.class);
+//                            startActivity(intentHome);
+//                            finish();
 
-                            //Navigate to the home
-                            Intent intentHome = new Intent(getActivity(), HomeActivity.class);
-                            startActivity(intentHome);
-                            finish();
-                        }
                     } else {
                         Toast.makeText(getActivity(), getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
                     }

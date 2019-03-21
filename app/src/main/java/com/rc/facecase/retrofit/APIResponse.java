@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 public class APIResponse<F> {
 
     private String status = "";
+    private String success = "";
     private String msg = "";
     private int total_count= 0;
     private F data;
@@ -64,10 +65,19 @@ public class APIResponse<F> {
         this.current_datetime = current_datetime;
     }
 
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
+    }
+
     @Override
     public String toString() {
-        return "{" +
+        return "APIResponse{" +
                 "status='" + status + '\'' +
+                ", success='" + success + '\'' +
                 ", msg='" + msg + '\'' +
                 ", total_count=" + total_count +
                 ", data=" + data +

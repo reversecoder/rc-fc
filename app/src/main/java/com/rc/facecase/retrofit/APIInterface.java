@@ -1,13 +1,16 @@
 package com.rc.facecase.retrofit;
 
 import com.rc.facecase.model.AppUser;
+import com.rc.facecase.model.Category;
 import com.rc.facecase.model.ParamsAppUser;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 
 /**
@@ -17,5 +20,8 @@ import retrofit2.http.POST;
 public interface APIInterface {
     @POST("addUser")
     Call<APIResponse<List<AppUser>>> apiAddUser(@Body ParamsAppUser paramToken);
+
+    @GET("lists/{user_id}")
+    Call<APIResponse<List<Category>>> apiGetCategoryList(@Path("user_id") String user_id);
 
 }

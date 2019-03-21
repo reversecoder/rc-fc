@@ -34,6 +34,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import com.rc.facecase.R;
+import com.rc.facecase.model.AppUser;
+import com.rc.facecase.retrofit.APIResponse;
 import com.reversecoder.library.random.RandomManager;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
@@ -351,7 +353,14 @@ public class AppUtil {
         return twoDigitsFloat;
     }
 
-
+    public static AppUser getAppUser(Context context) {
+        AppUser mAppUser = null;
+        String appUser = SessionManager.getStringSetting(context, AllConstants.SESSION_KEY_USER);
+        if (!AllSettingsManager.isNullOrEmpty(appUser)) {
+            mAppUser = APIResponse.getResponseObject(appUser, AppUser.class);
+        }
+        return mAppUser;
+    }
 
     public static boolean isDebug(Context context) {
 //        return BuildConfig.DEBUG;
