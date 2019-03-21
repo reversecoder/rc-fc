@@ -147,7 +147,7 @@
                 android:src="@drawable/ic_home" />
 
             <ImageView
-                android:id="@+id/ic_back"
+                android:id="@+id/iv_back"
                 android:layout_width="70dip"
                 android:layout_height="70dip"
                 android:layout_toRightOf="@+id/iv_home"

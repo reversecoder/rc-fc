@@ -3,6 +3,7 @@ package com.rc.facecase.retrofit;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.model.ParamsAppUser;
+import com.rc.facecase.model.ParamsUpdateUserHistory;
 
 import java.util.List;
 
@@ -18,10 +19,14 @@ import retrofit2.http.Path;
  * Email: rashed.droid@gmail.com
  */
 public interface APIInterface {
+
     @POST("addUser")
     Call<APIResponse<List<AppUser>>> apiAddUser(@Body ParamsAppUser paramToken);
 
     @GET("lists/{user_id}")
     Call<APIResponse<List<Category>>> apiGetCategoryList(@Path("user_id") String user_id);
+
+    @POST("updateUserBrowsingHistory")
+    Call<APIResponse> apiUpdateUserBrowsingHistory(@Body ParamsUpdateUserHistory updateUserHistory);
 
 }

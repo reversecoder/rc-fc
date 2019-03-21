@@ -1,6 +1,8 @@
 package com.rc.facecase.model;
 
+import org.parceler.Parcel;
 
+@Parcel
 public class Items {
     private String id = "";
     private String sub_category_id = "";

@@ -1,8 +1,10 @@
 package com.rc.facecase.model;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
-
+@Parcel
 public class SubCategory {
     private String id = "";
     private String category_id = "";

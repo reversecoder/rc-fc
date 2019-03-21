@@ -15,4 +15,14 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="@dimen/sp_50"
+        android:textColor="@color/color_grey_800"/>
+
+
 </RelativeLayout>

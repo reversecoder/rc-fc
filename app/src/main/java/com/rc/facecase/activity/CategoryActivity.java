@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.text.HtmlCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,6 +29,8 @@ import com.rc.facecase.util.Logger;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,10 +41,10 @@ public class CategoryActivity extends BaseActivity {
     TextView tvPlayingList;
     ImageView ivPicturePlay,ivMusicPlay;
     private AppUser mAppUser;
-
+    Category pictureCategory,musicCategory;
     //Background task
     private APIInterface mApiInterface;
-     private GetCategoryListTask getCategoryListTask;
+    private GetCategoryListTask getCategoryListTask;
 
     @Override
     public String[] initActivityPermissions() {
@@ -95,15 +98,21 @@ public class CategoryActivity extends BaseActivity {
         ivPicturePlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iFacePlay=new Intent(getApplicationContext(),PictureCategoryActivity.class);
-                startActivity(iFacePlay);
+                if (pictureCategory!=null) {
+                    Intent iFacePlay = new Intent(getApplicationContext(), PictureCategoryActivity.class);
+                    iFacePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(pictureCategory));
+                    startActivity(iFacePlay);
+                }
             }
         });
         ivMusicPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent iFacePlay=new Intent(getApplicationContext(),MusicCategoryActivity.class);
-                startActivity(iFacePlay);
+                if (musicCategory!=null) {
+                    Intent iFaceMusicPlay = new Intent(getApplicationContext(), MusicCategoryActivity.class);
+                    iFaceMusicPlay.putExtra(AllConstants.SESSION_KEY_MUSIC_CATEGORY, Parcels.wrap(musicCategory));
+                    startActivity(iFaceMusicPlay);
+                }
             }
         });
     }
@@ -177,9 +186,13 @@ public class CategoryActivity extends BaseActivity {
                     if (data != null && data.getSuccess().equalsIgnoreCase("1")) {
                         Logger.d(TAG, "APIResponse(GetCategoryListTask()): onResponse-object = " + data.toString());
 
-//                        if (data.getData().size() > 0) {
-//                            initReviewData(data.getData());
-//                        }
+
+                        if (data.getData().size() > 0) {
+                            pictureCategory = data.getData().get(0);
+                            musicCategory = data.getData().get(1);
+                            Log.e("categoryPicture",pictureCategory.toString()+"");
+                            Log.e("categoryMusic",musicCategory.toString()+"");
+                        }
 //
 //                        //set count review number
 //                        tvReviewCount.setText(getString(R.string.view_review_count, data.getData().size()));
