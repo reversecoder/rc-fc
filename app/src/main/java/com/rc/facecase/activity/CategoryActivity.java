@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.text.HtmlCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rc.facecase.R;
+import com.rc.facecase.adapter.CategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.model.Category;
@@ -38,8 +41,11 @@ import retrofit2.Response;
 
 public class CategoryActivity extends BaseActivity {
 
-    TextView tvPlayingList;
-    ImageView ivPicturePlay,ivMusicPlay;
+    private TextView tvPlayingList;
+    private ImageView ivPicturePlay,ivMusicPlay;
+    private RecyclerView rvCategory;
+    private CategoryListAdapter categoryListAdapter;
+
     private AppUser mAppUser;
     Category pictureCategory,musicCategory;
     //Background task
@@ -73,14 +79,20 @@ public class CategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityViews() {
+        rvCategory= (RecyclerView)findViewById(R.id.rv_category_list);
         tvPlayingList= (TextView)findViewById(R.id.tv_playing_list);
         ivPicturePlay= (ImageView)findViewById(R.id.iv_picture_play);
         ivMusicPlay= (ImageView)findViewById(R.id.iv_music_play);
+
     }
 
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
         mApiInterface = APIClient.getClient(getActivity()).create(APIInterface.class);
+        categoryListAdapter = new CategoryListAdapter( getApplicationContext() );
+        rvCategory.setNestedScrollingEnabled(false);
+        rvCategory.setLayoutManager( new GridLayoutManager( getActivity(), 2) );
+        rvCategory.setHasFixedSize( true );
 
         String appUserID = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_KEY_USER);
         if (!AllSettingsManager.isNullOrEmpty(appUserID)) {
@@ -124,7 +136,7 @@ public class CategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
-
+        finish();
     }
 
     @Override
@@ -138,6 +150,14 @@ public class CategoryActivity extends BaseActivity {
     @Override
     public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
 
+    }
+    private void initCategoryData(List<Category> categories) {
+        if (categoryListAdapter != null) {
+            categoryListAdapter.addAll(categories);
+            rvCategory.setAdapter( categoryListAdapter );
+
+            categoryListAdapter.notifyDataSetChanged();
+        }
     }
 
 
@@ -188,6 +208,7 @@ public class CategoryActivity extends BaseActivity {
 
 
                         if (data.getData().size() > 0) {
+                            initCategoryData(data.getData());
                             pictureCategory = data.getData().get(0);
                             musicCategory = data.getData().get(1);
                             Log.e("categoryPicture",pictureCategory.toString()+"");
@@ -209,44 +230,4 @@ public class CategoryActivity extends BaseActivity {
     }
 
 
-//    TextView tvPlayingList;
-//    ImageView ivPicturePlay,ivMusicPlay;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        setContentView(R.layout.activity_category_screen);
-//        initUI();
-//        setOnClickListener();
-//    }
-//
-//    private void initUI() {
-//        tvPlayingList= (TextView)findViewById(R.id.tv_playing_list);
-//        ivPicturePlay= (ImageView)findViewById(R.id.iv_picture_play);
-//        ivMusicPlay= (ImageView)findViewById(R.id.iv_music_play);
-//
-//
-//       // tvPlayingList.setText(Html.fromHtml(getResources().getString(R.string.txt_before_playing_list)));
-//
-//    }
-//    private void setOnClickListener() {
-//        ivPicturePlay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent iFacePlay=new Intent(getApplicationContext(),PictureCategoryActivity.class);
-//                startActivity(iFacePlay);
-//            }
-//        });
-//        ivMusicPlay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent iFacePlay=new Intent(getApplicationContext(),MusicCategoryActivity.class);
-//                startActivity(iFacePlay);
-//            }
-//        });
-//
-//    }
 }

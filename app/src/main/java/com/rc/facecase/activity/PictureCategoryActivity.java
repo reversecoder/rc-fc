@@ -3,14 +3,19 @@ package com.rc.facecase.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.rc.facecase.R;
+import com.rc.facecase.adapter.CategoryListAdapter;
+import com.rc.facecase.adapter.SubCategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.model.Items;
+import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.util.AllConstants;
 import com.rc.facecase.util.DataUtils;
 import com.rc.facecase.util.Logger;
@@ -18,6 +23,7 @@ import com.reversecoder.library.event.OnSingleClickListener;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_ALL_OTHER_SPORTS;
@@ -31,6 +37,11 @@ import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_PRIMARY_SPORTS;
 public class PictureCategoryActivity extends BaseActivity {
     ImageView ivBack,ivPrimarySports,ivAllotherSports,ivFamoususPlaces,ivFamousworldPlaces,ivEntertainers,ivFamoususPeople;
     Category pictureCategory;
+  //  SubCategory subCategory;
+    List<SubCategory> subCategories = new ArrayList<>();
+
+    private RecyclerView rvSubCategory;
+    private SubCategoryListAdapter subCategoryListAdapter;
     @Override
     public String[] initActivityPermissions() {
         return new String[]{};
@@ -58,13 +69,15 @@ public class PictureCategoryActivity extends BaseActivity {
             Parcelable mParcelablePictureCategory = intent.getParcelableExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY);
             if (mParcelablePictureCategory != null) {
                 pictureCategory = Parcels.unwrap(mParcelablePictureCategory);
-                Logger.d(TAG, TAG + " >>> " + "pictureCategory: " + pictureCategory.toString());
+                Logger.d(TAG, TAG + " >>> " + "pictureSubCategory: " + pictureCategory.toString());
             }
         }
     }
 
     @Override
     public void initActivityViews() {
+        rvSubCategory= (RecyclerView)findViewById(R.id.rv_subcategory);
+
         ivBack= (ImageView)findViewById(R.id.iv_back);
         ivPrimarySports = (ImageView)findViewById(R.id.iv_primary_sports);
         ivAllotherSports = (ImageView)findViewById(R.id.iv_allother_sports);
@@ -76,7 +89,11 @@ public class PictureCategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
-
+        subCategoryListAdapter = new SubCategoryListAdapter( getApplicationContext() );
+        rvSubCategory.setNestedScrollingEnabled(false);
+        rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 3) );
+        rvSubCategory.setHasFixedSize( true );
+        initSubCategoryData(pictureCategory);
     }
 
     @Override
@@ -95,9 +112,21 @@ public class PictureCategoryActivity extends BaseActivity {
                     List<Items> pictureItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_PRIMARY_SPORTS);
                     Log.e("pictureItem",pictureItem.toString()+">>>");
                     if (pictureItem!=null&&pictureItem.size()>0){
+                        int itemPos = pictureItem.indexOf(pictureItem.get(0).getSource());
                         Intent iFacePlay = new Intent(getApplicationContext(), GamePlayActivity.class);
                         iFacePlay.putExtra(SUB_CATEGORY_SOURCE_NAME,pictureItem.get(0).getSource());
                         startActivity(iFacePlay);
+//                        ArrayList al = new ArrayList();
+//                        al.add("JavaFX");
+//                        al.add("HBase");
+//                        al.add("WebGL");
+//                        al.add("OpenCV");
+//                        System.out.println(al);
+//                        String item = "WebGL";
+//                        int itemPos = al.indexOf(item);
+//                        al.remove(itemPos);
+//                        al.add(0, item );
+//                        System.out.println(al);
                     }
                 }
             }
@@ -192,6 +221,7 @@ public class PictureCategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
+        finish();
 
     }
 
@@ -204,6 +234,15 @@ public class PictureCategoryActivity extends BaseActivity {
     public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
 
     }
-
+    private void initSubCategoryData(Category pictureCategory ) {
+        if (pictureCategory !=null) {
+            if (subCategoryListAdapter != null) {
+                subCategoryListAdapter.addAll(pictureCategory.getSub_categories());
+                rvSubCategory.setAdapter(subCategoryListAdapter);
+                Log.e("getSub_categories",pictureCategory.getSub_categories().size()+"");
+                subCategoryListAdapter.notifyDataSetChanged();
+            }
+        }
+    }
 
 }

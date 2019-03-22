@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/color_bg">
 
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="fill_parent"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="5dip"
         android:background="@drawable/img_bg"
-        android:fadeScrollbars="true"
-        android:fadingEdge="none"
-        android:fillViewport="true"
-        android:scrollbars="none">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,11 +41,21 @@
                     android:textStyle="bold|italic"
                     android:textAllCaps="true"/>
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_category_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingRight="@dimen/dp_10"
+                    android:paddingTop="@dimen/dp_5"
+                    android:visibility="visible" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/iv_picture_play"
@@ -113,6 +123,5 @@
             </LinearLayout>
 
         </RelativeLayout>
-    </ScrollView>
-
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

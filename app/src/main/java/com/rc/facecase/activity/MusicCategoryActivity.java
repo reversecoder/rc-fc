@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import com.rc.facecase.MainActivity;
 import com.rc.facecase.R;
+import com.rc.facecase.adapter.CategoryListAdapter;
+import com.rc.facecase.adapter.SubCategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.util.AllConstants;
@@ -22,7 +25,8 @@ import org.parceler.Parcels;
 public class MusicCategoryActivity extends BaseActivity {
     ImageView icBack,ivFamousCommercials;
     Category musicCategory;
-
+    private RecyclerView rvCategory;
+    private SubCategoryListAdapter subCategoryListAdapter;
     @Override
     public String[] initActivityPermissions() {
         return new String[]{};
@@ -71,7 +75,7 @@ public class MusicCategoryActivity extends BaseActivity {
         icBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               finish();
+                initActivityBackPress();
             }
         });
 
@@ -91,7 +95,7 @@ public class MusicCategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
-
+        finish();
     }
 
     @Override

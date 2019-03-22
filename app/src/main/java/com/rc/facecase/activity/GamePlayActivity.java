@@ -1,32 +1,24 @@
 package com.rc.facecase.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Parcelable;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.rc.facecase.MainActivity;
 import com.rc.facecase.R;
 import com.rc.facecase.base.BaseActivity;
 import com.rc.facecase.model.AppUser;
-import com.rc.facecase.model.ParamsAppUser;
 import com.rc.facecase.model.ParamsUpdateUserHistory;
 import com.rc.facecase.retrofit.APIClient;
 import com.rc.facecase.retrofit.APIInterface;
@@ -38,10 +30,7 @@ import com.reversecoder.library.util.AllSettingsManager;
 import com.rodolfonavalon.shaperipplelibrary.ShapeRipple;
 import com.rodolfonavalon.shaperipplelibrary.model.Image;
 
-import org.parceler.Parcels;
-
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.TimeZone;
 
 import retrofit2.Call;
@@ -51,14 +40,15 @@ import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
 
 public class GamePlayActivity extends BaseActivity {
 
-    PlayCountDownTimer playCountDownTimer;
+   // PlayCountDownTimer playCountDownTimer;
     private final long splashTime = 8 * 1000;
     private final long interval = 500;
     private TextView tvCount;
-    private ImageView ivLoading;
+    private ImageView ivLoading,ivAnswer,ivPlay11Sec,ivPlaceHolder;
     private ShapeRipple shapeRipple;
-    //private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
-    private String imageUrl = "";
+    private LinearLayout linAnswer;
+    private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
+  //  private String imageUrl = "";
     private AppUser mAppUser;
 
     //Background task
@@ -71,7 +61,7 @@ public class GamePlayActivity extends BaseActivity {
 
     @Override
     public int initActivityLayout() {
-        return R.layout.activity_main;
+        return R.layout.activity_game_play_screen;
 
     }
 
@@ -99,8 +89,12 @@ public class GamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityViews() {
-        ivLoading = (ImageView) findViewById(R.id.iv_loading);
         shapeRipple = (ShapeRipple) findViewById(R.id.shape_ripple);
+        linAnswer = (LinearLayout) findViewById(R.id.lin_answer);
+        ivLoading = (ImageView) findViewById(R.id.iv_loading);
+        ivAnswer = (ImageView) findViewById(R.id.iv_answer);
+        ivPlay11Sec = (ImageView) findViewById(R.id.iv_play_11sec);
+        ivPlaceHolder = (ImageView) findViewById(R.id.iv_placeholder);
         tvCount = (TextView) findViewById(R.id.tv_count);
     }
 
@@ -151,17 +145,13 @@ public class GamePlayActivity extends BaseActivity {
             public void onTick(long millisUntilFinished) {
                 Log.e("leftSeconds>>>", millisUntilFinished / 1000+"");
                 tvCount.setText("" + millisUntilFinished / 1000);
-//                if (millisUntilFinished / 1000==0){
-//                    tvCount.setText("0");
-//
-//                } else {
-//                    tvCount.setText("" + millisUntilFinished / 1000);
-//
-//                }
+
             }
 
             public void onFinish() {
                 tvCount.setVisibility(View.GONE);
+                linAnswer.setVisibility(View.VISIBLE);
+                shapeRipple.stopRipple();
             }
         }.start();
         //Update User History
@@ -172,7 +162,32 @@ public class GamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
+        ivPlay11Sec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shapeRipple.startRipple();
+                tvCount.setVisibility(View.VISIBLE);
+                linAnswer.setVisibility(View.GONE);
+                new CountDownTimer(12000, 500) {
 
+                    public void onTick(long millisUntilFinished) {
+                        Log.e("leftSeconds>>>", millisUntilFinished / 1000+"");
+                        tvCount.setText("" + millisUntilFinished / 1000);
+
+                    }
+
+                    public void onFinish() {
+                        tvCount.setVisibility(View.GONE);
+                        ivPlay11Sec.setVisibility(View.GONE);
+                        ivAnswer.setVisibility(View.VISIBLE);
+                        linAnswer.setVisibility(View.VISIBLE);
+                        ivPlaceHolder.setVisibility(View.VISIBLE);
+                        shapeRipple.stopRipple();
+
+                    }
+                }.start();
+            }
+        });
     }
 
     @Override
@@ -182,6 +197,7 @@ public class GamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
+        finish();
 
     }
 
@@ -199,7 +215,7 @@ public class GamePlayActivity extends BaseActivity {
     }
 
 
-
+/*
     public class PlayCountDownTimer extends CountDownTimer {
 
         public PlayCountDownTimer(long startTime, long interval) {
@@ -221,6 +237,7 @@ public class GamePlayActivity extends BaseActivity {
         public void onTick(long millisUntilFinished) {
         }
     }
+*/
     public static String getDateFromMillis(long d) {
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
