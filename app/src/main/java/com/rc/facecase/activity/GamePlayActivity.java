@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
@@ -37,12 +38,16 @@ import com.reversecoder.library.util.AllSettingsManager;
 import com.rodolfonavalon.shaperipplelibrary.ShapeRipple;
 import com.rodolfonavalon.shaperipplelibrary.model.Image;
 
+import org.parceler.Parcels;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
 
 public class GamePlayActivity extends BaseActivity {
 
@@ -52,13 +57,13 @@ public class GamePlayActivity extends BaseActivity {
     private TextView tvCount;
     private ImageView ivLoading;
     private ShapeRipple shapeRipple;
-    private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
+    //private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
+    private String imageUrl = "";
     private AppUser mAppUser;
 
     //Background task
     private APIInterface mApiInterface;
     private UpdateUserHistoryTask updateUserHistoryTask;
-    public int counter;
     @Override
     public String[] initActivityPermissions() {
         return new String[]{};
@@ -84,7 +89,12 @@ public class GamePlayActivity extends BaseActivity {
 
     @Override
     public void initIntentData(Bundle savedInstanceState, Intent intent) {
-
+        if (intent != null) {
+            imageUrl = getIntent().getExtras().getString( SUB_CATEGORY_SOURCE_NAME );
+            if (imageUrl != null) {
+                Logger.d(TAG, TAG + " >>> " + "imageUrl: " + imageUrl);
+            }
+        }
     }
 
     @Override
