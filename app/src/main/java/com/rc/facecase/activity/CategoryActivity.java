@@ -29,6 +29,7 @@ import com.rc.facecase.retrofit.APIResponse;
 import com.rc.facecase.util.AllConstants;
 import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
+import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
 
@@ -107,9 +108,9 @@ public class CategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
-        ivPicturePlay.setOnClickListener(new View.OnClickListener() {
+        ivPicturePlay.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View view){
                 if (pictureCategory!=null) {
                     Intent iFacePlay = new Intent(getApplicationContext(), PictureCategoryActivity.class);
                     iFacePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(pictureCategory));
@@ -117,9 +118,9 @@ public class CategoryActivity extends BaseActivity {
                 }
             }
         });
-        ivMusicPlay.setOnClickListener(new View.OnClickListener() {
+        ivMusicPlay.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View view) {
                 if (musicCategory!=null) {
                     Intent iFaceMusicPlay = new Intent(getApplicationContext(), MusicCategoryActivity.class);
                     iFaceMusicPlay.putExtra(AllConstants.SESSION_KEY_MUSIC_CATEGORY, Parcels.wrap(musicCategory));

@@ -23,6 +23,7 @@ import com.rc.facecase.retrofit.APIInterface;
 import com.rc.facecase.retrofit.APIResponse;
 import com.rc.facecase.util.AllConstants;
 import com.rc.facecase.util.Logger;
+import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.storage.SessionManager;
 
 import java.util.List;
@@ -103,9 +104,9 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
-        ivHome.setOnClickListener(new View.OnClickListener() {
+        ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View view) {
                 Intent iFacePlay=new Intent(getApplicationContext(), FacecasePlayActivity.class);
                 startActivity(iFacePlay);
             }
@@ -119,7 +120,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
-
+       finish();
     }
 
     @Override

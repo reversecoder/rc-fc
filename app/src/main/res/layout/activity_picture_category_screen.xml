@@ -42,10 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:layout_marginLeft="70dip"
-                android:layout_marginBottom="20dip"
+                android:layout_margin="@dimen/dp_5"
                 android:paddingTop="@dimen/dp_5"
-                android:visibility="gone"
                 android:nestedScrollingEnabled="true"
                 android:layout_below="@+id/tv_title"
                  />
@@ -55,10 +53,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="70dip"
                     android:layout_marginBottom="20dip"
-                    android:layout_below="@+id/tv_title"
-                    >
-
-
+                    android:layout_below="@+id/rv_subcategory"
+                   android:visibility="gone" >
 
                     <LinearLayout
                         android:id="@+id/lin_first_row"
@@ -144,6 +140,7 @@
             </RelativeLayout>
 
         </android.support.v4.widget.NestedScrollView>
+
         <RelativeLayout
             android:id="@+id/rel_bottom_button"
             android:layout_width="wrap_content"

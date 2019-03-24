@@ -13,9 +13,9 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.HomeActivity"
+        <activity android:name=".activity.FacecasePlayActivity"
             android:screenOrientation="landscape"
-            >
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,27 +25,27 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
             android:name=".activity.GamePlayActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
-            android:name=".activity.FacecasePlayActivity"
+            android:name=".activity.HomeActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen"/>
         <activity
             android:name=".activity.CategoryActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
             android:name=".activity.PictureCategoryActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen"/>
         <activity
             android:name=".activity.MusicCategoryActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
     </application>
 
 </manifest>

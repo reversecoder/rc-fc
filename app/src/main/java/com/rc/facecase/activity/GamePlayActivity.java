@@ -24,7 +24,9 @@ import com.rc.facecase.retrofit.APIClient;
 import com.rc.facecase.retrofit.APIInterface;
 import com.rc.facecase.retrofit.APIResponse;
 import com.rc.facecase.util.AllConstants;
+import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
+import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
 import com.rodolfonavalon.shaperipplelibrary.ShapeRipple;
@@ -36,6 +38,7 @@ import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_NAME;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
 
 public class GamePlayActivity extends BaseActivity {
@@ -43,12 +46,13 @@ public class GamePlayActivity extends BaseActivity {
    // PlayCountDownTimer playCountDownTimer;
     private final long splashTime = 8 * 1000;
     private final long interval = 500;
-    private TextView tvCount;
-    private ImageView ivLoading,ivAnswer,ivPlay11Sec,ivPlaceHolder;
+    private TextView tvCount,tvTitle;
+    private ImageView ivBack,ivHome,ivLoading,ivAnswer,ivPlay11Sec,ivPlaceHolder,ivShowAnswer;
+
     private ShapeRipple shapeRipple;
     private LinearLayout linAnswer;
-    private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
-  //  private String imageUrl = "";
+  //  private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
+    private String imageUrl = "",subCategoryName="";
     private AppUser mAppUser;
 
     //Background task
@@ -80,8 +84,10 @@ public class GamePlayActivity extends BaseActivity {
     @Override
     public void initIntentData(Bundle savedInstanceState, Intent intent) {
         if (intent != null) {
+            subCategoryName = getIntent().getExtras().getString( SUB_CATEGORY_NAME );
             imageUrl = getIntent().getExtras().getString( SUB_CATEGORY_SOURCE_NAME );
             if (imageUrl != null) {
+                Logger.d(TAG, TAG + " >>> " + "subCategoryName: " + subCategoryName);
                 Logger.d(TAG, TAG + " >>> " + "imageUrl: " + imageUrl);
             }
         }
@@ -91,16 +97,22 @@ public class GamePlayActivity extends BaseActivity {
     public void initActivityViews() {
         shapeRipple = (ShapeRipple) findViewById(R.id.shape_ripple);
         linAnswer = (LinearLayout) findViewById(R.id.lin_answer);
+        ivBack= (ImageView)findViewById(R.id.iv_back);
+        ivHome = (ImageView) findViewById(R.id.iv_home);
         ivLoading = (ImageView) findViewById(R.id.iv_loading);
+        ivShowAnswer = (ImageView) findViewById(R.id.iv_show_answer);
         ivAnswer = (ImageView) findViewById(R.id.iv_answer);
         ivPlay11Sec = (ImageView) findViewById(R.id.iv_play_11sec);
         ivPlaceHolder = (ImageView) findViewById(R.id.iv_placeholder);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
         tvCount = (TextView) findViewById(R.id.tv_count);
+        AllConstants.isShown = true;
     }
 
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
         mApiInterface = APIClient.getClient(getActivity()).create(APIInterface.class);
+        tvTitle.setText(subCategoryName);
         String appUserID = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_KEY_USER);
         if (!AllSettingsManager.isNullOrEmpty(appUserID)) {
             mAppUser = APIResponse.getResponseObject(appUserID, AppUser.class);
@@ -131,6 +143,10 @@ public class GamePlayActivity extends BaseActivity {
                             shapeRipple.setRippleDuration(2000);
                         }
                     });
+         AppUtil.loadImage(getApplicationContext(), ivShowAnswer, imageUrl, false, false, false);
+
+
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -151,6 +167,7 @@ public class GamePlayActivity extends BaseActivity {
             public void onFinish() {
                 tvCount.setVisibility(View.GONE);
                 linAnswer.setVisibility(View.VISIBLE);
+                ivPlaceHolder.setVisibility(View.VISIBLE);
                 shapeRipple.stopRipple();
             }
         }.start();
@@ -162,12 +179,38 @@ public class GamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
-        ivPlay11Sec.setOnClickListener(new View.OnClickListener() {
+
+        ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+             public void onSingleClick(View view)  {
+                Intent iFacePlay=new Intent(getApplicationContext(), FacecasePlayActivity.class);
+                startActivity(iFacePlay);
+                initActivityBackPress();
+            }
+        });
+
+        ivBack.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                initActivityBackPress();
+            }
+        });
+        ivAnswer.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                ivShowAnswer.setVisibility(View.VISIBLE);
+                linAnswer.setVisibility(View.GONE);
+                ivPlaceHolder.setVisibility(View.GONE);
+
+            }
+        });
+        ivPlay11Sec.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
                 shapeRipple.startRipple();
                 tvCount.setVisibility(View.VISIBLE);
                 linAnswer.setVisibility(View.GONE);
+                ivPlaceHolder.setVisibility(View.GONE);
                 new CountDownTimer(12000, 500) {
 
                     public void onTick(long millisUntilFinished) {
@@ -197,6 +240,7 @@ public class GamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
+        AllConstants.isShown = true;
         finish();
 
     }
@@ -258,7 +302,7 @@ public class GamePlayActivity extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
-            showProgressDialog();
+          //  showProgressDialog();
         }
 
         @Override
@@ -282,7 +326,7 @@ public class GamePlayActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Response result) {
             try {
-                dismissProgressDialog();
+               // dismissProgressDialog();
 
                 if (result != null && result.isSuccessful()) {
                     Logger.d(TAG, TAG + " >>> " + "APIResponse(DoCreateUser): onResponse-server = " + result.toString());

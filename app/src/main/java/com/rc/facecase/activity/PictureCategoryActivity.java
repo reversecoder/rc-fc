@@ -35,10 +35,10 @@ import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_PRIMARY_SPORTS;
 
 public class PictureCategoryActivity extends BaseActivity {
-    ImageView ivBack,ivPrimarySports,ivAllotherSports,ivFamoususPlaces,ivFamousworldPlaces,ivEntertainers,ivFamoususPeople;
-    Category pictureCategory;
+    private ImageView ivHome,ivBack,ivPrimarySports,ivAllotherSports,ivFamoususPlaces,ivFamousworldPlaces,ivEntertainers,ivFamoususPeople;
+    private Category pictureCategory;
   //  SubCategory subCategory;
-    List<SubCategory> subCategories = new ArrayList<>();
+    private List<SubCategory> subCategories = new ArrayList<>();
 
     private RecyclerView rvSubCategory;
     private SubCategoryListAdapter subCategoryListAdapter;
@@ -79,6 +79,8 @@ public class PictureCategoryActivity extends BaseActivity {
         rvSubCategory= (RecyclerView)findViewById(R.id.rv_subcategory);
 
         ivBack= (ImageView)findViewById(R.id.iv_back);
+        ivHome = (ImageView) findViewById(R.id.iv_home);
+
         ivPrimarySports = (ImageView)findViewById(R.id.iv_primary_sports);
         ivAllotherSports = (ImageView)findViewById(R.id.iv_allother_sports);
         ivFamoususPlaces = (ImageView)findViewById(R.id.iv_famousus_places);
@@ -105,112 +107,101 @@ public class PictureCategoryActivity extends BaseActivity {
             }
         });
 
-        ivPrimarySports.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                if (pictureCategory!=null) {
-                    List<Items> pictureItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_PRIMARY_SPORTS);
-                    Log.e("pictureItem",pictureItem.toString()+">>>");
-                    if (pictureItem!=null&&pictureItem.size()>0){
-                        int itemPos = pictureItem.indexOf(pictureItem.get(0).getSource());
-                        Intent iFacePlay = new Intent(getApplicationContext(), GamePlayActivity.class);
-                        iFacePlay.putExtra(SUB_CATEGORY_SOURCE_NAME,pictureItem.get(0).getSource());
-                        startActivity(iFacePlay);
-//                        ArrayList al = new ArrayList();
-//                        al.add("JavaFX");
-//                        al.add("HBase");
-//                        al.add("WebGL");
-//                        al.add("OpenCV");
-//                        System.out.println(al);
-//                        String item = "WebGL";
-//                        int itemPos = al.indexOf(item);
-//                        al.remove(itemPos);
-//                        al.add(0, item );
-//                        System.out.println(al);
-                    }
-                }
-            }
-        });
-
-        ivAllotherSports.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                if (pictureCategory!=null) {
-                    List<Items> allOtherSportsItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_ALL_OTHER_SPORTS);
-                    Log.e("allOtherSportsItem",allOtherSportsItem.toString()+">>>");
-                    if (allOtherSportsItem!=null && allOtherSportsItem.size()>0){
-                        Intent iFaceallOtherSportsPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
-                        iFaceallOtherSportsPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,allOtherSportsItem.get(0).getSource());
-                        startActivity(iFaceallOtherSportsPlay);
-                    }
-
-                }
-            }
-        });
-
-        ivFamoususPlaces.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                if (pictureCategory!=null) {
-                    List<Items> famoususPlacesItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_PLACES);
-                    Log.e("allOtherSportsItem",famoususPlacesItem.toString()+">>>");
-                    if (famoususPlacesItem!=null && famoususPlacesItem.size()>0){
-                        Intent iFaceFamoususPlacesPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
-                        iFaceFamoususPlacesPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famoususPlacesItem.get(0).getSource());
-                        startActivity(iFaceFamoususPlacesPlay);
-                    }
-
-                }
-            }
-        });
-
-        ivFamousworldPlaces.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                if (pictureCategory!=null) {
-                    List<Items> famousworldPlacesItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_WORLD_PLACES);
-                    Log.e("allOtherSportsItem",famousworldPlacesItem.toString()+">>>");
-                    if (famousworldPlacesItem!=null && famousworldPlacesItem.size()>0){
-                        Intent iFaceFamousworldPlacesPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
-                        iFaceFamousworldPlacesPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famousworldPlacesItem.get(0).getSource());
-                        startActivity(iFaceFamousworldPlacesPlay);
-                    }
-
-                }
-            }
-        });
-
-        ivEntertainers.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                if (pictureCategory!=null) {
-                    List<Items> entertainersItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_ENTERTAINERS);
-                    Log.e("entertainersItem",entertainersItem.toString()+">>>");
-                    if (entertainersItem!=null && entertainersItem.size()>0){
-                        Intent iFaceEntertainersPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
-                        iFaceEntertainersPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,entertainersItem.get(0).getSource());
-                        startActivity(iFaceEntertainersPlay);
-                    }
-
-                }
-            }
-        });
-
-        ivFamoususPeople.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                if (pictureCategory!=null) {
-                    List<Items> famoususPeopleItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_PEOPLE);
-                    Log.e("allOtherSportsItem",famoususPeopleItem.toString()+">>>");
-                    if (famoususPeopleItem!=null && famoususPeopleItem.size()>0){
-                        Intent iFaceFamoususPeoplePlay = new Intent(getApplicationContext(), GamePlayActivity.class);
-                        iFaceFamoususPeoplePlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famoususPeopleItem.get(0).getSource());
-                        startActivity(iFaceFamoususPeoplePlay);
-                    }
-
-                }
-            }
-        });
+//        ivPrimarySports.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View view) {
+//                if (pictureCategory!=null) {
+//                    List<Items> pictureItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_PRIMARY_SPORTS);
+//                    Log.e("pictureItem",pictureItem.toString()+">>>");
+//                    if (pictureItem!=null&&pictureItem.size()>0){
+//                        int itemPos = pictureItem.indexOf(pictureItem.get(0).getSource());
+//                        Intent iFacePlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        iFacePlay.putExtra(SUB_CATEGORY_SOURCE_NAME,pictureItem.get(0).getSource());
+//                        startActivity(iFacePlay);
+//                    }
+//                }
+//            }
+//        });
+//
+//        ivAllotherSports.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View view) {
+//                if (pictureCategory!=null) {
+//                    List<Items> allOtherSportsItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_ALL_OTHER_SPORTS);
+//                    Log.e("allOtherSportsItem",allOtherSportsItem.toString()+">>>");
+//                    if (allOtherSportsItem!=null && allOtherSportsItem.size()>0){
+//                        Intent iFaceallOtherSportsPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        iFaceallOtherSportsPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,allOtherSportsItem.get(0).getSource());
+//                        startActivity(iFaceallOtherSportsPlay);
+//                    }
+//
+//                }
+//            }
+//        });
+//
+//        ivFamoususPlaces.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View view) {
+//                if (pictureCategory!=null) {
+//                    List<Items> famoususPlacesItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_PLACES);
+//                    Log.e("allOtherSportsItem",famoususPlacesItem.toString()+">>>");
+//                    if (famoususPlacesItem!=null && famoususPlacesItem.size()>0){
+//                        Intent iFaceFamoususPlacesPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        iFaceFamoususPlacesPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famoususPlacesItem.get(0).getSource());
+//                        startActivity(iFaceFamoususPlacesPlay);
+//                    }
+//
+//                }
+//            }
+//        });
+//
+//        ivFamousworldPlaces.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View view) {
+//                if (pictureCategory!=null) {
+//                    List<Items> famousworldPlacesItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_WORLD_PLACES);
+//                    Log.e("allOtherSportsItem",famousworldPlacesItem.toString()+">>>");
+//                    if (famousworldPlacesItem!=null && famousworldPlacesItem.size()>0){
+//                        Intent iFaceFamousworldPlacesPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        iFaceFamousworldPlacesPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famousworldPlacesItem.get(0).getSource());
+//                        startActivity(iFaceFamousworldPlacesPlay);
+//                    }
+//
+//                }
+//            }
+//        });
+//
+//        ivEntertainers.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View view) {
+//                if (pictureCategory!=null) {
+//                    List<Items> entertainersItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_ENTERTAINERS);
+//                    Log.e("entertainersItem",entertainersItem.toString()+">>>");
+//                    if (entertainersItem!=null && entertainersItem.size()>0){
+//                        Intent iFaceEntertainersPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        iFaceEntertainersPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,entertainersItem.get(0).getSource());
+//                        startActivity(iFaceEntertainersPlay);
+//                    }
+//
+//                }
+//            }
+//        });
+//
+//        ivFamoususPeople.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View view) {
+//                if (pictureCategory!=null) {
+//                    List<Items> famoususPeopleItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_PEOPLE);
+//                    Log.e("allOtherSportsItem",famoususPeopleItem.toString()+">>>");
+//                    if (famoususPeopleItem!=null && famoususPeopleItem.size()>0){
+//                        Intent iFaceFamoususPeoplePlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        iFaceFamoususPeoplePlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famoususPeopleItem.get(0).getSource());
+//                        startActivity(iFaceFamoususPeoplePlay);
+//                    }
+//
+//                }
+//            }
+//        });
 
     }
 

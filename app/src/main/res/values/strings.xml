@@ -13,6 +13,7 @@
         Each player/group-Ante $25.00 Chip\n
         Pick a card from the card deck first.  Follow the instructions on the card and choose a category to begin.</string>
     <string name="txt_pic_category">Picture Category</string>
+    <string name="txt_music_category">Music Category</string>
 
     <!-- View text -->
     <string name="view_loading">Loading...</string>
