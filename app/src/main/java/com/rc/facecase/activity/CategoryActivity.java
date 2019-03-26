@@ -161,7 +161,6 @@ public class CategoryActivity extends BaseActivity {
         }
     }
 
-
     /************************
      * Server communication *
      ************************/

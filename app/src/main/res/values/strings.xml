@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">FaceCase</string>
 
+    <!-- Progress Dialog -->
+    <string name="progress_dialog_loading">Loading...</string>
 
     <string name="txt_category">Choose a Category</string>
     <string name="txt_before_playing">BEFORE PLAYING</string>
@@ -18,8 +20,8 @@
     <!-- View text -->
     <string name="view_loading">Loading...</string>
 
-
     <!-- Toast message -->
+    <string name="toast_ignored_fast_click">Ignored fast click!</string>
     <string name="toast_could_not_retrieve_info">Could not retrieve info</string>
     <string name="toast_network_error">You have no internet connection!\nPlease connect to internet.</string>
     <string name="toast_no_info_found">No info found</string>

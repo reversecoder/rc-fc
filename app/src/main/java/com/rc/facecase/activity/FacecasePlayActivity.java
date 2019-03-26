@@ -11,12 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -38,13 +35,15 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class FacecasePlayActivity extends BaseActivity {
-    ImageView ivPlay,ivQuit;
+
+    ImageView ivPlay, ivQuit;
     //Background task
     private APIInterface mApiInterface;
     private RegisterAppUserTask registerAppUserTask;
+
     @Override
     public String[] initActivityPermissions() {
-        return new String[]{};
+        return new String[]{Manifest.permission.READ_PHONE_STATE};
 
     }
 
@@ -70,8 +69,8 @@ public class FacecasePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityViews() {
-        ivPlay= (ImageView)findViewById(R.id.iv_play);
-        ivQuit= (ImageView)findViewById(R.id.iv_quit);
+        ivPlay = (ImageView) findViewById(R.id.iv_play);
+        ivQuit = (ImageView) findViewById(R.id.iv_quit);
     }
 
     @Override
@@ -96,7 +95,7 @@ public class FacecasePlayActivity extends BaseActivity {
         if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length()) {
             deviceUniqueIdentifier = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         }
-        Logger.d(TAG, TAG + " >>> " + "AppUser(deviceUniqueIdentifier): " +deviceUniqueIdentifier);
+        Logger.d(TAG, TAG + " >>> " + "AppUser(deviceUniqueIdentifier): " + deviceUniqueIdentifier);
 
         //Register app user
         ParamsAppUser paramAppUser = new ParamsAppUser(deviceUniqueIdentifier);
@@ -106,13 +105,15 @@ public class FacecasePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
-        ivPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent iFacePlay=new Intent(getApplicationContext(),CategoryActivity.class);
-                startActivity(iFacePlay);
-            }
-        });
+        ivPlay.setOnClickListener(
+                new OnBaseClickListener() {
+                    @Override
+                    public void OnPermissionValidation(View view) {
+                        Intent iFacePlay = new Intent(getActivity(), CategoryActivity.class);
+                        startActivity(iFacePlay);
+                    }
+                }
+        );
         ivQuit.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -154,6 +155,7 @@ public class FacecasePlayActivity extends BaseActivity {
     public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
 
     }
+
     /************************
      * Server communication *
      ************************/
@@ -207,8 +209,8 @@ public class FacecasePlayActivity extends BaseActivity {
                         String jsonAppUser = APIResponse.getResponseString(data.getData().get(0));
                         Logger.d(TAG, TAG + " >>> " + "APIResponse(DoCreateUser()): app-user = " + jsonAppUser);
                         Logger.d(TAG, TAG + " >>> " + "AppUser(home-response): " + jsonAppUser);
-                        Log.e("AppUser>>>",data.getData().toString()+">>>");
-                        SessionManager.setStringSetting(getActivity(), AllConstants.SESSION_KEY_USER,  jsonAppUser);
+                        Log.e("AppUser>>>", data.getData().toString() + ">>>");
+                        SessionManager.setStringSetting(getActivity(), AllConstants.SESSION_KEY_USER, jsonAppUser);
 //                            //Navigate to the home
 //                            Intent intentHome = new Intent(getActivity(), HomeActivity.class);
 //                            startActivity(intentHome);

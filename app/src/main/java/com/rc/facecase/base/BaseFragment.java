@@ -3,9 +3,6 @@ package com.rc.facecase.base;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-/*
-import android.databinding.DataBindingUtil;
-*/
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,7 +14,6 @@ import com.rc.facecase.R;
 import com.rc.facecase.interfaces.OnFragmentBackPressedListener;
 import com.rc.facecase.interfaces.OnFragmentResultListener;
 import com.rc.facecase.interfaces.OnFragmentUpdateListener;
-
 
 /**
  * @author Md. Rashadul Alam
@@ -76,8 +72,8 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
 //        if (containerView != null) {
 //            ((ViewGroup) containerView).removeAllViews();
 //        }
- //       containerView = DataBindingUtil.inflate(inflater, initFragmentLayout(), container, false).getRoot();
-         containerView = inflater.inflate(initFragmentLayout(), container, false);
+//        containerView = DataBindingUtil.inflate(inflater, initFragmentLayout(), container, false).getRoot();
+        containerView = inflater.inflate(initFragmentLayout(), container, false);
 
         TAG = getClass().getSimpleName();
         initFragmentViews(containerView);
@@ -109,7 +105,7 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
     public ProgressDialog showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setMessage(getResources().getString(R.string.view_loading));
+            mProgressDialog.setMessage(getResources().getString(R.string.progress_dialog_loading));
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.setCanceledOnTouchOutside(false);
@@ -138,4 +134,3 @@ public abstract class BaseFragment extends Fragment implements OnFragmentBackPre
         }
     }
 }
-

@@ -27,7 +27,6 @@ import java.util.List;
 import static com.rc.facecase.util.RuntimePermissionManager.REQUEST_CODE_APP_INFO;
 import static com.rc.facecase.util.RuntimePermissionManager.REQUEST_CODE_PERMISSION;
 
-
 /**
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
@@ -329,6 +328,50 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /******************************************
+     * Click listener for checking permission *
+     ******************************************/
+    public abstract class OnBaseClickListener implements View.OnClickListener {
+
+        //Abstract declaration
+        public abstract void OnPermissionValidation(View view);
+
+        private static final String TAG = "OnBaseClickListener";
+        private static final long MIN_DELAY_MS = 1500L;
+        private long mLastClickTime = 0;
+
+        public OnBaseClickListener() {
+        }
+
+        @Override
+        public final void onClick(View view) {
+            long lastClickTime = mLastClickTime;
+            long now = System.currentTimeMillis();
+            this.mLastClickTime = now;
+            if (now - lastClickTime < MIN_DELAY_MS) {
+                Toast.makeText(getActivity(), getString(R.string.toast_ignored_fast_click), Toast.LENGTH_SHORT).show();
+            } else {
+                //Check runtime permissions
+                if (processRuntimePermissions(PERMISSION_TYPE.TASK, initActivityPermissions())) {
+                    switch (mPermissionType) {
+                        case TASK:
+//                            if (getActivity() instanceof BaseLocationActivity && !isGpsEnabled(getActivity())) {
+//                                Logger.d(TAG, "Permissions: All permissions are granted but location is disabled");
+//                                //Request for enabling gps from base location activity
+//                                if (mRuntimePermissionUpdateListener != null) {
+//                                    mRuntimePermissionUpdateListener.onUpdate(true);
+//                                }
+//                            } else {
+                                //Now it's the time to disco
+                                Logger.d(TAG, "Permissions: All permissions are granted, now it's the time to disco!");
+                                OnPermissionValidation(view);
+//                            }
+                            break;
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -371,9 +414,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        initActivityDestroyTasks();
-
         super.onDestroy();
+        initActivityDestroyTasks();
     }
 
     public String[] getPermissions(List<String> permissions) {
@@ -431,7 +473,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public ProgressDialog showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setMessage(getResources().getString(R.string.view_loading));
+            mProgressDialog.setMessage(getResources().getString(R.string.progress_dialog_loading));
             mProgressDialog.setIndeterminate(false);
             mProgressDialog.setCancelable(true);
             mProgressDialog.setCanceledOnTouchOutside(false);

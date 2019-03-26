@@ -6,5 +6,5 @@ package com.rc.facecase.base;
  */
 public interface BaseUpdateListener {
 
-    public void onUpdate(Object update);
+    public void onUpdate(Object... update);
 }
