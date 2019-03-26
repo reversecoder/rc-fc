@@ -46,7 +46,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class APIClient {
 
-    private static final String BASE_URL = "http://iexpresswholesale.com/faceoff-games/index.php/api/";
+   // private static final String BASE_URL = "http://iexpresswholesale.com/faceoff-games/index.php/api/";
+    private static final String BASE_URL = "http://bizluk.com/faceoff-games/index.php/api/";
     private static Retrofit retrofit = null;
     private static final int REQUEST_TIMEOUT = 15;
     private static OkHttpClient okHttpClient;
