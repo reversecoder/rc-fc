@@ -30,6 +30,7 @@ import com.rc.facecase.util.AllConstants;
 import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
 import com.reversecoder.library.event.OnSingleClickListener;
+import com.reversecoder.library.network.NetworkManager;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
 
@@ -43,7 +44,7 @@ import retrofit2.Response;
 public class CategoryActivity extends BaseActivity {
 
     private TextView tvPlayingList;
-    private ImageView ivPicturePlay,ivMusicPlay;
+    private ImageView ivHome,ivPicturePlay,ivMusicPlay;
     private RecyclerView rvCategory;
     private CategoryListAdapter categoryListAdapter;
 
@@ -84,6 +85,7 @@ public class CategoryActivity extends BaseActivity {
         tvPlayingList= (TextView)findViewById(R.id.tv_playing_list);
         ivPicturePlay= (ImageView)findViewById(R.id.iv_picture_play);
         ivMusicPlay= (ImageView)findViewById(R.id.iv_music_play);
+        ivHome = (ImageView) findViewById(R.id.iv_home);
 
     }
 
@@ -101,9 +103,13 @@ public class CategoryActivity extends BaseActivity {
             Logger.d(TAG, TAG + " >>> " + "mAppUser: " + mAppUser.toString());
         }
        // Logger.d(TAG, TAG + " getId>>> " + "mAppUser: " + mAppUser.getId());
-
-        getCategoryListTask = new GetCategoryListTask(getActivity());
-        getCategoryListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        //Check internet connection
+        if (!NetworkManager.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), getResources().getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show();
+        } else {
+            getCategoryListTask = new GetCategoryListTask(getActivity());
+            getCategoryListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
     }
 
     @Override
@@ -118,16 +124,22 @@ public class CategoryActivity extends BaseActivity {
                 }
             }
         });
-        ivMusicPlay.setOnClickListener(new OnSingleClickListener() {
+        ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                if (musicCategory!=null) {
-                    Intent iFaceMusicPlay = new Intent(getApplicationContext(), MusicCategoryActivity.class);
-                    iFaceMusicPlay.putExtra(AllConstants.SESSION_KEY_MUSIC_CATEGORY, Parcels.wrap(musicCategory));
-                    startActivity(iFaceMusicPlay);
-                }
+                initActivityBackPress();
             }
         });
+//        ivMusicPlay.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View view) {
+//                if (musicCategory!=null) {
+//                    Intent iFaceMusicPlay = new Intent(getApplicationContext(), MusicCategoryActivity.class);
+//                    iFaceMusicPlay.putExtra(AllConstants.SESSION_KEY_MUSIC_CATEGORY, Parcels.wrap(musicCategory));
+//                    startActivity(iFaceMusicPlay);
+//                }
+//            }
+//        });
     }
 
     @Override

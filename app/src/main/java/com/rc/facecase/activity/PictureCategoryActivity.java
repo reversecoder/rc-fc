@@ -107,6 +107,13 @@ public class PictureCategoryActivity extends BaseActivity {
             }
         });
 
+        ivHome.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                initActivityBackPress();
+            }
+        });
+
 //        ivPrimarySports.setOnClickListener(new OnSingleClickListener() {
 //            @Override
 //            public void onSingleClick(View view) {

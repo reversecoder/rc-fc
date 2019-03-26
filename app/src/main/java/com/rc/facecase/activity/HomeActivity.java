@@ -22,9 +22,12 @@ import com.rc.facecase.retrofit.APIClient;
 import com.rc.facecase.retrofit.APIInterface;
 import com.rc.facecase.retrofit.APIResponse;
 import com.rc.facecase.util.AllConstants;
+import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
 import com.reversecoder.library.event.OnSingleClickListener;
+import com.reversecoder.library.network.NetworkManager;
 import com.reversecoder.library.storage.SessionManager;
+import com.reversecoder.library.util.AllSettingsManager;
 
 import java.util.List;
 
@@ -34,6 +37,7 @@ import retrofit2.Response;
 public class HomeActivity extends BaseActivity {
 
     ImageView ivHome;
+    private AppUser mAppUser;
 
     //Background task
     private APIInterface mApiInterface;
@@ -75,31 +79,34 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
         mApiInterface = APIClient.getClient(getActivity()).create(APIInterface.class);
+        String deviceUniqueIdentity = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_DEVICE_IDENTIFIER);
 
-        String deviceUniqueIdentifier = null;
-        TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        if (null != tm) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
+        if (deviceUniqueIdentity == null || deviceUniqueIdentity.equalsIgnoreCase("")){
+            deviceUniqueIdentity = AppUtil.getAppDeviceUniqueIdentifier(getActivity());
+        }
+
+        Logger.d(TAG, TAG + " >>> " + "AppUser(deviceUniqueIdentity): " +deviceUniqueIdentity);
+        //Check internet connection
+        if (!NetworkManager.isConnected(getActivity())) {
+            Toast.makeText(getActivity(), getResources().getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            String appUserID = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_KEY_USER);
+            if (!AllSettingsManager.isNullOrEmpty(appUserID)) {
+                mAppUser = APIResponse.getResponseObject(appUserID, AppUser.class);
+                Logger.d(TAG, TAG + " >>> " + "mAppUser: " + mAppUser.toString());
             }
-            deviceUniqueIdentifier = tm.getDeviceId();
-        }
-        if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length()) {
-            deviceUniqueIdentifier = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-        }
-        Logger.d(TAG, TAG + " >>> " + "AppUser(deviceUniqueIdentifier): " +deviceUniqueIdentifier);
 
-        //Register app user
-        ParamsAppUser paramAppUser = new ParamsAppUser(deviceUniqueIdentifier);
-        registerAppUserTask = new RegisterAppUserTask(getActivity(), paramAppUser);
-        registerAppUserTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            if (mAppUser==null) {
+                //Register app user
+                ParamsAppUser paramAppUser = new ParamsAppUser(deviceUniqueIdentity);
+                registerAppUserTask = new RegisterAppUserTask(getActivity(), paramAppUser);
+                registerAppUserTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        }
+
+
     }
 
     @Override

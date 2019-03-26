@@ -1,5 +1,6 @@
 package com.rc.facecase.util;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -10,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -212,6 +215,32 @@ public class AppUtil {
         textView.setMarqueeRepeatLimit(-1);
         textView.setSelected(true);
     }
+
+    public static String getAppDeviceUniqueIdentifier(Context context) {
+        String deviceUniqueIdentifier = "";
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (null != tm) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return "";
+            }
+            deviceUniqueIdentifier = tm.getDeviceId();
+        }
+        if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length()) {
+            deviceUniqueIdentifier = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            SessionManager.setStringSetting(context, AllConstants.SESSION_DEVICE_IDENTIFIER, deviceUniqueIdentifier);
+
+        }
+        Logger.d(TAG, TAG + " >>> " + "AppUser(deviceUniqueIdentifier): " +deviceUniqueIdentifier);
+        return deviceUniqueIdentifier;
+    }
+
 
     public static String getAppVersion(Context context) {
         String appVersion = "";

@@ -1,5 +1,6 @@
 package com.rc.facecase.viewholder;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -124,7 +125,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsPrimarySports = data.getItems();
-                            switchActivity(data.getItems().get(0).getSource());
+                            switchActivity(data.getItems().get(0));
                         }else {
                             Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
                         }
@@ -136,7 +137,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsAllOtherSports = data.getItems();
-                            switchActivity(data.getItems().get(0).getSource());
+                            switchActivity(data.getItems().get(0));
                         }else {
                             Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
                         }
@@ -148,7 +149,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsFamousUSPlaces = data.getItems();
-                            switchActivity(data.getItems().get(0).getSource());
+                            switchActivity(data.getItems().get(0));
                         }else {
                             Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
                         }
@@ -160,7 +161,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsFamousWorldPlaces = data.getItems();
-                            switchActivity(data.getItems().get(0).getSource());
+                            switchActivity(data.getItems().get(0));
                         } else {
                             Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
                         }
@@ -172,7 +173,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsEntertainers = data.getItems();
-                            switchActivity(data.getItems().get(0).getSource());
+                            switchActivity(data.getItems().get(0));
                         }else {
                             Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
                         }
@@ -184,7 +185,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsFamousPlaces = data.getItems();
-                            switchActivity(data.getItems().get(0).getSource());
+                            switchActivity(data.getItems().get(0));
                         }else {
                             Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
                         }
@@ -198,11 +199,14 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
         });
     }
 
-    private  void switchActivity(String imageSource){
+    private  void switchActivity(Items item){
         AllConstants.isShown = true;
         Intent iFacePlay = new Intent(getContext(), GamePlayActivity.class);
         iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-        iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, imageSource);
+//        iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, imageSource);
+//        iFacePlay.putExtra(AllConstants.ANSWER_TITLE,getTitle);
+        iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(item));
+
         getContext().startActivity(iFacePlay);
     }
 
@@ -221,32 +225,45 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
         if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_COMMERCIALS)) {
             itemsPrimarySports.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsPrimarySports.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsPrimarySports.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsPrimarySports.get(0).getTitle());
+            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsPrimarySports.get(0)));
 
         }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_ACRONYMES)) {
             itemsAllOtherSports.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsAllOtherSports.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsAllOtherSports.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsAllOtherSports.get(0).getTitle());
+            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsAllOtherSports.get(0)));
 
         }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_SOUNDS)) {
             itemsFamousUSPlaces.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsFamousUSPlaces.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsFamousUSPlaces.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsFamousUSPlaces.get(0).getTitle());
+            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsFamousUSPlaces.get(0)));
 
         }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_CHILDREN_SOUNDS)) {
             itemsFamousWorldPlaces.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsFamousWorldPlaces.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsFamousWorldPlaces.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsFamousWorldPlaces.get(0).getTitle());
+            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsFamousWorldPlaces.get(0)));
 
         }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_OLD_TIME_FAVOURITES)) {
             itemsEntertainers.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsEntertainers.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsEntertainers.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsEntertainers.get(0).getTitle());
+            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsEntertainers.get(0)));
 
         }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_HOLIDAY)) {
             itemsFamousPlaces.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsFamousPlaces.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsFamousPlaces.get(0).getSource());
+//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsFamousPlaces.get(0).getTitle());
+            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsFamousPlaces.get(0)));
+
         }
         //iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(data.getItems().get(0).getSource()));
         getContext().startActivity(iFacePlay);
