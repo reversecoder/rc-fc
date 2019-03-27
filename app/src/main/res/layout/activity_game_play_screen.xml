@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/color_bg">
 
-
     <RelativeLayout
         android:id="@+id/rel_top_button"
         android:layout_width="wrap_content"
@@ -61,6 +60,7 @@
 
         <com.rodolfonavalon.shaperipplelibrary.ShapeRipple
             android:id="@+id/shape_ripple"
+            android:layout_below="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone" />
@@ -111,10 +111,10 @@
                 android:id="@+id/tv_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp_40"
-                android:textColor="@color/color_grey_800"
+                android:layout_marginBottom="@dimen/dp_50"
+                android:textColor="@color/white"
                 android:textSize="@dimen/sp_60"
                 android:textStyle="bold" />
 

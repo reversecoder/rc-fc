@@ -5,13 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +15,7 @@ import android.widget.Toast;
 
 import com.rc.facecase.R;
 import com.rc.facecase.base.BaseActivity;
+import com.rc.facecase.base.BaseUpdateListener;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.model.ParamsAppUser;
 import com.rc.facecase.retrofit.APIClient;
@@ -37,13 +34,14 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class FacecasePlayActivity extends BaseActivity {
+public class FaceCasePlayActivity extends BaseActivity {
 
     ImageView ivPlay, ivQuit;
     //Background task
     private APIInterface mApiInterface;
     private RegisterAppUserTask registerAppUserTask;
     private AppUser mAppUser;
+    private String deviceUniqueIdentity = "";
 
     @Override
     public String[] initActivityPermissions() {
@@ -81,32 +79,48 @@ public class FacecasePlayActivity extends BaseActivity {
     public void initActivityViewsData(Bundle savedInstanceState) {
         mApiInterface = APIClient.getClient(getActivity()).create(APIInterface.class);
 
-        String deviceUniqueIdentity = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_DEVICE_IDENTIFIER);
+        setRuntimePermissionUpdateListener(new BaseUpdateListener() {
+            @Override
+            public void onUpdate(Object... update) {
+                if((Boolean) update[0]){
+                    loadFaceCaseData();
+                }
+            }
+        });
+    }
 
-        if (deviceUniqueIdentity == null || deviceUniqueIdentity.equalsIgnoreCase("")){
+    private boolean loadFaceCaseData(){
+        deviceUniqueIdentity = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_DEVICE_IDENTIFIER);
+        if (AllSettingsManager.isNullOrEmpty(deviceUniqueIdentity)) {
             deviceUniqueIdentity = AppUtil.getAppDeviceUniqueIdentifier(getActivity());
-        }
 
-        Logger.d(TAG, TAG + " >>> " + "AppUser(deviceUniqueIdentity): " +deviceUniqueIdentity);
-        //Check internet connection
-        if (!NetworkManager.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show();
-
-        } else {
-
-            String appUserID = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_KEY_USER);
-            if (!AllSettingsManager.isNullOrEmpty(appUserID)) {
-                mAppUser = APIResponse.getResponseObject(appUserID, AppUser.class);
-                Logger.d(TAG, TAG + " >>> " + "mAppUser: " + mAppUser.toString());
-            }
-
-            if (mAppUser==null) {
-                //Register app user
-                ParamsAppUser paramAppUser = new ParamsAppUser(deviceUniqueIdentity);
-                registerAppUserTask = new RegisterAppUserTask(getActivity(), paramAppUser);
-                registerAppUserTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            if (AllSettingsManager.isNullOrEmpty(deviceUniqueIdentity)) {
+                Toast.makeText(getActivity(), getString(R.string.toast_could_not_retrieve_device_info), Toast.LENGTH_SHORT).show();
+                return false;
             }
         }
+        Logger.d(TAG, TAG + " >>> " + "AppUser(deviceUniqueIdentity): " + deviceUniqueIdentity);
+
+        String appUserID = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_KEY_USER);
+        if (!AllSettingsManager.isNullOrEmpty(appUserID)) {
+            mAppUser = APIResponse.getResponseObject(appUserID, AppUser.class);
+            Logger.d(TAG, TAG + " >>> " + "mAppUser: " + mAppUser.toString());
+        }
+        if (mAppUser == null) {
+            //Check internet connection
+            if (!NetworkManager.isConnected(getActivity())) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            //Register app user
+            ParamsAppUser paramAppUser = new ParamsAppUser(deviceUniqueIdentity);
+            registerAppUserTask = new RegisterAppUserTask(getActivity(), paramAppUser);
+            registerAppUserTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -115,8 +129,10 @@ public class FacecasePlayActivity extends BaseActivity {
                 new OnBaseClickListener() {
                     @Override
                     public void OnPermissionValidation(View view) {
-                        Intent iFacePlay = new Intent(getActivity(), CategoryActivity.class);
-                        startActivity(iFacePlay);
+                        if(loadFaceCaseData()){
+                            Intent iFacePlay = new Intent(getActivity(), CategoryActivity.class);
+                            startActivity(iFacePlay);
+                        }
                     }
                 }
         );

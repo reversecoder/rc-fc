@@ -1,4 +1,4 @@
-package com.rc.facecase;
+package com.rc.facecase.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -11,10 +11,11 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.rc.facecase.R;
 import com.rodolfonavalon.shaperipplelibrary.ShapeRipple;
 import com.rodolfonavalon.shaperipplelibrary.model.Image;
 
-public class MainActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
 
     private ImageView ivLoading;
     private ShapeRipple shapeRipple;
@@ -26,19 +27,19 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_test);
 
         ivLoading = (ImageView) findViewById(R.id.iv_loading);
         shapeRipple = (ShapeRipple) findViewById(R.id.shape_ripple);
         try {
             // Load
-            Glide.with(MainActivity.this)
+            Glide.with(TestActivity.this)
                     .asGif()
                     .load(R.drawable.gif_loading)
                     .into(ivLoading);
 
             Glide
-                    .with(MainActivity.this)
+                    .with(TestActivity.this)
                     .asBitmap()
                     .load(imageUrl)
                     .into(new SimpleTarget<Bitmap>() {

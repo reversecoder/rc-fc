@@ -1,14 +1,9 @@
 package com.rc.facecase.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -114,7 +109,7 @@ public class HomeActivity extends BaseActivity {
         ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent iFacePlay=new Intent(getApplicationContext(), FacecasePlayActivity.class);
+                Intent iFacePlay=new Intent(getApplicationContext(), FaceCasePlayActivity.class);
                 startActivity(iFacePlay);
             }
         });

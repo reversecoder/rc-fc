@@ -49,22 +49,23 @@ import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
 
 public class GamePlayActivity extends BaseActivity {
 
-   // PlayCountDownTimer playCountDownTimer;
+    // PlayCountDownTimer playCountDownTimer;
     private final long splashTime = 8 * 1000;
-    private final long interval = 500;
-    private TextView tvCount,tvTitle,tvAnswerTitle;
-    private ImageView ivBack,ivHome,ivLoading,ivAnswer,ivPlay11Sec,ivPlaceHolder,ivShowAnswer;
+    private final long interval = 1000;
+    private TextView tvCount, tvTitle, tvAnswerTitle;
+    private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivPlay11Sec, ivPlaceHolder, ivShowAnswer;
 
     private ShapeRipple shapeRipple;
-    private LinearLayout linAnswer,linShowAnswer;
-  //  private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
-    private String imageUrl = "",subCategoryName="",answerTitle="";
+    private LinearLayout linAnswer, linShowAnswer;
+    //  private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
+    private String imageUrl = "", subCategoryName = "", answerTitle = "";
     private AppUser mAppUser;
     private Items items;
 
     //Background task
     private APIInterface mApiInterface;
     private UpdateUserHistoryTask updateUserHistoryTask;
+
     @Override
     public String[] initActivityPermissions() {
         return new String[]{};
@@ -91,9 +92,9 @@ public class GamePlayActivity extends BaseActivity {
     @Override
     public void initIntentData(Bundle savedInstanceState, Intent intent) {
         if (intent != null) {
-            subCategoryName = getIntent().getExtras().getString( SUB_CATEGORY_NAME );
-            imageUrl = getIntent().getExtras().getString( SUB_CATEGORY_SOURCE_NAME );
-            answerTitle = getIntent().getExtras().getString( ANSWER_TITLE );
+            subCategoryName = getIntent().getExtras().getString(SUB_CATEGORY_NAME);
+            imageUrl = getIntent().getExtras().getString(SUB_CATEGORY_SOURCE_NAME);
+            answerTitle = getIntent().getExtras().getString(ANSWER_TITLE);
             Logger.d(TAG, TAG + " >>> " + "answerTitle: " + answerTitle);
             Parcelable mParcelableItem = intent.getParcelableExtra(AllConstants.INTENT_KEY_ITEM);
             if (mParcelableItem != null) {
@@ -112,7 +113,7 @@ public class GamePlayActivity extends BaseActivity {
         shapeRipple = (ShapeRipple) findViewById(R.id.shape_ripple);
         linAnswer = (LinearLayout) findViewById(R.id.lin_answer);
         linShowAnswer = (LinearLayout) findViewById(R.id.lin_show_answer);
-        ivBack= (ImageView)findViewById(R.id.iv_back);
+        ivBack = (ImageView) findViewById(R.id.iv_back);
         ivHome = (ImageView) findViewById(R.id.iv_home);
         ivLoading = (ImageView) findViewById(R.id.iv_loading);
         ivShowAnswer = (ImageView) findViewById(R.id.iv_show_answer);
@@ -130,9 +131,9 @@ public class GamePlayActivity extends BaseActivity {
         mApiInterface = APIClient.getClient(getActivity()).create(APIInterface.class);
         tvTitle.setText(subCategoryName);
 
-        if (items!=null) {
-           tvAnswerTitle.setText(items.getTitle());
-       }
+        if (items != null) {
+            tvAnswerTitle.setText(items.getTitle());
+        }
         String appUserID = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_KEY_USER);
         if (!AllSettingsManager.isNullOrEmpty(appUserID)) {
             mAppUser = APIResponse.getResponseObject(appUserID, AppUser.class);
@@ -160,13 +161,14 @@ public class GamePlayActivity extends BaseActivity {
                             shapeRipple.setEnableRandomPosition(true);
                             shapeRipple.setRippleMaximumRadius(200);
                             shapeRipple.setRippleCount(2);
-                            shapeRipple.setRippleDuration(2000);
+                            shapeRipple.setRippleDuration(1500);
                             new CountDownTimer(splashTime, interval) {
                                 public void onTick(long millisUntilFinished) {
-                                    Log.e("leftSeconds>>>", millisUntilFinished / 1000+"");
+                                    Log.e("leftSeconds>>>", millisUntilFinished / 1000 + "");
                                     tvCount.setText("" + millisUntilFinished / 1000);
 
                                 }
+
                                 public void onFinish() {
                                     tvCount.setVisibility(View.GONE);
                                     linAnswer.setVisibility(View.VISIBLE);
@@ -176,8 +178,7 @@ public class GamePlayActivity extends BaseActivity {
                             }.start();
                         }
                     });
-         AppUtil.loadImage(getApplicationContext(), ivShowAnswer, items.getSource(), false, false, false);
-
+            AppUtil.loadImage(getApplicationContext(), ivShowAnswer, items.getSource(), false, false, false);
 
 
         } catch (Exception ex) {
@@ -189,11 +190,11 @@ public class GamePlayActivity extends BaseActivity {
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show();
 
         } else {
-            if (items!=null) {
-            //Update User History
-            ParamsUpdateUserHistory paramUpdateUserHistory = new ParamsUpdateUserHistory(mAppUser.getId(), items.getId());
-            updateUserHistoryTask = new UpdateUserHistoryTask(getActivity(), paramUpdateUserHistory);
-            updateUserHistoryTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            if (items != null) {
+                //Update User History
+                ParamsUpdateUserHistory paramUpdateUserHistory = new ParamsUpdateUserHistory(mAppUser.getId(), items.getId());
+                updateUserHistoryTask = new UpdateUserHistoryTask(getActivity(), paramUpdateUserHistory);
+                updateUserHistoryTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
         }
     }
@@ -203,8 +204,8 @@ public class GamePlayActivity extends BaseActivity {
 
         ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
-             public void onSingleClick(View view)  {
-                Intent iFacePlay=new Intent(getApplicationContext(), FacecasePlayActivity.class);
+            public void onSingleClick(View view) {
+                Intent iFacePlay = new Intent(getApplicationContext(), FaceCasePlayActivity.class);
                 startActivity(iFacePlay);
                 initActivityBackPress();
             }
@@ -221,7 +222,7 @@ public class GamePlayActivity extends BaseActivity {
             public void onSingleClick(View view) {
                 ivShowAnswer.setVisibility(View.VISIBLE);
                 linShowAnswer.setVisibility(View.VISIBLE);
-               // tvAnswerTitle.setVisibility(View.VISIBLE);
+                // tvAnswerTitle.setVisibility(View.VISIBLE);
                 linAnswer.setVisibility(View.GONE);
                 ivPlaceHolder.setVisibility(View.GONE);
 
@@ -234,10 +235,10 @@ public class GamePlayActivity extends BaseActivity {
                 tvCount.setVisibility(View.VISIBLE);
                 linAnswer.setVisibility(View.GONE);
                 ivPlaceHolder.setVisibility(View.GONE);
-                new CountDownTimer(12000, 500) {
+                new CountDownTimer(12000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
-                        Log.e("leftSeconds>>>", millisUntilFinished / 1000+"");
+                        Log.e("leftSeconds>>>", millisUntilFinished / 1000 + "");
                         tvCount.setText("" + millisUntilFinished / 1000);
 
                     }
@@ -316,6 +317,7 @@ public class GamePlayActivity extends BaseActivity {
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
         return df.format(d);
     }
+
     /************************
      * Server communication *
      ************************/
@@ -331,7 +333,7 @@ public class GamePlayActivity extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
-          //  showProgressDialog();
+            //  showProgressDialog();
         }
 
         @Override
@@ -355,7 +357,7 @@ public class GamePlayActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Response result) {
             try {
-               // dismissProgressDialog();
+                // dismissProgressDialog();
 
                 if (result != null && result.isSuccessful()) {
                     Logger.d(TAG, TAG + " >>> " + "APIResponse(UpdateUserHistory): onResponse-server = " + result.toString());

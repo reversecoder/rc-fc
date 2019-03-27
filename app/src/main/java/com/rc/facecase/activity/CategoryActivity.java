@@ -3,17 +3,11 @@ package com.rc.facecase.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.text.HtmlCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +21,6 @@ import com.rc.facecase.retrofit.APIClient;
 import com.rc.facecase.retrofit.APIInterface;
 import com.rc.facecase.retrofit.APIResponse;
 import com.rc.facecase.util.AllConstants;
-import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
 import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.network.NetworkManager;
@@ -44,12 +37,12 @@ import retrofit2.Response;
 public class CategoryActivity extends BaseActivity {
 
     private TextView tvPlayingList;
-    private ImageView ivHome,ivPicturePlay,ivMusicPlay;
+    private ImageView ivHome, ivPicturePlay, ivMusicPlay;
     private RecyclerView rvCategory;
     private CategoryListAdapter categoryListAdapter;
 
     private AppUser mAppUser;
-    Category pictureCategory,musicCategory;
+    Category pictureCategory, musicCategory;
     //Background task
     private APIInterface mApiInterface;
     private GetCategoryListTask getCategoryListTask;
@@ -81,32 +74,34 @@ public class CategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityViews() {
-        rvCategory= (RecyclerView)findViewById(R.id.rv_category_list);
-        tvPlayingList= (TextView)findViewById(R.id.tv_playing_list);
-        ivPicturePlay= (ImageView)findViewById(R.id.iv_picture_play);
-        ivMusicPlay= (ImageView)findViewById(R.id.iv_music_play);
+        rvCategory = (RecyclerView) findViewById(R.id.rv_category_list);
+        tvPlayingList = (TextView) findViewById(R.id.tv_playing_list);
+        ivPicturePlay = (ImageView) findViewById(R.id.iv_picture_play);
+        ivMusicPlay = (ImageView) findViewById(R.id.iv_music_play);
         ivHome = (ImageView) findViewById(R.id.iv_home);
-
     }
 
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
         mApiInterface = APIClient.getClient(getActivity()).create(APIInterface.class);
-        categoryListAdapter = new CategoryListAdapter( getApplicationContext() );
+        categoryListAdapter = new CategoryListAdapter(getApplicationContext());
         rvCategory.setNestedScrollingEnabled(false);
-        rvCategory.setLayoutManager( new GridLayoutManager( getActivity(), 2) );
-        rvCategory.setHasFixedSize( true );
+        rvCategory.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        rvCategory.setHasFixedSize(true);
 
         String appUserID = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_KEY_USER);
         if (!AllSettingsManager.isNullOrEmpty(appUserID)) {
             mAppUser = APIResponse.getResponseObject(appUserID, AppUser.class);
             Logger.d(TAG, TAG + " >>> " + "mAppUser: " + mAppUser.toString());
         }
-       // Logger.d(TAG, TAG + " getId>>> " + "mAppUser: " + mAppUser.getId());
-        //Check internet connection
-        if (!NetworkManager.isConnected(getActivity())) {
-            Toast.makeText(getActivity(), getResources().getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show();
-        } else {
+
+        if (mAppUser != null) {
+            //Check internet connection
+            if (!NetworkManager.isConnected(getActivity())) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             getCategoryListTask = new GetCategoryListTask(getActivity());
             getCategoryListTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -116,8 +111,8 @@ public class CategoryActivity extends BaseActivity {
     public void initActivityActions(Bundle savedInstanceState) {
         ivPicturePlay.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onSingleClick(View view){
-                if (pictureCategory!=null) {
+            public void onSingleClick(View view) {
+                if (pictureCategory != null) {
                     Intent iFacePlay = new Intent(getApplicationContext(), PictureCategoryActivity.class);
                     iFacePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(pictureCategory));
                     startActivity(iFacePlay);
@@ -164,10 +159,11 @@ public class CategoryActivity extends BaseActivity {
     public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
 
     }
+
     private void initCategoryData(List<Category> categories) {
         if (categoryListAdapter != null) {
             categoryListAdapter.addAll(categories);
-            rvCategory.setAdapter( categoryListAdapter );
+            rvCategory.setAdapter(categoryListAdapter);
 
             categoryListAdapter.notifyDataSetChanged();
         }
@@ -223,8 +219,8 @@ public class CategoryActivity extends BaseActivity {
                             initCategoryData(data.getData());
                             pictureCategory = data.getData().get(0);
                             musicCategory = data.getData().get(1);
-                            Log.e("categoryPicture",pictureCategory.toString()+"");
-                            Log.e("categoryMusic",musicCategory.toString()+"");
+                            Log.e("categoryPicture", pictureCategory.toString() + "");
+                            Log.e("categoryMusic", musicCategory.toString() + "");
                         }
 //
 //                        //set count review number
