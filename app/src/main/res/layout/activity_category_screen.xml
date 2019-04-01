@@ -10,34 +10,31 @@
         android:id="@+id/nested_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="5dip"
         android:background="@drawable/img_bg"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dip">
-
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_marginBottom="20dip">
+                android:gravity="top"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="16dip"
+                    android:padding="5dip"
                     android:scaleType="centerCrop"
                     android:text="@string/txt_category"
                     android:textColor="@color/white"
-                    android:textSize="35sp"
+                    android:textSize="@dimen/activity_title_text_size"
                     android:textStyle="bold|italic"
                     android:textAllCaps="true"/>
 
@@ -45,10 +42,9 @@
                     android:id="@+id/rv_category_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:paddingRight="@dimen/dp_10"
-                    android:paddingTop="@dimen/dp_5"
-                    android:visibility="visible" />
+                    android:paddingRight="@dimen/dp_20"
+                    android:paddingLeft="@dimen/dp_20"
+                     />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,19 +75,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/curv_box_shape"
-                    android:padding="16dip"
-                    android:layout_marginBottom="10dip">
+                    android:padding="5dip">
 
                     <TextView
                         android:id="@+id/tv_playing_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="10dip"
-                        android:scaleType="centerCrop"
                         android:text="@string/txt_before_playing"
+                        android:paddingTop="@dimen/dp_5"
                         android:textColor="@color/black"
-                        android:textSize="25sp"
+                        android:textSize="@dimen/activity_title_text_size"
                         android:textStyle="bold|italic"
                         android:textAllCaps="true"/>
 
@@ -105,7 +99,7 @@
                         android:text="@string/txt_before_playing_list"
                         android:scaleType="centerCrop"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
+                        android:textSize="12sp"
                         android:textStyle="bold|italic"
                         android:textAllCaps="true"/>
 
@@ -113,13 +107,13 @@
 
                 <ImageView
                     android:id="@+id/iv_home"
-                    android:layout_width="70dip"
-                    android:layout_height="70dip"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_60"
                     android:padding="5dp"
                     android:layout_gravity="left"
-                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_home"
-                    android:layout_marginTop="10dip" />
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginBottom="@dimen/dp_5"/>
             </LinearLayout>
 
         </RelativeLayout>

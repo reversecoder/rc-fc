@@ -15,12 +15,12 @@
             android:id="@+id/nested_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="65dip"
+            android:layout_marginBottom="60dip"
             android:background="@drawable/img_bg"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-        <RelativeLayout
+           <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp">
@@ -30,20 +30,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="16dip"
                     android:scaleType="centerCrop"
                     android:text="@string/txt_pic_category"
                     android:textColor="@color/white"
-                    android:textSize="35sp"
+                    android:textSize="@dimen/activity_title_text_size"
                     android:textStyle="bold|italic"
                     android:textAllCaps="true"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_subcategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:layout_margin="@dimen/dp_5"
-                android:paddingTop="@dimen/dp_5"
+                android:paddingTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_30"
                 android:nestedScrollingEnabled="true"
                 android:layout_below="@+id/tv_title"
                  />
@@ -151,19 +151,17 @@
 
             <ImageView
                 android:id="@+id/iv_home"
-                android:layout_width="70dip"
-                android:layout_height="70dip"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
                 android:padding="5dp"
-                android:scaleType="centerCrop"
                 android:src="@drawable/ic_home" />
 
             <ImageView
                 android:id="@+id/iv_back"
-                android:layout_width="70dip"
-                android:layout_height="70dip"
-                android:layout_toRightOf="@+id/iv_home"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
                 android:padding="5dp"
-                android:scaleType="centerCrop"
+                android:layout_toRightOf="@+id/iv_home"
                 android:src="@drawable/ic_back" />
 
         </RelativeLayout>

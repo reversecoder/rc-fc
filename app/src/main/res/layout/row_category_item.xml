@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/iv_category"
         android:layout_width="match_parent"
-        android:layout_height="100dip"
-        android:padding="15dip"
-        android:src="@drawable/ic_pictures" />
+        android:layout_height="55dip"
+        android:padding="7dip"
+        android:src="@drawable/ic_pictures"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

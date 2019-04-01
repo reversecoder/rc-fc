@@ -3,11 +3,14 @@ package com.rc.facecase.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import com.rc.facecase.R;
 import com.rc.facecase.adapter.CategoryListAdapter;
@@ -39,7 +42,7 @@ public class PictureCategoryActivity extends BaseActivity {
     private Category pictureCategory;
   //  SubCategory subCategory;
     private List<SubCategory> subCategories = new ArrayList<>();
-
+    private NestedScrollView mainScrollView;
     private RecyclerView rvSubCategory;
     private SubCategoryListAdapter subCategoryListAdapter;
     @Override
@@ -76,8 +79,8 @@ public class PictureCategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityViews() {
+        mainScrollView = (NestedScrollView)findViewById(R.id.nested_scroll);
         rvSubCategory= (RecyclerView)findViewById(R.id.rv_subcategory);
-
         ivBack= (ImageView)findViewById(R.id.iv_back);
         ivHome = (ImageView) findViewById(R.id.iv_home);
 
@@ -91,15 +94,25 @@ public class PictureCategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
+
         subCategoryListAdapter = new SubCategoryListAdapter( getApplicationContext() );
         rvSubCategory.setNestedScrollingEnabled(false);
         rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 3) );
         rvSubCategory.setHasFixedSize( true );
+        rvSubCategory.scrollToPosition(0);
         initSubCategoryData(pictureCategory);
     }
 
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
+        // Wait until my scrollView is ready
+        mainScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // Ready, move up
+                mainScrollView.fullScroll(View.FOCUS_UP);
+            }
+        });
         ivBack.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {

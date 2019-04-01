@@ -79,9 +79,6 @@ public class GamePlayActivity extends BaseActivity {
 
     @Override
     public void initStatusBarView() {
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     @Override
@@ -289,29 +286,35 @@ public class GamePlayActivity extends BaseActivity {
         AllConstants.isShown = true;
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        AllConstants.isShown = true;
+    }
+
     /*
-        public class PlayCountDownTimer extends CountDownTimer {
+            public class PlayCountDownTimer extends CountDownTimer {
 
-            public PlayCountDownTimer(long startTime, long interval) {
-                super(startTime, interval);
-                // Calculate left seconds.
-                long leftSeconds = startTime / 1000;
-                tvCount.setVisibility(View.VISIBLE);
-                Log.e("leftSeconds",leftSeconds+"");
-    //            tvCount.setText(String.valueOf(getDateFromMillis(startTime)));
+                public PlayCountDownTimer(long startTime, long interval) {
+                    super(startTime, interval);
+                    // Calculate left seconds.
+                    long leftSeconds = startTime / 1000;
+                    tvCount.setVisibility(View.VISIBLE);
+                    Log.e("leftSeconds",leftSeconds+"");
+        //            tvCount.setText(String.valueOf(getDateFromMillis(startTime)));
 
+                }
+
+                @Override
+                public void onFinish() {
+                  //  tvCount.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
             }
-
-            @Override
-            public void onFinish() {
-              //  tvCount.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
-        }
-    */
+        */
     public static String getDateFromMillis(long d) {
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
