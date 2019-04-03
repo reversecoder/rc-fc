@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/dotted_border"
-            android:layout_margin="@dimen/dp_10"/>
+            android:layout_margin="@dimen/dp_15"/>
 
         <RelativeLayout
             android:id="@+id/rel_facecase_guy"
@@ -63,8 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:paddingRight="@dimen/dp_20"
-            android:paddingBottom="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_25"
+            android:paddingBottom="@dimen/dp_20"
             android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/sp_20" />

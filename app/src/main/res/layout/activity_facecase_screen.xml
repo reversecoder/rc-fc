@@ -38,7 +38,8 @@
                 android:layout_toRightOf="@+id/rel_facecase_guy"
                 android:layout_toEndOf="@+id/rel_facecase_guy"
                 android:orientation="vertical"
-                android:gravity="top|center">
+                android:paddingRight="@dimen/dp_70"
+                android:gravity="top|right">
 
                 <TextView
                     android:id="@+id/tv_title"

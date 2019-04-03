@@ -31,15 +31,7 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
-            android:name=".activity.TestActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
-        <activity
             android:name=".activity.GamePlayActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
-        <activity
-            android:name=".activity.HomeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
