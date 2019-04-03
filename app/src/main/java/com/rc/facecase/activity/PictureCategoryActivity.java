@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -90,6 +91,7 @@ public class PictureCategoryActivity extends BaseActivity {
         ivFamousworldPlaces = (ImageView)findViewById(R.id.iv_famousworld_places);
         ivEntertainers = (ImageView)findViewById(R.id.iv_entertainers);
         ivFamoususPeople = (ImageView)findViewById(R.id.iv_famous_people);
+
     }
 
     @Override

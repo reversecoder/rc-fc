@@ -43,14 +43,6 @@ public class SplashActivity extends AppCompatActivity {
         tvAppVersion = (TextView) findViewById(R.id.tv_app_version);
         tvAppVersion.setText(getString(R.string.app_version_text) + " " + getString(R.string.app_version_name));
 
-        //loading gif
-        ivLoading = (ImageView) findViewById(R.id.iv_app_logo);
-        Glide
-                .with(SplashActivity.this)
-                .load(R.drawable.gif_loading)
-                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
-                .into(ivLoading);
-
         splashCountDownTimer = new SplashCountDownTimer(splashTime, interval);
         splashCountDownTimer.start();
     }

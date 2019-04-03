@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -88,7 +89,8 @@ public class CategoryActivity extends BaseActivity {
         rvCategory.setNestedScrollingEnabled(false);
         rvCategory.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         rvCategory.setHasFixedSize(true);
-
+        String sBeforePlaying= String.valueOf(Html.fromHtml(getResources().getString(R.string.txt_before_playing_list)));
+        tvPlayingList.setText(sBeforePlaying);
         String appUserID = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_KEY_USER);
         if (!AllSettingsManager.isNullOrEmpty(appUserID)) {
             mAppUser = APIResponse.getResponseObject(appUserID, AppUser.class);
