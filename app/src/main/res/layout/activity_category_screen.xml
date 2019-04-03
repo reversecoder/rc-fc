@@ -85,7 +85,7 @@
                     android:paddingTop="@dimen/dp_5"
                     android:text="@string/txt_before_playing"
                     android:textAllCaps="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/activity_title_text_size"
                     android:textStyle="bold|italic" />
 
@@ -106,7 +106,7 @@
                         android:scaleType="centerCrop"
                         android:text="@string/txt_before_playing_list"
                         android:textAllCaps="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="bold|italic" />
                 </ScrollView>
