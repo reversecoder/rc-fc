@@ -152,4 +152,5 @@ dependencies {
 
     implementation project(':shaperipple')
     implementation project(':easyrecyclerview')
+    implementation project(':ExoMedia')
 }

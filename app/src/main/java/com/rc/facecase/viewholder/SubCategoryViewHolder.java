@@ -13,6 +13,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.rc.facecase.R;
 import com.rc.facecase.activity.GamePlayActivity;
 import com.rc.facecase.activity.MusicCategoryActivity;
+import com.rc.facecase.activity.MusicGamePlayActivity;
 import com.rc.facecase.activity.PictureCategoryActivity;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.model.Items;
@@ -47,8 +48,7 @@ import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOUNDS;
  */
 public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
     private Context context;
-
-    ImageView ivCategory;
+    private ImageView ivCategory;
     private static List<Items> itemsPrimarySports = new ArrayList<>();
     private static List<Items> itemsAllOtherSports= new ArrayList<>();
     private static List<Items> itemsFamousUSPlaces= new ArrayList<>();
@@ -56,72 +56,40 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
     private static List<Items> itemsEntertainers = new ArrayList<>();
     private static List<Items> itemsFamousPlaces = new ArrayList<>();
     private String subCategoryName = "";
+
     public SubCategoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.row_sub_category_item);
+
         ivCategory = (ImageView) $(R.id.iv_category);
     }
 
     @Override
     public void setData(final SubCategory data) {
         subCategoryName = data.getSub_category_name().trim();
+        AllConstants.isShown = false;
 
         if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)){
-           // AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_primarysports), false, false, false);
             ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_primarysports));
-
         } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)){
-         //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_allothersports), false, false, false);
             ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_allothersports));
-
         } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)){
-          //  AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_famoususplaces), false, false, false);
             ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famoususplaces));
-
         } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)){
-         //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_famousworldplaces), false, false, false);
             ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famousworldplaces));
-
         } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)){
-        //    AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_entertainers), false, false, false);
             ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_entertainers));
-
         } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)){
-         //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_famouspeople), false, false, false);
             ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famouspeople));
-
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_COMMERCIALS)){
-            //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_famouspeople), false, false, false);
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famouscommercials));
-
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_ACRONYMES)){
-            //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_famouspeople), false, false, false);
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famousacronyms));
-
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_SOUNDS)){
-        //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_famouspeople), false, false, false);
-           ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_sounds));
-
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_CHILDREN_SOUNDS)){
-            //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_famouspeople), false, false, false);
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_childrens));
-
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_OLD_TIME_FAVOURITES)){
-            //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_famouspeople), false, false, false);
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_oldtimefavorites));
-
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_HOLIDAY)){
-            //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_famouspeople), false, false, false);
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_holidaypatrioticmusic));
         }
 
-
         Log.e("getSub_name>>>>",data.getSub_category_name()+"");
+        Log.e("subCategory>>>>",data.toString()+"");
 
 
         ivCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_COMMERCIALS)) {
+                if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)) {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsPrimarySports = data.getItems();
@@ -133,7 +101,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                         reverseList(itemsPrimarySports,subCategoryName);
                         Log.e("itemsPrimarySports>>>>", itemsPrimarySports.toString() + "");
                     }
-                } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_ACRONYMES)) {
+                } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)) {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsAllOtherSports = data.getItems();
@@ -145,7 +113,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                         reverseList(itemsAllOtherSports,subCategoryName);
                         Log.e("itemsAllOtherSports>>>>", itemsPrimarySports.toString() + "");
                     }
-                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_SOUNDS)) {
+                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)) {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsFamousUSPlaces = data.getItems();
@@ -157,7 +125,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                         reverseList(itemsFamousUSPlaces,subCategoryName);
                         Log.e("itemsPrimarySports>>>>", itemsPrimarySports.toString() + "");
                     }
-                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_CHILDREN_SOUNDS)) {
+                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)) {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsFamousWorldPlaces = data.getItems();
@@ -169,7 +137,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                         reverseList(itemsPrimarySports,subCategoryName);
                         Log.e("itemsPrimarySports>>>>", itemsPrimarySports.toString() + "");
                     }
-                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_OLD_TIME_FAVOURITES)) {
+                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)) {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsEntertainers = data.getItems();
@@ -181,7 +149,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
                         reverseList(itemsEntertainers,subCategoryName);
                         Log.e("itemsPrimarySports>>>>", itemsEntertainers.toString() + "");
                     }
-                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_HOLIDAY)) {
+                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)) {
                     if (!AllConstants.isShown) {
                         if (data.getItems().size()>0) {
                             itemsFamousPlaces = data.getItems();
@@ -203,10 +171,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
         AllConstants.isShown = true;
         Intent iFacePlay = new Intent(getContext(), GamePlayActivity.class);
         iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-//        iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, imageSource);
-//        iFacePlay.putExtra(AllConstants.ANSWER_TITLE,getTitle);
         iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(item));
-
         getContext().startActivity(iFacePlay);
     }
 
@@ -222,50 +187,38 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
        // reverseList( itemsList );
         AllConstants.isShown = false;
         Intent iFacePlay = new Intent(getContext(), GamePlayActivity.class);
-        if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_COMMERCIALS)) {
+
+        if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)) {
             itemsPrimarySports.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsPrimarySports.get(0).getSource());
-//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsPrimarySports.get(0).getTitle());
             iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsPrimarySports.get(0)));
 
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_ACRONYMES)) {
+        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)) {
             itemsAllOtherSports.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsAllOtherSports.get(0).getSource());
-//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsAllOtherSports.get(0).getTitle());
             iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsAllOtherSports.get(0)));
 
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_SOUNDS)) {
+        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)) {
             itemsFamousUSPlaces.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsFamousUSPlaces.get(0).getSource());
-//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsFamousUSPlaces.get(0).getTitle());
             iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsFamousUSPlaces.get(0)));
 
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_CHILDREN_SOUNDS)) {
+        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)) {
             itemsFamousWorldPlaces.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsFamousWorldPlaces.get(0).getSource());
-//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsFamousWorldPlaces.get(0).getTitle());
             iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsFamousWorldPlaces.get(0)));
 
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_OLD_TIME_FAVOURITES)) {
+        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)) {
             itemsEntertainers.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsEntertainers.get(0).getSource());
-//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsEntertainers.get(0).getTitle());
             iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsEntertainers.get(0)));
 
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)|| subCategoryName.equalsIgnoreCase(SUB_CATEGORY_HOLIDAY)) {
+        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)) {
             itemsFamousPlaces.add(firstitem);
             iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-//            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_SOURCE_NAME, itemsFamousPlaces.get(0).getSource());
-//            iFacePlay.putExtra(AllConstants.ANSWER_TITLE, itemsFamousPlaces.get(0).getTitle());
             iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsFamousPlaces.get(0)));
 
         }
-        //iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(data.getItems().get(0).getSource()));
         getContext().startActivity(iFacePlay);
     }
 }

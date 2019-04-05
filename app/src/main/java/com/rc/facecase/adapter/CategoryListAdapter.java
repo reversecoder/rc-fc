@@ -18,7 +18,6 @@ import java.security.InvalidParameterException;
 public class CategoryListAdapter extends RecyclerArrayAdapter<Category> {
 
     private static final int VIEW_TYPE_REGULAR = 1;
-
     public CategoryListAdapter(Context context) {
         super(context);
     }

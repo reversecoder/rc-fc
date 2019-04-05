@@ -211,6 +211,7 @@ public class GamePlayActivity extends BaseActivity {
         ivBack.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                AllConstants.isShown = true;
                 initActivityBackPress();
             }
         });
@@ -261,7 +262,6 @@ public class GamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
-        AllConstants.isShown = true;
         finish();
 
     }

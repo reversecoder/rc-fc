@@ -40,7 +40,7 @@ import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_PRIMARY_SPORTS;
 
 public class PictureCategoryActivity extends BaseActivity {
     private ImageView ivHome,ivBack,ivPrimarySports,ivAllotherSports,ivFamoususPlaces,ivFamousworldPlaces,ivEntertainers,ivFamoususPeople;
-    private Category pictureCategory;
+    private Category musicCategory;
   //  SubCategory subCategory;
     private List<SubCategory> subCategories = new ArrayList<>();
     private NestedScrollView mainScrollView;
@@ -72,8 +72,8 @@ public class PictureCategoryActivity extends BaseActivity {
         if (intent != null) {
             Parcelable mParcelablePictureCategory = intent.getParcelableExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY);
             if (mParcelablePictureCategory != null) {
-                pictureCategory = Parcels.unwrap(mParcelablePictureCategory);
-                Logger.d(TAG, TAG + " >>> " + "pictureSubCategory: " + pictureCategory.toString());
+                musicCategory = Parcels.unwrap(mParcelablePictureCategory);
+                Logger.d(TAG, TAG + " >>> " + "musicCategory: " + musicCategory.toString());
             }
         }
     }
@@ -97,12 +97,12 @@ public class PictureCategoryActivity extends BaseActivity {
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
 
-        subCategoryListAdapter = new SubCategoryListAdapter( getApplicationContext() );
+        subCategoryListAdapter = new SubCategoryListAdapter( getApplicationContext());
         rvSubCategory.setNestedScrollingEnabled(false);
         rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 3) );
         rvSubCategory.setHasFixedSize( true );
         rvSubCategory.scrollToPosition(0);
-        initSubCategoryData(pictureCategory);
+        initSubCategoryData(musicCategory);
     }
 
     @Override
@@ -247,12 +247,12 @@ public class PictureCategoryActivity extends BaseActivity {
     public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
 
     }
-    private void initSubCategoryData(Category pictureCategory ) {
-        if (pictureCategory !=null) {
+    private void initSubCategoryData(Category musicCategories ) {
+        if (musicCategories !=null) {
             if (subCategoryListAdapter != null) {
-                subCategoryListAdapter.addAll(pictureCategory.getSub_categories());
+                subCategoryListAdapter.addAll(musicCategories.getSub_categories());
                 rvSubCategory.setAdapter(subCategoryListAdapter);
-                Log.e("getSub_categories",pictureCategory.getSub_categories().size()+"");
+                Log.e("getSub_categories",musicCategories.getSub_categories().size()+"");
                 subCategoryListAdapter.notifyDataSetChanged();
             }
         }

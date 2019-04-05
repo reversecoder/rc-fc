@@ -9,6 +9,8 @@ public class Items {
     private String source = "";
     private String title = "";
     private String prio = "";
+    private int lastPlayed = -1;
+    private int isPlaying = 0;
 
     public String getId() {
         return id;
@@ -50,6 +52,22 @@ public class Items {
         this.prio = prio;
     }
 
+    public int getLastPlayed() {
+        return lastPlayed;
+    }
+
+    public int getIsPlaying() {
+        return isPlaying;
+    }
+
+    public void setIsPlaying(int isPlaying) {
+        this.isPlaying = isPlaying;
+    }
+
+    public void setLastPlayed(int lastPlayed) {
+        this.lastPlayed = lastPlayed;
+    }
+
     @Override
     public String toString() {
         return "Items{" +
@@ -58,6 +76,8 @@ public class Items {
                 ", source='" + source + '\'' +
                 ", title='" + title + '\'' +
                 ", prio='" + prio + '\'' +
+                ", lastPlayed=" + lastPlayed +
+                ", isPlaying=" + isPlaying +
                 '}';
     }
 }

@@ -35,6 +35,10 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
+            android:name=".activity.MusicGamePlayActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
+        <activity
             android:name=".activity.CategoryActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />

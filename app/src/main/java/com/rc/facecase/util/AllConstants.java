@@ -32,4 +32,16 @@ public class AllConstants {
 
     //Intent keys
     public static final String INTENT_KEY_ITEM = "INTENT_KEY_ITEM";
+    //Intent extra
+    public static final String KEY_INTENT_EXTRA_ACTION = "KEY_INTENT_EXTRA_ACTION";
+    public static final String KEY_INTENT_EXTRA_MUSIC = "KEY_INTENT_EXTRA_MUSIC";
+    public static final int EXTRA_ACTION_START = 0;
+    public static final int EXTRA_ACTION_STOP = 1;
+
+    //Media playback
+    public static final int MEDIA_PLAYER_RUNNING = 1;
+    public static final int MEDIA_PLAYBACK_STOPPED = 2;
+    public static final int MEDIA_PLAYBACK_FINISHED = 3;
+    public static final int MEDIA_PLAYBACK_PAID = 4;
+    public static final int DEFAULT_PAID_PLAYBACK = 30;
 }

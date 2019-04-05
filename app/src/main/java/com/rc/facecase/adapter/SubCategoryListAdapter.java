@@ -23,6 +23,7 @@ public class SubCategoryListAdapter extends RecyclerArrayAdapter<SubCategory> {
 
     public SubCategoryListAdapter(Context context) {
         super(context);
+
     }
 
     @Override
