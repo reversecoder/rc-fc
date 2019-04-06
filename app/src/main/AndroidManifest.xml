@@ -50,6 +50,10 @@
             android:name=".activity.MusicCategoryActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
+        <service
+            android:name=".service.MediaService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -25,6 +25,7 @@ import com.rc.facecase.model.ParamsUpdateUserHistory;
 import com.rc.facecase.retrofit.APIClient;
 import com.rc.facecase.retrofit.APIInterface;
 import com.rc.facecase.retrofit.APIResponse;
+import com.rc.facecase.service.MediaService;
 import com.rc.facecase.util.AllConstants;
 import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
@@ -46,19 +47,20 @@ import retrofit2.Response;
 import static com.rc.facecase.util.AllConstants.ANSWER_TITLE;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_NAME;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
+import static com.rc.facecase.util.AppUtil.isServiceRunning;
 
 public class MusicGamePlayActivity extends BaseActivity {
 
     // PlayCountDownTimer playCountDownTimer;
     private final long splashTime = 8 * 1000;
     private final long interval = 1000;
-    private TextView tvCount, tvTitle, tvAnswerTitle;
+    private TextView tvCount, tvTitle, tvAnswerTitle,tvAdditionalTimeTitle;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivPlay11Sec, ivPlaceHolder, ivShowAnswer;
 
     private ShapeRipple shapeRipple;
     private LinearLayout linAnswer, linShowAnswer;
     //  private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
-    private String imageUrl = "", subCategoryName = "", answerTitle = "";
+    private String  subCategoryName = "", answerTitle = "";
     private AppUser mAppUser;
     private Items items;
 
@@ -90,23 +92,24 @@ public class MusicGamePlayActivity extends BaseActivity {
     public void initIntentData(Bundle savedInstanceState, Intent intent) {
         if (intent != null) {
             subCategoryName = getIntent().getExtras().getString(SUB_CATEGORY_NAME);
-            imageUrl = getIntent().getExtras().getString(SUB_CATEGORY_SOURCE_NAME);
             answerTitle = getIntent().getExtras().getString(ANSWER_TITLE);
             Logger.d(TAG, TAG + " >>> " + "answerTitle: " + answerTitle);
             Parcelable mParcelableItem = intent.getParcelableExtra(AllConstants.INTENT_KEY_ITEM);
             if (mParcelableItem != null) {
                 items = Parcels.unwrap(mParcelableItem);
+                Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
+                getActivity().startService(intentMediaService);
                 Logger.d(TAG, TAG + " >>> " + "MusicGamePlayActivity: " + mParcelableItem.toString());
             }
-            if (imageUrl != null) {
-                Logger.d(TAG, TAG + " >>> " + "MusicGamePlayActivity: " + subCategoryName);
-                Logger.d(TAG, TAG + " >>> " + "imageUrl: " + imageUrl);
-            }
+
         }
     }
 
     @Override
     public void initActivityViews() {
+
         shapeRipple = (ShapeRipple) findViewById(R.id.shape_ripple);
         linAnswer = (LinearLayout) findViewById(R.id.lin_answer);
         linShowAnswer = (LinearLayout) findViewById(R.id.lin_show_answer);
@@ -119,6 +122,7 @@ public class MusicGamePlayActivity extends BaseActivity {
         ivPlaceHolder = (ImageView) findViewById(R.id.iv_placeholder);
         tvTitle = (TextView) findViewById(R.id.tv_title);
         tvAnswerTitle = (TextView) findViewById(R.id.tv_answer_title);
+        tvAdditionalTimeTitle = (TextView) findViewById(R.id.tv_additional_time_title);
         tvCount = (TextView) findViewById(R.id.tv_count);
         AllConstants.isShown = true;
     }
@@ -137,6 +141,9 @@ public class MusicGamePlayActivity extends BaseActivity {
             Logger.d(TAG, TAG + " >>> " + "mAppUser: " + mAppUser.toString());
         }
         try {
+//
+
+          //  serviceStart();
             // Load
             Glide.with(MusicGamePlayActivity.this)
                     .asGif()
@@ -161,15 +168,22 @@ public class MusicGamePlayActivity extends BaseActivity {
                             shapeRipple.setRippleDuration(1500);
                             new CountDownTimer(splashTime, interval) {
                                 public void onTick(long millisUntilFinished) {
+
                                     Log.e("leftSeconds>>>", millisUntilFinished / 1000 + "");
                                     tvCount.setText("" + millisUntilFinished / 1000);
 
                                 }
 
                                 public void onFinish() {
+                                    if (isServiceRunning(getActivity(), MediaService.class)) {
+                                        Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+                                        intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                                        getActivity().stopService(intentMediaService);
+                                    }
                                     tvCount.setVisibility(View.GONE);
                                     linAnswer.setVisibility(View.VISIBLE);
                                     ivPlaceHolder.setVisibility(View.VISIBLE);
+                                    tvAdditionalTimeTitle.setVisibility(View.VISIBLE);
                                     shapeRipple.stopRipple();
                                 }
                             }.start();
@@ -202,6 +216,11 @@ public class MusicGamePlayActivity extends BaseActivity {
         ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                if (isServiceRunning(MusicGamePlayActivity.this, MediaService.class)) {
+                    Intent intentMediaService = new Intent(MusicGamePlayActivity.this, MediaService.class);
+                    intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                    stopService(intentMediaService);
+                }
                 Intent iFacePlay = new Intent(getApplicationContext(), FaceCasePlayActivity.class);
                 startActivity(iFacePlay);
                 initActivityBackPress();
@@ -218,30 +237,49 @@ public class MusicGamePlayActivity extends BaseActivity {
         ivAnswer.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                if (isServiceRunning(MusicGamePlayActivity.this, MediaService.class)) {
+                    Intent intentMediaService = new Intent(MusicGamePlayActivity.this, MediaService.class);
+                    intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                    stopService(intentMediaService);
+                }
                 ivShowAnswer.setVisibility(View.VISIBLE);
                 linShowAnswer.setVisibility(View.VISIBLE);
                 // tvAnswerTitle.setVisibility(View.VISIBLE);
                 linAnswer.setVisibility(View.GONE);
                 ivPlaceHolder.setVisibility(View.GONE);
+                tvAdditionalTimeTitle.setVisibility(View.GONE);
 
             }
         });
         ivPlay11Sec.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
+                getActivity().startService(intentMediaService);
                 shapeRipple.startRipple();
                 tvCount.setVisibility(View.VISIBLE);
                 linAnswer.setVisibility(View.GONE);
                 ivPlaceHolder.setVisibility(View.GONE);
+                tvAdditionalTimeTitle.setVisibility(View.GONE);
                 new CountDownTimer(12000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
+
                         Log.e("leftSeconds>>>", millisUntilFinished / 1000 + "");
                         tvCount.setText("" + millisUntilFinished / 1000);
 
                     }
 
                     public void onFinish() {
+                        if (isServiceRunning(getActivity(), MediaService.class)) {
+                            Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+                            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                            getActivity().stopService(intentMediaService);
+                        }
+                        tvAdditionalTimeTitle.setVisibility(View.VISIBLE);
+                        tvAdditionalTimeTitle.setText(getResources().getString(R.string.txt_time_answer));
                         tvCount.setVisibility(View.GONE);
                         ivPlay11Sec.setVisibility(View.GONE);
                         ivAnswer.setVisibility(View.VISIBLE);
@@ -285,14 +323,39 @@ public class MusicGamePlayActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         AllConstants.isShown = true;
+        Log.e("onResume>>>",  "onResume");
+
+
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         AllConstants.isShown = true;
+        if (isServiceRunning(getActivity(), MediaService.class)) {
+            Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+            getActivity().stopService(intentMediaService);
+        }
+        Log.e("onRestart>>>",  "onRestart");
+
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            if (isServiceRunning(getActivity(), MediaService.class)) {
+                Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                getActivity().stopService(intentMediaService);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e("onPause>>>",  "onPause");
+
+    }
     /*
             public class PlayCountDownTimer extends CountDownTimer {
 
@@ -322,6 +385,21 @@ public class MusicGamePlayActivity extends BaseActivity {
         return df.format(d);
     }
 
+
+    private void serviceStop(){
+        if (isServiceRunning(MusicGamePlayActivity.this, MediaService.class)) {
+            Intent intentMediaService = new Intent(MusicGamePlayActivity.this, MediaService.class);
+            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+            stopService(intentMediaService);
+        }
+    }
+
+    private void serviceStart(){
+        Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+        intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
+        intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
+        getActivity().startService(intentMediaService);
+    }
     /************************
      * Server communication *
      ************************/

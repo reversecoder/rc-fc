@@ -6,12 +6,16 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.devbrackets.android.exomedia.AudioPlayer;
 import com.devbrackets.android.exomedia.listener.OnCompletionListener;
 import com.rc.facecase.model.Items;
+import com.rc.facecase.util.AllConstants;
+
+import org.parceler.Parcels;
 
 import static com.rc.facecase.util.AllConstants.EXTRA_ACTION_START;
 import static com.rc.facecase.util.AllConstants.EXTRA_ACTION_STOP;
@@ -40,9 +44,13 @@ public class MediaService extends Service {
             int action = intent.getIntExtra(KEY_INTENT_EXTRA_ACTION, -1);
             switch (action) {
                 case EXTRA_ACTION_START: {
-                    if (intent.getParcelableExtra(KEY_INTENT_EXTRA_MUSIC) != null) {
-                        music = intent.getParcelableExtra(KEY_INTENT_EXTRA_MUSIC);
+                    Parcelable mParcelableItem = intent.getParcelableExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC);
+                    Log.e("getSource",mParcelableItem.toString()+">>>");
+
+                    if (mParcelableItem!= null) {
+                        music = Parcels.unwrap(mParcelableItem);
                         Log.d("From service: ", music.toString());
+                        Log.e("getSource",music.getSource()+">>>");
 
                         audioPlayer = new AudioPlayer(getApplicationContext());
                         audioPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

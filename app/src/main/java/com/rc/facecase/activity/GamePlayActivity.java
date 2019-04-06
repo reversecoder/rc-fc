@@ -52,7 +52,7 @@ public class GamePlayActivity extends BaseActivity {
     // PlayCountDownTimer playCountDownTimer;
     private final long splashTime = 8 * 1000;
     private final long interval = 1000;
-    private TextView tvCount, tvTitle, tvAnswerTitle;
+    private TextView tvCount, tvTitle, tvAnswerTitle,tvAdditionalTimeTitle;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivPlay11Sec, ivPlaceHolder, ivShowAnswer;
 
     private ShapeRipple shapeRipple;
@@ -119,6 +119,7 @@ public class GamePlayActivity extends BaseActivity {
         ivPlaceHolder = (ImageView) findViewById(R.id.iv_placeholder);
         tvTitle = (TextView) findViewById(R.id.tv_title);
         tvAnswerTitle = (TextView) findViewById(R.id.tv_answer_title);
+        tvAdditionalTimeTitle = (TextView) findViewById(R.id.tv_additional_time_title);
         tvCount = (TextView) findViewById(R.id.tv_count);
         AllConstants.isShown = true;
     }
@@ -170,6 +171,7 @@ public class GamePlayActivity extends BaseActivity {
                                     tvCount.setVisibility(View.GONE);
                                     linAnswer.setVisibility(View.VISIBLE);
                                     ivPlaceHolder.setVisibility(View.VISIBLE);
+                                    tvAdditionalTimeTitle.setVisibility(View.VISIBLE);
                                     shapeRipple.stopRipple();
                                 }
                             }.start();
@@ -223,6 +225,7 @@ public class GamePlayActivity extends BaseActivity {
                 // tvAnswerTitle.setVisibility(View.VISIBLE);
                 linAnswer.setVisibility(View.GONE);
                 ivPlaceHolder.setVisibility(View.GONE);
+                tvAdditionalTimeTitle.setVisibility(View.GONE);
 
             }
         });
@@ -233,6 +236,7 @@ public class GamePlayActivity extends BaseActivity {
                 tvCount.setVisibility(View.VISIBLE);
                 linAnswer.setVisibility(View.GONE);
                 ivPlaceHolder.setVisibility(View.GONE);
+                tvAdditionalTimeTitle.setVisibility(View.GONE);
                 new CountDownTimer(12000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
@@ -242,6 +246,8 @@ public class GamePlayActivity extends BaseActivity {
                     }
 
                     public void onFinish() {
+                        tvAdditionalTimeTitle.setVisibility(View.VISIBLE);
+                        tvAdditionalTimeTitle.setText(getResources().getString(R.string.txt_time_answer));
                         tvCount.setVisibility(View.GONE);
                         ivPlay11Sec.setVisibility(View.GONE);
                         ivAnswer.setVisibility(View.VISIBLE);

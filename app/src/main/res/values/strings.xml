@@ -18,6 +18,8 @@
         7. Pick a card from the card deck first.  Follow the instructions on the card and choose a category to begin.]]></string>
     <string name="txt_pic_category">Picture Category</string>
     <string name="txt_music_category">Music Category</string>
+    <string name="txt_play_11_second_title">KE ABOUT 30 SECONDS TO GUESS OR PLAY FOR ADDITIONAL 11 SECOND</string>
+    <string name="txt_time_answer">TIME TO ANSWER!</string>
 
     <!-- View text -->
     <string name="view_loading">Loading...</string>
