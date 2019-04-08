@@ -2,27 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/color_bg">
+    android:background="@color/color_bg"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".82">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/img_bg"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/img_bg"
-            >
+            android:layout_height="0dp"
+            android:layout_weight=".82">
 
             <RelativeLayout
                 android:id="@+id/rel_facecase_guy"
                 android:layout_width="170dip"
                 android:layout_height="230dip"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                >
+                android:layout_alignParentLeft="true">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -35,23 +35,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/rel_facecase_guy"
                 android:layout_toEndOf="@+id/rel_facecase_guy"
+                android:layout_toRightOf="@+id/rel_facecase_guy"
+                android:gravity="top|right"
                 android:orientation="vertical"
-                android:paddingRight="@dimen/dp_70"
-                android:gravity="top|right">
+                android:paddingRight="@dimen/dp_70">
 
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:padding="10dip"
                     android:gravity="center"
+                    android:padding="10dip"
+                    android:scaleType="centerCrop"
                     android:text="FACECASE"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/activity_title_text_size"
-                    android:textStyle="bold|italic"
-                    android:textColor="@color/white"/>
+                    android:textStyle="bold|italic" />
 
                 <ImageView
                     android:id="@+id/iv_play"
@@ -59,12 +59,14 @@
                     android:layout_height="70dip"
                     android:padding="10dip"
                     android:src="@drawable/ic_play" />
+
                 <ImageView
                     android:id="@+id/iv_intro_video"
                     android:layout_width="200dip"
                     android:layout_height="70dip"
                     android:padding="10dip"
                     android:src="@drawable/ic_video" />
+
                 <ImageView
                     android:id="@+id/iv_pokerchips"
                     android:layout_width="200dip"
@@ -73,15 +75,12 @@
                     android:src="@drawable/ic_pokerchips" />
             </LinearLayout>
 
+        </LinearLayout>
 
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".18">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".18">
 
             <RelativeLayout
                 android:id="@+id/rel_bottom_button"
@@ -95,19 +94,21 @@
                     android:id="@+id/iv_setting"
                     android:layout_width="@dimen/dp_60"
                     android:layout_height="@dimen/dp_60"
-                    android:padding="5dp"
                     android:layout_gravity="left"
+                    android:padding="5dp"
                     android:src="@drawable/ic_settings" />
 
                 <ImageView
                     android:id="@+id/iv_quit"
                     android:layout_width="@dimen/dp_60"
                     android:layout_height="@dimen/dp_60"
-                    android:padding="5dp"
                     android:layout_toRightOf="@+id/iv_setting"
+                    android:padding="5dp"
                     android:src="@drawable/ic_quit" />
 
             </RelativeLayout>
 
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
