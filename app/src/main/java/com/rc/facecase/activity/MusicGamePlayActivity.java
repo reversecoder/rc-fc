@@ -27,6 +27,7 @@ import com.rc.facecase.retrofit.APIInterface;
 import com.rc.facecase.retrofit.APIResponse;
 import com.rc.facecase.service.MediaService;
 import com.rc.facecase.util.AllConstants;
+import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
 import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.network.NetworkManager;
@@ -51,13 +52,13 @@ public class MusicGamePlayActivity extends BaseActivity {
     // PlayCountDownTimer playCountDownTimer;
     private final long firstPlayTime = 15 * 1000, secondPlayTime = 21 * 1000;
     private final long interval = 1800;
-    private TextView tvCount, tvTitle, tvAnswerTitle,tvAdditionalTimeTitle;
+    private TextView tvCount, tvTitle, tvAnswerTitle, tvAdditionalTimeTitle;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivPlay11Sec, ivPlaceHolder, ivShowAnswer;
 
     private ShapeRipple shapeRipple;
     private LinearLayout linAnswer, linShowAnswer;
     //  private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
-    private String  subCategoryName = "", answerTitle = "";
+    private String subCategoryName = "", answerTitle = "";
     private AppUser mAppUser;
     private Items items;
 
@@ -135,7 +136,7 @@ public class MusicGamePlayActivity extends BaseActivity {
             Logger.d(TAG, TAG + " >>> " + "mAppUser: " + mAppUser.toString());
         }
         try {
-          //  serviceStart();
+            //  serviceStart();
             // Load
             Glide.with(MusicGamePlayActivity.this)
                     .asGif()
@@ -156,8 +157,8 @@ public class MusicGamePlayActivity extends BaseActivity {
                             shapeRipple.setEnableSingleRipple(true);
                             shapeRipple.setEnableRandomPosition(true);
                             shapeRipple.setRippleMaximumRadius(200);
-                            shapeRipple.setRippleCount(2);
-                            shapeRipple.setRippleDuration(1500);
+                            shapeRipple.setRippleCount(1);
+                            shapeRipple.setRippleDuration(2700);
                             new CountDownTimer(firstPlayTime, interval) {
                                 public void onTick(long millisUntilFinished) {
                                     Log.e("leftSeconds>>>", millisUntilFinished / interval + "");
@@ -180,8 +181,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                             }.start();
                         }
                     });
-          //  AppUtil.loadImage(getApplicationContext(), ivShowAnswer, items.getSource(), false, false, false);
-
+            AppUtil.loadImage(getApplicationContext(), ivShowAnswer, R.drawable.ic_placeholdersound, false, false, false);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -310,7 +310,7 @@ public class MusicGamePlayActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("onResume>>>",  "onResume");
+        Log.e("onResume>>>", "onResume");
     }
 
     @Override
@@ -321,7 +321,7 @@ public class MusicGamePlayActivity extends BaseActivity {
             intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
             getActivity().stopService(intentMediaService);
         }
-        Log.e("onRestart>>>",  "onRestart");
+        Log.e("onRestart>>>", "onRestart");
 
     }
 
@@ -337,7 +337,7 @@ public class MusicGamePlayActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e("onPause>>>",  "onPause");
+        Log.e("onPause>>>", "onPause");
 
     }
 
@@ -348,7 +348,7 @@ public class MusicGamePlayActivity extends BaseActivity {
     }
 
 
-    private void serviceStop(){
+    private void serviceStop() {
         if (isServiceRunning(MusicGamePlayActivity.this, MediaService.class)) {
             Intent intentMediaService = new Intent(MusicGamePlayActivity.this, MediaService.class);
             intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
@@ -356,12 +356,13 @@ public class MusicGamePlayActivity extends BaseActivity {
         }
     }
 
-    private void serviceStart(){
+    private void serviceStart() {
         Intent intentMediaService = new Intent(getActivity(), MediaService.class);
         intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
         intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
         getActivity().startService(intentMediaService);
     }
+
     /************************
      * Server communication *
      ************************/

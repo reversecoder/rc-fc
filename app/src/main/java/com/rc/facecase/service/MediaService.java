@@ -61,7 +61,8 @@ public class MediaService extends Service {
                             @Override
                             public void onCompletion() {
                                 if (audioPlayer != null) {
-                                    audioPlayer.pause();
+                                    audioPlayer.stopPlayback();
+                                    audioPlayer.start();
 
                                     music.setIsPlaying(MEDIA_PLAYBACK_FINISHED);
                                   //  sendUpdateToActivity(music);

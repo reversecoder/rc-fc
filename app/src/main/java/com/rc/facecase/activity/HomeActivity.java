@@ -36,7 +36,7 @@ import retrofit2.Response;
 
 public class HomeActivity extends BaseActivity {
 
-    ImageView ivPlay, ivQuit;
+    private ImageView ivPlay, ivQuit;
     //Background task
     private APIInterface mApiInterface;
     private RegisterAppUserTask registerAppUserTask;

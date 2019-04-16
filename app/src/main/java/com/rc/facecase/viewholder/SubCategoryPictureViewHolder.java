@@ -24,13 +24,13 @@ import java.util.List;
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
  */
-public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
+public class SubCategoryPictureViewHolder extends BaseViewHolder<SubCategory> {
 
-    private String TAG = SubCategoryViewHolder.class.getSimpleName();
+    private String TAG = SubCategoryPictureViewHolder.class.getSimpleName();
     private TextView tvSubcategory;
     private LinearLayout llSubcategory;
 
-    public SubCategoryViewHolder(ViewGroup parent) {
+    public SubCategoryPictureViewHolder(ViewGroup parent) {
         super(parent, R.layout.row_sub_category_item);
 
         tvSubcategory = (TextView) $(R.id.tv_subcategory);
