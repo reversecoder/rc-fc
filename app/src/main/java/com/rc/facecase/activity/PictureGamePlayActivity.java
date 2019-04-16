@@ -37,28 +37,21 @@ import com.rodolfonavalon.shaperipplelibrary.model.Image;
 
 import org.parceler.Parcels;
 
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.rc.facecase.util.AllConstants.ANSWER_TITLE;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_NAME;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
 
 public class PictureGamePlayActivity extends BaseActivity {
 
-    // PlayCountDownTimer playCountDownTimer;
-    private final long splashTime = 8 * 1000;
-    private final long interval = 1000;
-    private TextView tvCount, tvTitle, tvAnswerTitle,tvAdditionalTimeTitle;
+    private final long firstPlayTime = 15 * 1000, secondPlayTime = 21 * 1000;
+    private final long interval = 1800;
+    private TextView tvCount, tvTitle, tvAnswerTitle, tvAdditionalTimeTitle;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivPlay11Sec, ivPlaceHolder, ivShowAnswer;
 
     private ShapeRipple shapeRipple;
     private LinearLayout linAnswer, linShowAnswer;
-    //  private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
-    private String imageUrl = "", subCategoryName = "", answerTitle = "";
+    private String subCategoryName = "";
     private AppUser mAppUser;
     private Items items;
 
@@ -90,17 +83,10 @@ public class PictureGamePlayActivity extends BaseActivity {
     public void initIntentData(Bundle savedInstanceState, Intent intent) {
         if (intent != null) {
             subCategoryName = getIntent().getExtras().getString(SUB_CATEGORY_NAME);
-            imageUrl = getIntent().getExtras().getString(SUB_CATEGORY_SOURCE_NAME);
-            answerTitle = getIntent().getExtras().getString(ANSWER_TITLE);
-            Logger.d(TAG, TAG + " >>> " + "answerTitle: " + answerTitle);
             Parcelable mParcelableItem = intent.getParcelableExtra(AllConstants.INTENT_KEY_ITEM);
             if (mParcelableItem != null) {
                 items = Parcels.unwrap(mParcelableItem);
                 Logger.d(TAG, TAG + " >>> " + "mParcelableItem: " + mParcelableItem.toString());
-            }
-            if (imageUrl != null) {
-                Logger.d(TAG, TAG + " >>> " + "subCategoryName: " + subCategoryName);
-                Logger.d(TAG, TAG + " >>> " + "imageUrl: " + imageUrl);
             }
         }
     }
@@ -150,20 +136,22 @@ public class PictureGamePlayActivity extends BaseActivity {
                     .load(items.getSource())
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
-                        public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                        public void onResourceReady(final Bitmap bitmap, Transition<? super Bitmap> transition) {
                             //you can use loaded bitmap here
                             shapeRipple.setVisibility(View.VISIBLE);
                             ivLoading.setVisibility(View.GONE);
+
                             shapeRipple.setRippleShape(new Image(bitmap));
                             shapeRipple.setEnableSingleRipple(true);
                             shapeRipple.setEnableRandomPosition(true);
                             shapeRipple.setRippleMaximumRadius(200);
-                            shapeRipple.setRippleCount(2);
-                            shapeRipple.setRippleDuration(1500);
-                            new CountDownTimer(splashTime, interval) {
+                            shapeRipple.setRippleCount(1);
+                            shapeRipple.setRippleDuration(2700);
+
+                            new CountDownTimer(firstPlayTime, interval) {
                                 public void onTick(long millisUntilFinished) {
-                                    Log.e("leftSeconds>>>", millisUntilFinished / 1000 + "");
-                                    tvCount.setText("" + millisUntilFinished / 1000);
+                                    Log.e("leftSeconds>>>", millisUntilFinished / interval + "");
+                                    tvCount.setText("" + millisUntilFinished / interval);
 
                                 }
 
@@ -178,8 +166,6 @@ public class PictureGamePlayActivity extends BaseActivity {
                         }
                     });
             AppUtil.loadImage(getApplicationContext(), ivShowAnswer, items.getSource(), false, false, false);
-
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -187,7 +173,6 @@ public class PictureGamePlayActivity extends BaseActivity {
         //Check internet connection
         if (!NetworkManager.isConnected(getActivity())) {
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show();
-
         } else {
             if (items != null) {
                 //Update User History
@@ -237,12 +222,11 @@ public class PictureGamePlayActivity extends BaseActivity {
                 linAnswer.setVisibility(View.GONE);
                 ivPlaceHolder.setVisibility(View.GONE);
                 tvAdditionalTimeTitle.setVisibility(View.GONE);
-                new CountDownTimer(12000, 1000) {
+                new CountDownTimer(secondPlayTime, interval) {
 
                     public void onTick(long millisUntilFinished) {
-                        Log.e("leftSeconds>>>", millisUntilFinished / 1000 + "");
-                        tvCount.setText("" + millisUntilFinished / 1000);
-
+                        Log.e("leftSeconds>>>", millisUntilFinished / interval + "");
+                        tvCount.setText("" + millisUntilFinished / interval);
                     }
 
                     public void onFinish() {
@@ -278,53 +262,11 @@ public class PictureGamePlayActivity extends BaseActivity {
         if (updateUserHistoryTask != null && updateUserHistoryTask.getStatus() == AsyncTask.Status.RUNNING) {
             updateUserHistoryTask.cancel(true);
         }
-        AllConstants.isShown = true;
     }
 
     @Override
     public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        AllConstants.isShown = true;
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        AllConstants.isShown = true;
-    }
-
-    /*
-            public class PlayCountDownTimer extends CountDownTimer {
-
-                public PlayCountDownTimer(long startTime, long interval) {
-                    super(startTime, interval);
-                    // Calculate left seconds.
-                    long leftSeconds = startTime / 1000;
-                    tvCount.setVisibility(View.VISIBLE);
-                    Log.e("leftSeconds",leftSeconds+"");
-        //            tvCount.setText(String.valueOf(getDateFromMillis(startTime)));
-
-                }
-
-                @Override
-                public void onFinish() {
-                  //  tvCount.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onTick(long millisUntilFinished) {
-                }
-            }
-        */
-    public static String getDateFromMillis(long d) {
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return df.format(d);
     }
 
     /************************
@@ -388,6 +330,4 @@ public class PictureGamePlayActivity extends BaseActivity {
             }
         }
     }
-
-
 }

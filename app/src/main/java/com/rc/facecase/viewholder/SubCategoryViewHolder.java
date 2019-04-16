@@ -1,11 +1,9 @@
 package com.rc.facecase.viewholder;
 
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,20 +14,11 @@ import com.rc.facecase.activity.PictureGamePlayActivity;
 import com.rc.facecase.model.Items;
 import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.util.AllConstants;
+import com.rc.facecase.util.Logger;
 
 import org.parceler.Parcels;
-import org.w3c.dom.Text;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_ALL_OTHER_SPORTS;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_ENTERTAINERS;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_PEOPLE;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_PLACES;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_WORLD_PLACES;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_PRIMARY_SPORTS;
-
 
 /**
  * @author Md. Rashadul Alam
@@ -37,16 +26,9 @@ import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_PRIMARY_SPORTS;
  */
 public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
 
-    private Context context;
+    private String TAG = SubCategoryViewHolder.class.getSimpleName();
     private TextView tvSubcategory;
     private LinearLayout llSubcategory;
-    private static List<Items> itemsPrimarySports = new ArrayList<>();
-    private static List<Items> itemsAllOtherSports= new ArrayList<>();
-    private static List<Items> itemsFamousUSPlaces= new ArrayList<>();
-    private static List<Items> itemsFamousWorldPlaces= new ArrayList<>();
-    private static List<Items> itemsEntertainers = new ArrayList<>();
-    private static List<Items> itemsFamousPlaces = new ArrayList<>();
-    private String subCategoryName = "";
 
     public SubCategoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.row_sub_category_item);
@@ -57,162 +39,65 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
 
     @Override
     public void setData(final SubCategory data) {
-        subCategoryName = data.getSub_category_name().trim();
         AllConstants.isShown = false;
 
-        tvSubcategory.setText(subCategoryName);
+        tvSubcategory.setText(data.getSub_category_name().trim());
 
-//        if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)){
-//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_primarysports));
-//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)){
-//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_allothersports));
-//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)){
-//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famoususplaces));
-//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)){
-//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famousworldplaces));
-//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)){
-//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_entertainers));
-//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)){
-//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famouspeople));
-//        }
-
-        Log.e("getSub_name>>>>",data.getSub_category_name()+"");
-        Log.e("subCategory>>>>",data.toString()+"");
-
+        Log.e("getSub_name>>>>", data.getSub_category_name() + "");
+        Log.e("subCategory>>>>", data.toString() + "");
 
         llSubcategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)) {
-                    if (!AllConstants.isShown) {
-                        if (data.getItems().size()>0) {
-                            itemsPrimarySports = data.getItems();
-                            switchActivity(data.getItems().get(0));
-                        }else {
-                            Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        reverseList(itemsPrimarySports,subCategoryName);
-                        Log.e("itemsPrimarySports>>>>", itemsPrimarySports.toString() + "");
+                List<Items> itemsList = data.getItems();
+                if (itemsList != null && itemsList.size() > 0) {
+                    Items mItem = getSelectedItem(itemsList);
+                    if (mItem != null) {
+                        Logger.d(TAG, "Break item is: " + mItem.toString());
+                        switchActivity(data.getSub_category_name(), mItem);
                     }
-                } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)) {
-                    if (!AllConstants.isShown) {
-                        if (data.getItems().size()>0) {
-                            itemsAllOtherSports = data.getItems();
-                            switchActivity(data.getItems().get(0));
-                        }else {
-                            Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        reverseList(itemsAllOtherSports,subCategoryName);
-                        Log.e("itemsAllOtherSports>>>>", itemsPrimarySports.toString() + "");
-                    }
-                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)) {
-                    if (!AllConstants.isShown) {
-                        if (data.getItems().size()>0) {
-                            itemsFamousUSPlaces = data.getItems();
-                            switchActivity(data.getItems().get(0));
-                        }else {
-                            Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        reverseList(itemsFamousUSPlaces,subCategoryName);
-                        Log.e("itemsPrimarySports>>>>", itemsPrimarySports.toString() + "");
-                    }
-                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)) {
-                    if (!AllConstants.isShown) {
-                        if (data.getItems().size()>0) {
-                            itemsFamousWorldPlaces = data.getItems();
-                            switchActivity(data.getItems().get(0));
-                        } else {
-                            Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        reverseList(itemsPrimarySports,subCategoryName);
-                        Log.e("itemsPrimarySports>>>>", itemsPrimarySports.toString() + "");
-                    }
-                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)) {
-                    if (!AllConstants.isShown) {
-                        if (data.getItems().size()>0) {
-                            itemsEntertainers = data.getItems();
-                            switchActivity(data.getItems().get(0));
-                        }else {
-                            Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        reverseList(itemsEntertainers,subCategoryName);
-                        Log.e("itemsPrimarySports>>>>", itemsEntertainers.toString() + "");
-                    }
-                }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)) {
-                    if (!AllConstants.isShown) {
-                        if (data.getItems().size()>0) {
-                            itemsFamousPlaces = data.getItems();
-                            switchActivity(data.getItems().get(0));
-                        }else {
-                            Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        reverseList(itemsFamousPlaces,subCategoryName);
-                        Log.e("itemsPrimarySports>>>>", itemsPrimarySports.toString() + "");
-                    }
+                } else {
+                    Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
                 }
-                    Log.e("data>>>>",data.toString()+"");
             }
         });
     }
 
-    private  void switchActivity(Items item){
-        AllConstants.isShown = true;
+    private Items getSelectedItem(List<Items> itemsList) {
+        Items selectedItem = null;
+        for (int i = 0; i < itemsList.size(); i++) {
+            if (!itemsList.get(i).isShown()) {
+                selectedItem = itemsList.get(i);
+                selectedItem.setShown(true);
+                Logger.d(TAG, "Break item at: " + i);
+                break;
+            }
+        }
+
+        // Reverse the list item
+        if (selectedItem == null) {
+            Logger.d(TAG, "All items has been shown");
+            for (int i = 0; i < itemsList.size(); i++) {
+                itemsList.get(i).setShown(false);
+            }
+            Logger.d(TAG, "All items are set as false, going for next recursion!");
+            for (int i = 0; i < itemsList.size(); i++) {
+                if (!itemsList.get(i).isShown()) {
+                    selectedItem = itemsList.get(i);
+                    selectedItem.setShown(true);
+                    Logger.d(TAG, "Break item at: " + i);
+                    break;
+                }
+            }
+        }
+
+        return selectedItem;
+    }
+
+    private void switchActivity(String subCategoryName, Items item) {
         Intent iFacePlay = new Intent(getContext(), PictureGamePlayActivity.class);
         iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
         iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(item));
-        getContext().startActivity(iFacePlay);
-    }
-
-    private  void reverseList( List<Items> itemsList ,String subCategoryName) {
-        Items firstitem = null;
-        if ( itemsList.size() == 0 ) {
-            Toast.makeText(getContext(), getContext().getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
-            return;
-        } else {
-            firstitem = itemsList.get(0);
-            itemsList.remove(0);
-        }
-       // reverseList( itemsList );
-        AllConstants.isShown = false;
-        Intent iFacePlay = new Intent(getContext(), PictureGamePlayActivity.class);
-
-        if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)) {
-            itemsPrimarySports.add(firstitem);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsPrimarySports.get(0)));
-
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)) {
-            itemsAllOtherSports.add(firstitem);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsAllOtherSports.get(0)));
-
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)) {
-            itemsFamousUSPlaces.add(firstitem);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsFamousUSPlaces.get(0)));
-
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)) {
-            itemsFamousWorldPlaces.add(firstitem);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsFamousWorldPlaces.get(0)));
-
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)) {
-            itemsEntertainers.add(firstitem);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsEntertainers.get(0)));
-
-        }else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)) {
-            itemsFamousPlaces.add(firstitem);
-            iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-            iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(itemsFamousPlaces.get(0)));
-
-        }
         getContext().startActivity(iFacePlay);
     }
 }

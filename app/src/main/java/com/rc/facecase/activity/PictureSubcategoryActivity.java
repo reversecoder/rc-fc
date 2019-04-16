@@ -26,8 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PictureSubcategoryActivity extends BaseActivity {
+
     private ImageView ivHome,ivBack;
-    private Category musicCategory;
+    private Category pictureCategory;
   //  SubCategory subCategory;
     private List<SubCategory> subCategories = new ArrayList<>();
     private NestedScrollView mainScrollView;
@@ -59,8 +60,8 @@ public class PictureSubcategoryActivity extends BaseActivity {
         if (intent != null) {
             Parcelable mParcelablePictureCategory = intent.getParcelableExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY);
             if (mParcelablePictureCategory != null) {
-                musicCategory = Parcels.unwrap(mParcelablePictureCategory);
-                Logger.d(TAG, TAG + " >>> " + "musicCategory: " + musicCategory.toString());
+                pictureCategory = Parcels.unwrap(mParcelablePictureCategory);
+                Logger.d(TAG, TAG + " >>> " + "pictureCategory: " + pictureCategory.toString());
             }
         }
     }
@@ -71,14 +72,6 @@ public class PictureSubcategoryActivity extends BaseActivity {
         rvSubCategory= (RecyclerView)findViewById(R.id.rv_subcategory);
         ivBack= (ImageView)findViewById(R.id.iv_back);
         ivHome = (ImageView) findViewById(R.id.iv_home);
-
-//        ivPrimarySports = (ImageView)findViewById(R.id.iv_primary_sports);
-//        ivAllotherSports = (ImageView)findViewById(R.id.iv_allother_sports);
-//        ivFamoususPlaces = (ImageView)findViewById(R.id.iv_famousus_places);
-//        ivFamousworldPlaces = (ImageView)findViewById(R.id.iv_famousworld_places);
-//        ivEntertainers = (ImageView)findViewById(R.id.iv_entertainers);
-//        ivFamoususPeople = (ImageView)findViewById(R.id.iv_famous_people);
-
     }
 
     @Override
@@ -89,7 +82,7 @@ public class PictureSubcategoryActivity extends BaseActivity {
         rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 3) );
         rvSubCategory.setHasFixedSize( true );
         rvSubCategory.scrollToPosition(0);
-        initSubCategoryData(musicCategory);
+        initSubCategoryData(pictureCategory);
     }
 
     @Override
@@ -115,103 +108,6 @@ public class PictureSubcategoryActivity extends BaseActivity {
                 initActivityBackPress();
             }
         });
-
-//        ivPrimarySports.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View view) {
-//                if (pictureCategory!=null) {
-//                    List<Items> pictureItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_PRIMARY_SPORTS);
-//                    Log.e("pictureItem",pictureItem.toString()+">>>");
-//                    if (pictureItem!=null&&pictureItem.size()>0){
-//                        int itemPos = pictureItem.indexOf(pictureItem.get(0).getSource());
-//                        Intent iFacePlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
-//                        iFacePlay.putExtra(SUB_CATEGORY_SOURCE_NAME,pictureItem.get(0).getSource());
-//                        startActivity(iFacePlay);
-//                    }
-//                }
-//            }
-//        });
-//
-//        ivAllotherSports.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View view) {
-//                if (pictureCategory!=null) {
-//                    List<Items> allOtherSportsItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_ALL_OTHER_SPORTS);
-//                    Log.e("allOtherSportsItem",allOtherSportsItem.toString()+">>>");
-//                    if (allOtherSportsItem!=null && allOtherSportsItem.size()>0){
-//                        Intent iFaceallOtherSportsPlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
-//                        iFaceallOtherSportsPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,allOtherSportsItem.get(0).getSource());
-//                        startActivity(iFaceallOtherSportsPlay);
-//                    }
-//
-//                }
-//            }
-//        });
-//
-//        ivFamoususPlaces.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View view) {
-//                if (pictureCategory!=null) {
-//                    List<Items> famoususPlacesItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_PLACES);
-//                    Log.e("allOtherSportsItem",famoususPlacesItem.toString()+">>>");
-//                    if (famoususPlacesItem!=null && famoususPlacesItem.size()>0){
-//                        Intent iFaceFamoususPlacesPlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
-//                        iFaceFamoususPlacesPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famoususPlacesItem.get(0).getSource());
-//                        startActivity(iFaceFamoususPlacesPlay);
-//                    }
-//
-//                }
-//            }
-//        });
-//
-//        ivFamousworldPlaces.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View view) {
-//                if (pictureCategory!=null) {
-//                    List<Items> famousworldPlacesItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_WORLD_PLACES);
-//                    Log.e("allOtherSportsItem",famousworldPlacesItem.toString()+">>>");
-//                    if (famousworldPlacesItem!=null && famousworldPlacesItem.size()>0){
-//                        Intent iFaceFamousworldPlacesPlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
-//                        iFaceFamousworldPlacesPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famousworldPlacesItem.get(0).getSource());
-//                        startActivity(iFaceFamousworldPlacesPlay);
-//                    }
-//
-//                }
-//            }
-//        });
-//
-//        ivEntertainers.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View view) {
-//                if (pictureCategory!=null) {
-//                    List<Items> entertainersItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_ENTERTAINERS);
-//                    Log.e("entertainersItem",entertainersItem.toString()+">>>");
-//                    if (entertainersItem!=null && entertainersItem.size()>0){
-//                        Intent iFaceEntertainersPlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
-//                        iFaceEntertainersPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,entertainersItem.get(0).getSource());
-//                        startActivity(iFaceEntertainersPlay);
-//                    }
-//
-//                }
-//            }
-//        });
-//
-//        ivFamoususPeople.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View view) {
-//                if (pictureCategory!=null) {
-//                    List<Items> famoususPeopleItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_PEOPLE);
-//                    Log.e("allOtherSportsItem",famoususPeopleItem.toString()+">>>");
-//                    if (famoususPeopleItem!=null && famoususPeopleItem.size()>0){
-//                        Intent iFaceFamoususPeoplePlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
-//                        iFaceFamoususPeoplePlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famoususPeopleItem.get(0).getSource());
-//                        startActivity(iFaceFamoususPeoplePlay);
-//                    }
-//
-//                }
-//            }
-//        });
-
     }
 
     @Override
@@ -234,15 +130,14 @@ public class PictureSubcategoryActivity extends BaseActivity {
     public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
 
     }
-    private void initSubCategoryData(Category musicCategories ) {
-        if (musicCategories !=null) {
+    private void initSubCategoryData(Category pictureCategories ) {
+        if (pictureCategories !=null) {
             if (subCategoryListAdapter != null) {
-                subCategoryListAdapter.addAll(musicCategories.getSub_categories());
+                subCategoryListAdapter.addAll(pictureCategories.getSub_categories());
                 rvSubCategory.setAdapter(subCategoryListAdapter);
-                Log.e("getSub_categories",musicCategories.getSub_categories().size()+"");
+                Log.e("getSub_categories",pictureCategories.getSub_categories().size()+"");
                 subCategoryListAdapter.notifyDataSetChanged();
             }
         }
     }
-
 }

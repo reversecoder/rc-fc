@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Parcel
 public class SubCategory {
+
     private String id = "";
     private String category_id = "";
     private String sub_category_name = "";

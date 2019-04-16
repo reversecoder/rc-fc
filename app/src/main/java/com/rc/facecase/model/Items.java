@@ -4,11 +4,13 @@ import org.parceler.Parcel;
 
 @Parcel
 public class Items {
+
     private String id = "";
     private String sub_category_id = "";
     private String source = "";
     private String title = "";
     private String prio = "";
+    private boolean isShown = false;
     private int lastPlayed = -1;
     private int isPlaying = 0;
 
@@ -52,6 +54,14 @@ public class Items {
         this.prio = prio;
     }
 
+    public boolean isShown() {
+        return isShown;
+    }
+
+    public void setShown(boolean shown) {
+        isShown = shown;
+    }
+
     public int getLastPlayed() {
         return lastPlayed;
     }
@@ -76,6 +86,7 @@ public class Items {
                 ", source='" + source + '\'' +
                 ", title='" + title + '\'' +
                 ", prio='" + prio + '\'' +
+                ", isShown=" + isShown +
                 ", lastPlayed=" + lastPlayed +
                 ", isPlaying=" + isPlaying +
                 '}';
