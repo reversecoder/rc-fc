@@ -6,12 +6,10 @@
     android:background="@color/color_bg"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/img_bg"
-        >
+        android:background="@drawable/img_bg">
 
         <TextView
             android:id="@+id/tv_title"
@@ -36,8 +34,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:layout_height="wrap_content">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_subcategory"
@@ -45,10 +42,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_30"
                     android:layout_marginRight="@dimen/dp_30"
-                    android:nestedScrollingEnabled="true"
-                    android:paddingTop="@dimen/dp_10" />
+                    android:nestedScrollingEnabled="true" />
 
-                <RelativeLayout
+                <!--<RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rv_subcategory"
@@ -134,7 +130,7 @@
                             android:src="@drawable/ic_famouspeople" />
 
                     </LinearLayout>
-                </RelativeLayout>
+                </RelativeLayout>-->
 
 
             </RelativeLayout>

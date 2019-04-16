@@ -1,45 +1,34 @@
 package com.rc.facecase.viewholder;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.rc.facecase.R;
-import com.rc.facecase.activity.GamePlayActivity;
-import com.rc.facecase.activity.MusicCategoryActivity;
-import com.rc.facecase.activity.MusicGamePlayActivity;
-import com.rc.facecase.activity.PictureCategoryActivity;
-import com.rc.facecase.model.Category;
+import com.rc.facecase.activity.PictureGamePlayActivity;
 import com.rc.facecase.model.Items;
 import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.util.AllConstants;
-import com.rc.facecase.util.AppUtil;
 
 import org.parceler.Parcels;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.rc.facecase.util.AllConstants.CATEGORY_MUSIC;
-import static com.rc.facecase.util.AllConstants.CATEGORY_PICTURE;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_ALL_OTHER_SPORTS;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_CHILDREN_SOUNDS;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_ENTERTAINERS;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_ACRONYMES;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_COMMERCIALS;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_PEOPLE;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_PLACES;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_WORLD_PLACES;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_HOLIDAY;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_OLD_TIME_FAVOURITES;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_PRIMARY_SPORTS;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOUNDS;
 
 
 /**
@@ -47,8 +36,10 @@ import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOUNDS;
  * Email: rashed.droid@gmail.com
  */
 public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
+
     private Context context;
-    private ImageView ivCategory;
+    private TextView tvSubcategory;
+    private LinearLayout llSubcategory;
     private static List<Items> itemsPrimarySports = new ArrayList<>();
     private static List<Items> itemsAllOtherSports= new ArrayList<>();
     private static List<Items> itemsFamousUSPlaces= new ArrayList<>();
@@ -60,7 +51,8 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
     public SubCategoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.row_sub_category_item);
 
-        ivCategory = (ImageView) $(R.id.iv_category);
+        tvSubcategory = (TextView) $(R.id.tv_subcategory);
+        llSubcategory = (LinearLayout) $(R.id.ll_subcategory);
     }
 
     @Override
@@ -68,25 +60,27 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
         subCategoryName = data.getSub_category_name().trim();
         AllConstants.isShown = false;
 
-        if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_primarysports));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_allothersports));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famoususplaces));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famousworldplaces));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_entertainers));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famouspeople));
-        }
+        tvSubcategory.setText(subCategoryName);
+
+//        if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_primarysports));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ALL_OTHER_SPORTS)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_allothersports));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PLACES)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famoususplaces));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_WORLD_PLACES)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famousworldplaces));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_ENTERTAINERS)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_entertainers));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_PEOPLE)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famouspeople));
+//        }
 
         Log.e("getSub_name>>>>",data.getSub_category_name()+"");
         Log.e("subCategory>>>>",data.toString()+"");
 
 
-        ivCategory.setOnClickListener(new View.OnClickListener() {
+        llSubcategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)) {
@@ -169,7 +163,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
 
     private  void switchActivity(Items item){
         AllConstants.isShown = true;
-        Intent iFacePlay = new Intent(getContext(), GamePlayActivity.class);
+        Intent iFacePlay = new Intent(getContext(), PictureGamePlayActivity.class);
         iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
         iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(item));
         getContext().startActivity(iFacePlay);
@@ -186,7 +180,7 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
         }
        // reverseList( itemsList );
         AllConstants.isShown = false;
-        Intent iFacePlay = new Intent(getContext(), GamePlayActivity.class);
+        Intent iFacePlay = new Intent(getContext(), PictureGamePlayActivity.class);
 
         if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_PRIMARY_SPORTS)) {
             itemsPrimarySports.add(firstitem);

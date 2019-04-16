@@ -27,7 +27,6 @@ import com.rc.facecase.retrofit.APIInterface;
 import com.rc.facecase.retrofit.APIResponse;
 import com.rc.facecase.service.MediaService;
 import com.rc.facecase.util.AllConstants;
-import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
 import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.network.NetworkManager;
@@ -46,7 +45,6 @@ import retrofit2.Response;
 
 import static com.rc.facecase.util.AllConstants.ANSWER_TITLE;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_NAME;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
 import static com.rc.facecase.util.AppUtil.isServiceRunning;
 
 public class MusicGamePlayActivity extends BaseActivity {
@@ -221,7 +219,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                     intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
                     stopService(intentMediaService);
                 }
-                Intent iFacePlay = new Intent(getApplicationContext(), FaceCasePlayActivity.class);
+                Intent iFacePlay = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(iFacePlay);
                 initActivityBackPress();
             }

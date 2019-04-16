@@ -47,7 +47,7 @@ import static com.rc.facecase.util.AllConstants.ANSWER_TITLE;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_NAME;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
 
-public class GamePlayActivity extends BaseActivity {
+public class PictureGamePlayActivity extends BaseActivity {
 
     // PlayCountDownTimer playCountDownTimer;
     private final long splashTime = 8 * 1000;
@@ -139,13 +139,13 @@ public class GamePlayActivity extends BaseActivity {
         }
         try {
             // Load
-            Glide.with(GamePlayActivity.this)
+            Glide.with(PictureGamePlayActivity.this)
                     .asGif()
                     .load(R.drawable.gif_loading)
                     .into(ivLoading);
 
             Glide
-                    .with(GamePlayActivity.this)
+                    .with(PictureGamePlayActivity.this)
                     .asBitmap()
                     .load(items.getSource())
                     .into(new SimpleTarget<Bitmap>() {
@@ -204,7 +204,7 @@ public class GamePlayActivity extends BaseActivity {
         ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent iFacePlay = new Intent(getApplicationContext(), FaceCasePlayActivity.class);
+                Intent iFacePlay = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(iFacePlay);
                 initActivityBackPress();
             }

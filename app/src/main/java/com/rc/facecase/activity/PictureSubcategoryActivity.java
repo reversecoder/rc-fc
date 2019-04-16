@@ -6,22 +6,17 @@ import android.os.Parcelable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 
 import com.rc.facecase.R;
-import com.rc.facecase.adapter.CategoryListAdapter;
 import com.rc.facecase.adapter.SubCategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
 import com.rc.facecase.model.Category;
-import com.rc.facecase.model.Items;
 import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.util.AllConstants;
-import com.rc.facecase.util.DataUtils;
 import com.rc.facecase.util.Logger;
 import com.reversecoder.library.event.OnSingleClickListener;
 
@@ -30,16 +25,8 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_ALL_OTHER_SPORTS;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_ENTERTAINERS;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_PEOPLE;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_PLACES;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_WORLD_PLACES;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOURCE_NAME;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_PRIMARY_SPORTS;
-
-public class PictureCategoryActivity extends BaseActivity {
-    private ImageView ivHome,ivBack,ivPrimarySports,ivAllotherSports,ivFamoususPlaces,ivFamousworldPlaces,ivEntertainers,ivFamoususPeople;
+public class PictureSubcategoryActivity extends BaseActivity {
+    private ImageView ivHome,ivBack;
     private Category musicCategory;
   //  SubCategory subCategory;
     private List<SubCategory> subCategories = new ArrayList<>();
@@ -54,7 +41,7 @@ public class PictureCategoryActivity extends BaseActivity {
 
     @Override
     public int initActivityLayout() {
-        return R.layout.activity_picture_category_screen;
+        return R.layout.activity_subcategory_screen;
     }
 
     @Override
@@ -85,12 +72,12 @@ public class PictureCategoryActivity extends BaseActivity {
         ivBack= (ImageView)findViewById(R.id.iv_back);
         ivHome = (ImageView) findViewById(R.id.iv_home);
 
-        ivPrimarySports = (ImageView)findViewById(R.id.iv_primary_sports);
-        ivAllotherSports = (ImageView)findViewById(R.id.iv_allother_sports);
-        ivFamoususPlaces = (ImageView)findViewById(R.id.iv_famousus_places);
-        ivFamousworldPlaces = (ImageView)findViewById(R.id.iv_famousworld_places);
-        ivEntertainers = (ImageView)findViewById(R.id.iv_entertainers);
-        ivFamoususPeople = (ImageView)findViewById(R.id.iv_famous_people);
+//        ivPrimarySports = (ImageView)findViewById(R.id.iv_primary_sports);
+//        ivAllotherSports = (ImageView)findViewById(R.id.iv_allother_sports);
+//        ivFamoususPlaces = (ImageView)findViewById(R.id.iv_famousus_places);
+//        ivFamousworldPlaces = (ImageView)findViewById(R.id.iv_famousworld_places);
+//        ivEntertainers = (ImageView)findViewById(R.id.iv_entertainers);
+//        ivFamoususPeople = (ImageView)findViewById(R.id.iv_famous_people);
 
     }
 
@@ -137,7 +124,7 @@ public class PictureCategoryActivity extends BaseActivity {
 //                    Log.e("pictureItem",pictureItem.toString()+">>>");
 //                    if (pictureItem!=null&&pictureItem.size()>0){
 //                        int itemPos = pictureItem.indexOf(pictureItem.get(0).getSource());
-//                        Intent iFacePlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        Intent iFacePlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
 //                        iFacePlay.putExtra(SUB_CATEGORY_SOURCE_NAME,pictureItem.get(0).getSource());
 //                        startActivity(iFacePlay);
 //                    }
@@ -152,7 +139,7 @@ public class PictureCategoryActivity extends BaseActivity {
 //                    List<Items> allOtherSportsItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_ALL_OTHER_SPORTS);
 //                    Log.e("allOtherSportsItem",allOtherSportsItem.toString()+">>>");
 //                    if (allOtherSportsItem!=null && allOtherSportsItem.size()>0){
-//                        Intent iFaceallOtherSportsPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        Intent iFaceallOtherSportsPlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
 //                        iFaceallOtherSportsPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,allOtherSportsItem.get(0).getSource());
 //                        startActivity(iFaceallOtherSportsPlay);
 //                    }
@@ -168,7 +155,7 @@ public class PictureCategoryActivity extends BaseActivity {
 //                    List<Items> famoususPlacesItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_PLACES);
 //                    Log.e("allOtherSportsItem",famoususPlacesItem.toString()+">>>");
 //                    if (famoususPlacesItem!=null && famoususPlacesItem.size()>0){
-//                        Intent iFaceFamoususPlacesPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        Intent iFaceFamoususPlacesPlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
 //                        iFaceFamoususPlacesPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famoususPlacesItem.get(0).getSource());
 //                        startActivity(iFaceFamoususPlacesPlay);
 //                    }
@@ -184,7 +171,7 @@ public class PictureCategoryActivity extends BaseActivity {
 //                    List<Items> famousworldPlacesItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_WORLD_PLACES);
 //                    Log.e("allOtherSportsItem",famousworldPlacesItem.toString()+">>>");
 //                    if (famousworldPlacesItem!=null && famousworldPlacesItem.size()>0){
-//                        Intent iFaceFamousworldPlacesPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        Intent iFaceFamousworldPlacesPlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
 //                        iFaceFamousworldPlacesPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famousworldPlacesItem.get(0).getSource());
 //                        startActivity(iFaceFamousworldPlacesPlay);
 //                    }
@@ -200,7 +187,7 @@ public class PictureCategoryActivity extends BaseActivity {
 //                    List<Items> entertainersItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_ENTERTAINERS);
 //                    Log.e("entertainersItem",entertainersItem.toString()+">>>");
 //                    if (entertainersItem!=null && entertainersItem.size()>0){
-//                        Intent iFaceEntertainersPlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        Intent iFaceEntertainersPlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
 //                        iFaceEntertainersPlay.putExtra(SUB_CATEGORY_SOURCE_NAME,entertainersItem.get(0).getSource());
 //                        startActivity(iFaceEntertainersPlay);
 //                    }
@@ -216,7 +203,7 @@ public class PictureCategoryActivity extends BaseActivity {
 //                    List<Items> famoususPeopleItem = DataUtils.getItemsList(pictureCategory,SUB_CATEGORY_FAMOUS_PEOPLE);
 //                    Log.e("allOtherSportsItem",famoususPeopleItem.toString()+">>>");
 //                    if (famoususPeopleItem!=null && famoususPeopleItem.size()>0){
-//                        Intent iFaceFamoususPeoplePlay = new Intent(getApplicationContext(), GamePlayActivity.class);
+//                        Intent iFaceFamoususPeoplePlay = new Intent(getApplicationContext(), PictureGamePlayActivity.class);
 //                        iFaceFamoususPeoplePlay.putExtra(SUB_CATEGORY_SOURCE_NAME,famoususPeopleItem.get(0).getSource());
 //                        startActivity(iFaceFamoususPeoplePlay);
 //                    }

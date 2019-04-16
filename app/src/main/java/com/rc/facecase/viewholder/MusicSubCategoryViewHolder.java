@@ -6,11 +6,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.rc.facecase.R;
-import com.rc.facecase.activity.GamePlayActivity;
 import com.rc.facecase.activity.MusicGamePlayActivity;
 import com.rc.facecase.model.Items;
 import com.rc.facecase.model.SubCategory;
@@ -21,27 +22,22 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_ALL_OTHER_SPORTS;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_CHILDREN_SOUNDS;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_ENTERTAINERS;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_ACRONYMES;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_COMMERCIALS;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_PEOPLE;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_PLACES;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_FAMOUS_WORLD_PLACES;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_HOLIDAY;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_OLD_TIME_FAVOURITES;
-import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_PRIMARY_SPORTS;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_SOUNDS;
-
 
 /**
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
  */
 public class MusicSubCategoryViewHolder extends BaseViewHolder<SubCategory> {
+
     private Context context;
-    private ImageView ivCategory;
+    private TextView tvSubcategory;
+    private LinearLayout llSubcategory;
     private static List<Items> itemsPrimarySports = new ArrayList<>();
     private static List<Items> itemsAllOtherSports= new ArrayList<>();
     private static List<Items> itemsFamousUSPlaces= new ArrayList<>();
@@ -53,7 +49,8 @@ public class MusicSubCategoryViewHolder extends BaseViewHolder<SubCategory> {
     public MusicSubCategoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.row_sub_category_item);
 
-        ivCategory = (ImageView) $(R.id.iv_category);
+        tvSubcategory = (TextView) $(R.id.tv_subcategory);
+        llSubcategory = (LinearLayout) $(R.id.ll_subcategory);
     }
 
     @Override
@@ -61,26 +58,28 @@ public class MusicSubCategoryViewHolder extends BaseViewHolder<SubCategory> {
         subCategoryName = data.getSub_category_name().trim();
         AllConstants.isShown = false;
 
-        if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_COMMERCIALS)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famouscommercials));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_ACRONYMES)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famousacronyms));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_SOUNDS)){
-           ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_sounds));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_CHILDREN_SOUNDS)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_childrens));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_OLD_TIME_FAVOURITES)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_oldtimefavorites));
-        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_HOLIDAY)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_holidaypatrioticmusic));
-        }
+        tvSubcategory.setText(subCategoryName);
+
+//        if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_COMMERCIALS)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famouscommercials));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_ACRONYMES)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_famousacronyms));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_SOUNDS)){
+//           ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_sounds));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_CHILDREN_SOUNDS)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_childrens));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_OLD_TIME_FAVOURITES)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_oldtimefavorites));
+//        } else if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_HOLIDAY)){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_holidaypatrioticmusic));
+//        }
 
 
         Log.e("getSub_name>>>>",data.getSub_category_name()+"");
         Log.e("subCategory>>>>",data.toString()+"");
 
 
-        ivCategory.setOnClickListener(new View.OnClickListener() {
+        llSubcategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 if (subCategoryName.equalsIgnoreCase(SUB_CATEGORY_FAMOUS_COMMERCIALS)) {

@@ -13,6 +13,11 @@
     <color name="dark_gray">#999999</color>
     <color name="colorAlphaShade">#66000000</color>
 
+    <color name="colorMaroonDark">#A00F6D</color>
+    <color name="colorMaroonLight">#DC4796</color>
+    <color name="colorBlueDark">#008DCF</color>
+    <color name="colorBlueLight">#60C2EE</color>
+
     <color name="color_orange_500">#FF9800</color>
     <color name="color_orange_600">#FB8C00</color>
     <color name="color_orange_700">#F57C00</color>

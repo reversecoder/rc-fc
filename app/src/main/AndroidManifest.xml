@@ -27,11 +27,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.FaceCasePlayActivity"
+            android:name=".activity.HomeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
-            android:name=".activity.GamePlayActivity"
+            android:name=".activity.PictureGamePlayActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
@@ -43,11 +43,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
-            android:name=".activity.PictureCategoryActivity"
+            android:name=".activity.PictureSubcategoryActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <activity
-            android:name=".activity.MusicCategoryActivity"
+            android:name=".activity.MusicSubcategoryActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
         <service

@@ -4,17 +4,15 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.rc.facecase.R;
-import com.rc.facecase.activity.MusicCategoryActivity;
-import com.rc.facecase.activity.PictureCategoryActivity;
+import com.rc.facecase.activity.MusicSubcategoryActivity;
+import com.rc.facecase.activity.PictureSubcategoryActivity;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.util.AllConstants;
-import com.rc.facecase.util.AppUtil;
 
 import org.parceler.Parcels;
 
@@ -28,35 +26,38 @@ import static com.rc.facecase.util.AllConstants.CATEGORY_PICTURE;
  */
 public class CategoryViewHolder extends BaseViewHolder<Category> {
 
-    private ImageView ivCategory;
+    private TextView tvCategory;
+    private LinearLayout llCategory;
 
     public CategoryViewHolder(ViewGroup parent) {
         super(parent, R.layout.row_category_item);
-        ivCategory = (ImageView) $(R.id.iv_category);
+        tvCategory = (TextView) $(R.id.tv_category);
+        llCategory = (LinearLayout) $(R.id.ll_category);
     }
 
     @Override
     public void setData(final Category data) {
 
-        if (data.getCategory_name().trim().equalsIgnoreCase(CATEGORY_PICTURE)){
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_pictures));
-         //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_pictures), false, false, false);
-        } else if (data.getCategory_name().trim().equalsIgnoreCase(CATEGORY_MUSIC)){
-//            AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_music), false, false, false);
-            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_music));
-
-        }
+//        if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_PICTURE.toLowerCase())){
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_pictures));
+//         //   AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_pictures), false, false, false);
+//        } else if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_MUSIC.toLowerCase())){
+////            AppUtil.loadImage(getContext(), ivCategory, getContext().getResources().getDrawable(R.drawable.ic_music), false, false, false);
+//            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_music));
+//
+//        }
+        tvCategory.setText(data.getCategory_name());
         Log.e("Categorydata>>>>",data.toString()+"");
 
-        ivCategory.setOnClickListener(new View.OnClickListener() {
+        llCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (data.getCategory_name().trim().equalsIgnoreCase(CATEGORY_PICTURE)){
-                    Intent iFacePlay = new Intent(getContext(), PictureCategoryActivity.class);
+                if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_PICTURE.toLowerCase())){
+                    Intent iFacePlay = new Intent(getContext(), PictureSubcategoryActivity.class);
                     iFacePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(data));
                     getContext().startActivity(iFacePlay);
-                } else if (data.getCategory_name().trim().equalsIgnoreCase(CATEGORY_MUSIC)){
-                    Intent iFaceMusicPlay = new Intent(getContext(), MusicCategoryActivity.class);
+                } else if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_MUSIC.toLowerCase())){
+                    Intent iFaceMusicPlay = new Intent(getContext(), MusicSubcategoryActivity.class);
                     iFaceMusicPlay.putExtra(AllConstants.SESSION_KEY_MUSIC_CATEGORY, Parcels.wrap(data));
                     getContext().startActivity(iFaceMusicPlay);
                 }

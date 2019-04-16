@@ -38,7 +38,7 @@ import retrofit2.Response;
 public class CategoryActivity extends BaseActivity {
 
     private TextView tvPlayingList;
-    private ImageView ivHome, ivPicturePlay, ivMusicPlay;
+    private ImageView ivHome;
     private RecyclerView rvCategory;
     private CategoryListAdapter categoryListAdapter;
 
@@ -77,8 +77,8 @@ public class CategoryActivity extends BaseActivity {
     public void initActivityViews() {
         rvCategory = (RecyclerView) findViewById(R.id.rv_category_list);
         tvPlayingList = (TextView) findViewById(R.id.tv_playing_list);
-        ivPicturePlay = (ImageView) findViewById(R.id.iv_picture_play);
-        ivMusicPlay = (ImageView) findViewById(R.id.iv_music_play);
+//        ivPicturePlay = (ImageView) findViewById(R.id.iv_picture_play);
+//        ivMusicPlay = (ImageView) findViewById(R.id.iv_music_play);
         ivHome = (ImageView) findViewById(R.id.iv_home);
     }
 
@@ -111,16 +111,16 @@ public class CategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
-        ivPicturePlay.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                if (pictureCategory != null) {
-                    Intent iFacePlay = new Intent(getApplicationContext(), PictureCategoryActivity.class);
-                    iFacePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(pictureCategory));
-                    startActivity(iFacePlay);
-                }
-            }
-        });
+//        ivPicturePlay.setOnClickListener(new OnSingleClickListener() {
+//            @Override
+//            public void onSingleClick(View view) {
+//                if (pictureCategory != null) {
+//                    Intent iFacePlay = new Intent(getApplicationContext(), PictureSubcategoryActivity.class);
+//                    iFacePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(pictureCategory));
+//                    startActivity(iFacePlay);
+//                }
+//            }
+//        });
         ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -131,7 +131,7 @@ public class CategoryActivity extends BaseActivity {
 //            @Override
 //            public void onSingleClick(View view) {
 //                if (musicCategory!=null) {
-//                    Intent iFaceMusicPlay = new Intent(getApplicationContext(), MusicCategoryActivity.class);
+//                    Intent iFaceMusicPlay = new Intent(getApplicationContext(), MusicSubcategoryActivity.class);
 //                    iFaceMusicPlay.putExtra(AllConstants.SESSION_KEY_MUSIC_CATEGORY, Parcels.wrap(musicCategory));
 //                    startActivity(iFaceMusicPlay);
 //                }

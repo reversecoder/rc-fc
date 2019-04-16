@@ -14,17 +14,15 @@ import android.widget.TextView;
 
 import com.rc.facecase.R;
 import com.rc.facecase.adapter.MusicSubCategoryListAdapter;
-import com.rc.facecase.adapter.SubCategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.util.AllConstants;
 import com.rc.facecase.util.Logger;
-import com.rc.facecase.viewholder.MusicSubCategoryViewHolder;
 import com.reversecoder.library.event.OnSingleClickListener;
 
 import org.parceler.Parcels;
 
-public class MusicCategoryActivity extends BaseActivity {
+public class MusicSubcategoryActivity extends BaseActivity {
     private TextView tvTitle;
     private ImageView ivHome,ivBack,ivFamousCommercials;
     private Category musicCategory;
@@ -39,7 +37,7 @@ public class MusicCategoryActivity extends BaseActivity {
 
     @Override
     public int initActivityLayout() {
-        return R.layout.activity_picture_category_screen;
+        return R.layout.activity_subcategory_screen;
     }
 
     @Override
@@ -111,7 +109,7 @@ public class MusicCategoryActivity extends BaseActivity {
 //        ivFamousCommercials.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                Intent iFacePlay=new Intent(getApplicationContext(), GamePlayActivity.class);
+//                Intent iFacePlay=new Intent(getApplicationContext(), PictureGamePlayActivity.class);
 //                startActivity(iFacePlay);
 //            }
 //        });
