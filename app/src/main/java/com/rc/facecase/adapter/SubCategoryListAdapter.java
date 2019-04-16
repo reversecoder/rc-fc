@@ -5,9 +5,7 @@ import android.view.ViewGroup;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.rc.facecase.model.Category;
 import com.rc.facecase.model.SubCategory;
-import com.rc.facecase.viewholder.CategoryViewHolder;
 import com.rc.facecase.viewholder.SubCategoryViewHolder;
 
 import java.security.InvalidParameterException;

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.rc.facecase.R;
+import com.rc.facecase.activity.MusicGamePlayActivity;
 import com.rc.facecase.activity.PictureGamePlayActivity;
 import com.rc.facecase.model.Items;
 import com.rc.facecase.model.SubCategory;
@@ -24,13 +25,13 @@ import java.util.List;
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
  */
-public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
+public class SubCategoryMusicViewHolder extends BaseViewHolder<SubCategory> {
 
-    private String TAG = SubCategoryViewHolder.class.getSimpleName();
+    private String TAG = SubCategoryMusicViewHolder.class.getSimpleName();
     private TextView tvSubcategory;
     private LinearLayout llSubcategory;
 
-    public SubCategoryViewHolder(ViewGroup parent) {
+    public SubCategoryMusicViewHolder(ViewGroup parent) {
         super(parent, R.layout.row_sub_category_item);
 
         tvSubcategory = (TextView) $(R.id.tv_subcategory);
@@ -39,7 +40,6 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
 
     @Override
     public void setData(final SubCategory data) {
-
         tvSubcategory.setText(data.getSub_category_name().trim());
 
         Log.e("getSub_name>>>>", data.getSub_category_name() + "");
@@ -94,9 +94,10 @@ public class SubCategoryViewHolder extends BaseViewHolder<SubCategory> {
     }
 
     private void switchActivity(String subCategoryName, Items item) {
-        Intent iFacePlay = new Intent(getContext(), PictureGamePlayActivity.class);
+        Intent iFacePlay = new Intent(getContext(), MusicGamePlayActivity.class);
         iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
         iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(item));
         getContext().startActivity(iFacePlay);
+
     }
 }

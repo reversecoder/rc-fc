@@ -6,8 +6,7 @@ import android.view.ViewGroup;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.rc.facecase.model.SubCategory;
-import com.rc.facecase.viewholder.MusicSubCategoryViewHolder;
-import com.rc.facecase.viewholder.SubCategoryViewHolder;
+import com.rc.facecase.viewholder.SubCategoryMusicViewHolder;
 
 import java.security.InvalidParameterException;
 
@@ -34,7 +33,7 @@ public class MusicSubCategoryListAdapter extends RecyclerArrayAdapter<SubCategor
     public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_REGULAR:
-                return new MusicSubCategoryViewHolder(parent);
+                return new SubCategoryMusicViewHolder(parent);
             default:
                 throw new InvalidParameterException();
         }

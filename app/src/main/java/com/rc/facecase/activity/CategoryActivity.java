@@ -111,32 +111,12 @@ public class CategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
-//        ivPicturePlay.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View view) {
-//                if (pictureCategory != null) {
-//                    Intent iFacePlay = new Intent(getApplicationContext(), PictureSubcategoryActivity.class);
-//                    iFacePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(pictureCategory));
-//                    startActivity(iFacePlay);
-//                }
-//            }
-//        });
         ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 initActivityBackPress();
             }
         });
-//        ivMusicPlay.setOnClickListener(new OnSingleClickListener() {
-//            @Override
-//            public void onSingleClick(View view) {
-//                if (musicCategory!=null) {
-//                    Intent iFaceMusicPlay = new Intent(getApplicationContext(), MusicSubcategoryActivity.class);
-//                    iFaceMusicPlay.putExtra(AllConstants.SESSION_KEY_MUSIC_CATEGORY, Parcels.wrap(musicCategory));
-//                    startActivity(iFaceMusicPlay);
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -221,8 +201,8 @@ public class CategoryActivity extends BaseActivity {
                             initCategoryData(data.getData());
                             pictureCategory = data.getData().get(0);
                             musicCategory = data.getData().get(1);
-                            Log.e("categoryPicture", pictureCategory.toString() + "");
-                            Log.e("categoryMusic", musicCategory.toString() + "");
+                            Logger.d(TAG, "pictureCategory onResponse= " + pictureCategory.toString());
+                            Logger.d(TAG, "musicCategory onResponse= " + musicCategory.toString());
                         }
 //
 //                        //set count review number

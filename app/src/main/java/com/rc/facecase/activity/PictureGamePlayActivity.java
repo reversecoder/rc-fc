@@ -107,7 +107,6 @@ public class PictureGamePlayActivity extends BaseActivity {
         tvAnswerTitle = (TextView) findViewById(R.id.tv_answer_title);
         tvAdditionalTimeTitle = (TextView) findViewById(R.id.tv_additional_time_title);
         tvCount = (TextView) findViewById(R.id.tv_count);
-        AllConstants.isShown = true;
     }
 
     @Override
@@ -198,7 +197,6 @@ public class PictureGamePlayActivity extends BaseActivity {
         ivBack.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                AllConstants.isShown = true;
                 initActivityBackPress();
             }
         });

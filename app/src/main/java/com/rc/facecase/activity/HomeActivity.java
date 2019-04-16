@@ -230,13 +230,7 @@ public class HomeActivity extends BaseActivity {
                         //Save data into session
                         String jsonAppUser = APIResponse.getResponseString(data.getData().get(0));
                         Logger.d(TAG, TAG + " >>> " + "APIResponse(DoCreateUser()): app-user = " + jsonAppUser);
-                        Logger.d(TAG, TAG + " >>> " + "AppUser(home-response): " + jsonAppUser);
-                        Log.e("AppUser>>>", data.getData().toString() + ">>>");
                         SessionManager.setStringSetting(getActivity(), AllConstants.SESSION_KEY_USER, jsonAppUser);
-//                            //Navigate to the home
-//                            Intent intentHome = new Intent(getActivity(), HomeActivity.class);
-//                            startActivity(intentHome);
-//                            finish();
 
                     } else {
                         Toast.makeText(getActivity(), getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();

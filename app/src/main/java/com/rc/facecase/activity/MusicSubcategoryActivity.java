@@ -105,14 +105,6 @@ public class MusicSubcategoryActivity extends BaseActivity {
             }
         });
 
-
-//        ivFamousCommercials.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent iFacePlay=new Intent(getApplicationContext(), PictureGamePlayActivity.class);
-//                startActivity(iFacePlay);
-//            }
-//        });
     }
 
     @Override
