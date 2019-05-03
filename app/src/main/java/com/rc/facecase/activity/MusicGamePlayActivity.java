@@ -161,7 +161,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                             shapeRipple.setRippleDuration(2700);
                             new CountDownTimer(firstPlayTime, interval) {
                                 public void onTick(long millisUntilFinished) {
-                                    Log.e("leftSeconds>>>", millisUntilFinished / interval + "");
+                                    Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
                                     tvCount.setText("" + millisUntilFinished / interval);
 
                                 }
@@ -256,8 +256,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                 new CountDownTimer(secondPlayTime, interval) {
 
                     public void onTick(long millisUntilFinished) {
-
-                        Log.e("leftSeconds>>>", millisUntilFinished / interval + "");
+                        Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
                         tvCount.setText("" + millisUntilFinished / interval);
 
                     }
@@ -290,6 +289,11 @@ public class MusicGamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
+        if (isServiceRunning(MusicGamePlayActivity.this, MediaService.class)) {
+            Intent intentMediaService = new Intent(MusicGamePlayActivity.this, MediaService.class);
+            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+            stopService(intentMediaService);
+        }
         finish();
 
     }
@@ -310,7 +314,8 @@ public class MusicGamePlayActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("onResume>>>", "onResume");
+        Logger.d(TAG, TAG + " onResume>>> " + "onResume>>>: " );
+
     }
 
     @Override
@@ -321,7 +326,9 @@ public class MusicGamePlayActivity extends BaseActivity {
             intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
             getActivity().stopService(intentMediaService);
         }
-        Log.e("onRestart>>>", "onRestart");
+        Logger.d(TAG, TAG + " onRestart>>> " + "onRestart>>>: " );
+
+      //  Log.e("onRestart>>>", "onRestart");
 
     }
 

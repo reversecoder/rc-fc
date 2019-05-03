@@ -3,9 +3,11 @@ package com.rc.facecase.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +27,8 @@ import com.rc.facecase.model.ParamsUpdateUserHistory;
 import com.rc.facecase.retrofit.APIClient;
 import com.rc.facecase.retrofit.APIInterface;
 import com.rc.facecase.retrofit.APIResponse;
+import com.rc.facecase.service.MediaPlayingService;
+import com.rc.facecase.service.MediaService;
 import com.rc.facecase.util.AllConstants;
 import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
@@ -41,6 +45,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_NAME;
+import static com.rc.facecase.util.AppUtil.isServiceRunning;
 
 public class PictureGamePlayActivity extends BaseActivity {
 
@@ -58,6 +63,7 @@ public class PictureGamePlayActivity extends BaseActivity {
     //Background task
     private APIInterface mApiInterface;
     private UpdateUserHistoryTask updateUserHistoryTask;
+    private MediaPlayer mp;
 
     @Override
     public String[] initActivityPermissions() {
@@ -86,6 +92,11 @@ public class PictureGamePlayActivity extends BaseActivity {
             Parcelable mParcelableItem = intent.getParcelableExtra(AllConstants.INTENT_KEY_ITEM);
             if (mParcelableItem != null) {
                 items = Parcels.unwrap(mParcelableItem);
+                Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TIMER_SET);
+                getActivity().startService(intentMediaService);
                 Logger.d(TAG, TAG + " >>> " + "mParcelableItem: " + mParcelableItem.toString());
             }
         }
@@ -107,13 +118,15 @@ public class PictureGamePlayActivity extends BaseActivity {
         tvAnswerTitle = (TextView) findViewById(R.id.tv_answer_title);
         tvAdditionalTimeTitle = (TextView) findViewById(R.id.tv_additional_time_title);
         tvCount = (TextView) findViewById(R.id.tv_count);
+
+
     }
 
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
         mApiInterface = APIClient.getClient(getActivity()).create(APIInterface.class);
         tvTitle.setText(subCategoryName);
-
+      //  playingMusic();
         if (items != null) {
             tvAnswerTitle.setText(items.getTitle());
         }
@@ -149,12 +162,18 @@ public class PictureGamePlayActivity extends BaseActivity {
 
                             new CountDownTimer(firstPlayTime, interval) {
                                 public void onTick(long millisUntilFinished) {
-                                    Log.e("leftSeconds>>>", millisUntilFinished / interval + "");
+                                    Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
                                     tvCount.setText("" + millisUntilFinished / interval);
 
                                 }
 
                                 public void onFinish() {
+                                 //   stopPlaying();
+                                    if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                                        Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
+                                        intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                                        getActivity().stopService(intentMediaService);
+                                    }
                                     tvCount.setVisibility(View.GONE);
                                     linAnswer.setVisibility(View.VISIBLE);
                                     ivPlaceHolder.setVisibility(View.VISIBLE);
@@ -172,6 +191,8 @@ public class PictureGamePlayActivity extends BaseActivity {
         //Check internet connection
         if (!NetworkManager.isConnected(getActivity())) {
             Toast.makeText(getActivity(), getResources().getString(R.string.toast_network_error), Toast.LENGTH_SHORT).show();
+          //  stopPlaying();
+
         } else {
             if (items != null) {
                 //Update User History
@@ -188,6 +209,12 @@ public class PictureGamePlayActivity extends BaseActivity {
         ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                    Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
+                    intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                    getActivity().stopService(intentMediaService);
+                }
+             //   stopPlaying();
                 Intent iFacePlay = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(iFacePlay);
                 initActivityBackPress();
@@ -197,12 +224,24 @@ public class PictureGamePlayActivity extends BaseActivity {
         ivBack.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                    Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
+                    intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                    getActivity().stopService(intentMediaService);
+                }
+               // stopPlaying();
                 initActivityBackPress();
             }
         });
         ivAnswer.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TADA_SET);
+                getActivity().startService(intentMediaService);
+
                 ivShowAnswer.setVisibility(View.VISIBLE);
                 linShowAnswer.setVisibility(View.VISIBLE);
                 // tvAnswerTitle.setVisibility(View.VISIBLE);
@@ -210,11 +249,30 @@ public class PictureGamePlayActivity extends BaseActivity {
                 ivPlaceHolder.setVisibility(View.GONE);
                 tvAdditionalTimeTitle.setVisibility(View.GONE);
 
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+                            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                            getActivity().stopService(intentMediaServiceStop);
+                        }
+                    }
+                }, 1500);
+
+
             }
         });
         ivPlay11Sec.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TIMER_SET);
+                getActivity().startService(intentMediaService);
                 shapeRipple.startRipple();
                 tvCount.setVisibility(View.VISIBLE);
                 linAnswer.setVisibility(View.GONE);
@@ -223,11 +281,16 @@ public class PictureGamePlayActivity extends BaseActivity {
                 new CountDownTimer(secondPlayTime, interval) {
 
                     public void onTick(long millisUntilFinished) {
-                        Log.e("leftSeconds>>>", millisUntilFinished / interval + "");
+                        Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
                         tvCount.setText("" + millisUntilFinished / interval);
                     }
 
                     public void onFinish() {
+                        if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+                            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                            getActivity().stopService(intentMediaServiceStop);
+                        }
                         tvAdditionalTimeTitle.setVisibility(View.VISIBLE);
                         tvAdditionalTimeTitle.setText(getResources().getString(R.string.txt_time_answer));
                         tvCount.setVisibility(View.GONE);
@@ -250,6 +313,11 @@ public class PictureGamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
+        if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+            getActivity().stopService(intentMediaServiceStop);
+        }
         finish();
 
     }
@@ -264,6 +332,41 @@ public class PictureGamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Logger.d(TAG, TAG + " onResume>>> " + "onResume>>>: " );
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+            getActivity().stopService(intentMediaServiceStop);
+        }
+        Logger.d(TAG, TAG + " onRestart>>> " + "onRestart>>>: " );
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+                intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                getActivity().stopService(intentMediaServiceStop);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Logger.d(TAG, TAG + " onPause>>> " + "onPause>>>: " );
+
+      //  Log.e("onPause>>>", "onPause");
 
     }
 
@@ -326,6 +429,20 @@ public class PictureGamePlayActivity extends BaseActivity {
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
+        }
+    }
+
+    private void playingMusic(){
+        stopPlaying();
+        mp = MediaPlayer.create(PictureGamePlayActivity.this, R.raw.background);
+        mp.start();
+    }
+
+    private void stopPlaying() {
+        if (mp != null) {
+            mp.stop();
+            mp.release();
+            mp = null;
         }
     }
 }
