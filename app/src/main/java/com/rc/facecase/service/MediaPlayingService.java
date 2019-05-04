@@ -53,16 +53,18 @@ public class MediaPlayingService extends Service {
          //   String bgMusicPlay = intent.getExtras().getString(BACKGROUND_MUSIC_SET);
             switch (action) {
                 case EXTRA_ACTION_START: {
-                    Parcelable mParcelableItem = intent.getParcelableExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC);
+                  //  Parcelable mParcelableItem = intent.getParcelableExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC);
                     Log.e("bgMusicPlay",bgMusicPlay+">>>");
-                    if (mParcelableItem!= null) {
-                        music = Parcels.unwrap(mParcelableItem);
+                    if (bgMusicPlay != -1){
+//                    if (mParcelableItem!= null) {
+//                        music = Parcels.unwrap(mParcelableItem);
 
                         //Set music listener
 
 //                        audioPlayer = new MediaPlayer();
 //                        audioPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                       //  audioPlayer.setDataSource(Uri.parse(music.getSource()));
+
                         if (bgMusicPlay == 1) {
                             audioPlayer = MediaPlayer.create(getApplicationContext(), R.raw.timer);
                         } else if (bgMusicPlay == 2){
@@ -77,7 +79,7 @@ public class MediaPlayingService extends Service {
                                     audioPlayer.stop();
                                     audioPlayer.start();
 
-                                    music.setIsPlaying(MEDIA_PLAYBACK_FINISHED);
+                                  //  music.setIsPlaying(MEDIA_PLAYBACK_FINISHED);
                                     //  sendUpdateToActivity(music);
                                 }
                             }
@@ -86,7 +88,7 @@ public class MediaPlayingService extends Service {
                         //Start music
 //                        audioPlayer.prepareAsync();
                         audioPlayer.start();
-                       }
+                     }
                        // updateSeekProgress();
                     break;
                 }
@@ -118,8 +120,8 @@ public class MediaPlayingService extends Service {
     }
 
     private void destroyService() {
-        if (audioPlayer.isPlaying()) {
-            music.setIsPlaying(MEDIA_PLAYBACK_STOPPED);
+        if ( audioPlayer != null) {
+       //     music.setIsPlaying(MEDIA_PLAYBACK_STOPPED);
           //  sendUpdateToActivity(music);
 
             audioPlayer.stop();
