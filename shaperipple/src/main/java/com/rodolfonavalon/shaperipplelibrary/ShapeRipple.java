@@ -299,12 +299,45 @@ public class ShapeRipple extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        int boundRight = canvas.getClipBounds().right;
+        int boundLeft = canvas.getClipBounds().left;
+        int boundBottom = canvas.getClipBounds().bottom;
+        int boundTop= canvas.getClipBounds().top;
+
         for (ShapeRippleEntry shapeRippleEntry : shapeRippleEntries) {
 
             if (shapeRippleEntry.isRender()) {
                 // Each ripple entry is a rendered as a shape
-                shapeRippleEntry.getBaseShape().onDraw(canvas, shapeRippleEntry.getX(),
-                        shapeRippleEntry.getY(),
+
+                int mPosX = shapeRippleEntry.getX();
+                int mPosY = shapeRippleEntry.getY();
+
+//                if ( mPosX > boundRight )  {
+//                    mPosX = boundRight-viewWidth;
+//                }  else if ( mPosX < boundLeft )  {
+//                    mPosX = boundLeft-viewWidth;
+//                }
+//
+//                if ( mPosY > boundBottom )  {
+//                    mPosY = boundBottom-viewHeight;
+//                }  else if ( mPosY < boundTop )  {
+//                    mPosY = boundTop+viewHeight;
+//                }
+
+//                if ( mPosX + viewWidth > boundRight ){
+//                    mPosX = boundRight;
+//                }else if(mPosX + viewWidth < boundRight){
+//                    mPosX = boundLeft;
+//                }
+//
+//                if ( mPosY + viewHeight > boundBottom ){
+//                    mPosX = boundRight;
+//                } else if( mPosY + viewHeight < boundBottom ){
+//                    mPosX = boundLeft;
+//                }
+
+                shapeRippleEntry.getBaseShape().onDraw(canvas, mPosX,
+                        mPosY,
                         shapeRippleEntry.getRadiusSize(),
                         shapeRippleEntry.getChangingColorValue(),
                         shapeRippleEntry.getRippleIndex(),
