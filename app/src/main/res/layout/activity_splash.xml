@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:paddingRight="@dimen/dp_5"
                         android:paddingBottom="@dimen/dp_25"
-                        android:text="fdgddgdgdg"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_20" />
 
