@@ -251,7 +251,7 @@ public class MusicGamePlayActivity extends BaseActivity {
 
                 ivShowAnswer.setVisibility(View.VISIBLE);
                 linShowAnswer.setVisibility(View.VISIBLE);
-                // tvAnswerTitle.setVisibility(View.VISIBLE);
+                tvAnswerTitle.setVisibility(View.VISIBLE);
                 linAnswer.setVisibility(View.GONE);
                 ivPlaceHolder.setVisibility(View.GONE);
                 tvAdditionalTimeTitle.setVisibility(View.GONE);
