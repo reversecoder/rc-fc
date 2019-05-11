@@ -27,7 +27,7 @@ public class MusicSubcategoryActivity extends BaseActivity {
     private ImageView ivHome,ivBack,ivFamousCommercials;
     private Category musicCategory;
     private RecyclerView rvSubCategory;
-    private NestedScrollView mainScrollView;
+   // private NestedScrollView mainScrollView;
     private MusicSubCategoryListAdapter subCategoryListAdapter;
     @Override
     public String[] initActivityPermissions() {
@@ -63,7 +63,7 @@ public class MusicSubcategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityViews() {
-        mainScrollView = (NestedScrollView)findViewById(R.id.nested_scroll);
+     //   mainScrollView = (NestedScrollView)findViewById(R.id.nested_scroll);
         rvSubCategory= (RecyclerView)findViewById(R.id.rv_subcategory);
         tvTitle= (TextView)findViewById(R.id.tv_title);
         ivBack= (ImageView)findViewById(R.id.iv_back);
@@ -85,13 +85,13 @@ public class MusicSubcategoryActivity extends BaseActivity {
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
         // Wait until my scrollView is ready
-        mainScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                // Ready, move up
-                mainScrollView.fullScroll(View.FOCUS_UP);
-            }
-        });
+//        mainScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                // Ready, move up
+//                mainScrollView.fullScroll(View.FOCUS_UP);
+//            }
+//        });
         ivBack.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {

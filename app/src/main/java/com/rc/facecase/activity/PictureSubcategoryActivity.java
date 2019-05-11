@@ -31,7 +31,7 @@ public class PictureSubcategoryActivity extends BaseActivity {
     private Category pictureCategory;
   //  SubCategory subCategory;
     private List<SubCategory> subCategories = new ArrayList<>();
-    private NestedScrollView mainScrollView;
+  //  private NestedScrollView mainScrollView;
     private RecyclerView rvSubCategory;
     private SubCategoryListAdapter subCategoryListAdapter;
     @Override
@@ -68,7 +68,7 @@ public class PictureSubcategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityViews() {
-        mainScrollView = (NestedScrollView)findViewById(R.id.nested_scroll);
+       // mainScrollView = (NestedScrollView)findViewById(R.id.nested_scroll);
         rvSubCategory= (RecyclerView)findViewById(R.id.rv_subcategory);
         ivBack= (ImageView)findViewById(R.id.iv_back);
         ivHome = (ImageView) findViewById(R.id.iv_home);
@@ -87,14 +87,14 @@ public class PictureSubcategoryActivity extends BaseActivity {
 
     @Override
     public void initActivityActions(Bundle savedInstanceState) {
-        // Wait until my scrollView is ready
-        mainScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                // Ready, move up
-                mainScrollView.fullScroll(View.FOCUS_UP);
-            }
-        });
+//        // Wait until my scrollView is ready
+//        mainScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                // Ready, move up
+//                mainScrollView.fullScroll(View.FOCUS_UP);
+//            }
+//        });
         ivBack.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {

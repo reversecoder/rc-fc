@@ -6,10 +6,18 @@
     android:background="@color/color_bg"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/img_bg">
+        android:layout_height="match_parent"
+        android:background="@drawable/img_bg"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_15">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".15"
+            android:gravity="top|center">
 
         <TextView
             android:id="@+id/tv_title"
@@ -23,145 +31,44 @@
             android:textColor="@color/white"
             android:textSize="@dimen/activity_title_text_size"
             android:textStyle="bold|italic" />
+        </LinearLayout>
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nested_scroll"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_title"
-            android:layout_marginBottom="60dip"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+            android:layout_height="0dp"
+            android:layout_weight=".8"
+            android:padding="@dimen/dp_5">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_subcategory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_30"
                     android:layout_marginRight="@dimen/dp_30"
                     android:nestedScrollingEnabled="true" />
+         </LinearLayout>
 
-                <!--<RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rv_subcategory"
-                    android:layout_marginLeft="70dip"
-                    android:layout_marginBottom="20dip"
-                    android:visibility="gone">
-
-                    <LinearLayout
-                        android:id="@+id/lin_first_row"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <ImageView
-                            android:id="@+id/iv_primary_sports"
-                            android:layout_width="0dip"
-                            android:layout_height="150dip"
-                            android:layout_marginRight="5dip"
-                            android:layout_weight=".33"
-                            android:padding="10dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_primarysports" />
-
-                        <ImageView
-                            android:id="@+id/iv_allother_sports"
-                            android:layout_width="0dip"
-                            android:layout_height="150dip"
-                            android:layout_marginRight="5dip"
-                            android:layout_weight=".33"
-                            android:padding="10dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_allothersports" />
-
-                        <ImageView
-                            android:id="@+id/iv_famousus_places"
-                            android:layout_width="0dip"
-                            android:layout_height="150dip"
-                            android:layout_marginRight="5dip"
-                            android:layout_weight=".33"
-                            android:padding="10dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_famoususplaces" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/lin_first_row"
-                        android:layout_marginTop="10dip"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <ImageView
-                            android:id="@+id/iv_famousworld_places"
-                            android:layout_width="0dip"
-                            android:layout_height="150dip"
-                            android:layout_marginRight="5dip"
-                            android:layout_weight=".33"
-                            android:padding="10dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_famousworldplaces" />
-
-                        <ImageView
-                            android:id="@+id/iv_entertainers"
-                            android:layout_width="0dip"
-                            android:layout_height="150dip"
-                            android:layout_marginRight="5dip"
-                            android:layout_weight=".33"
-                            android:padding="10dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_entertainers" />
-
-                        <ImageView
-                            android:id="@+id/iv_famous_people"
-                            android:layout_width="0dip"
-                            android:layout_height="150dip"
-                            android:layout_marginRight="5dip"
-                            android:layout_weight=".33"
-                            android:padding="10dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_famouspeople" />
-
-                    </LinearLayout>
-                </RelativeLayout>-->
-
-
-            </RelativeLayout>
-
-        </android.support.v4.widget.NestedScrollView>
-
-        <RelativeLayout
-            android:id="@+id/rel_bottom_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="5dip">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".2"
+            android:padding="@dimen/dp_5"
+            android:gravity="left|center">
 
             <ImageView
                 android:id="@+id/iv_home"
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
-                android:padding="5dp"
                 android:src="@drawable/ic_home" />
 
             <ImageView
                 android:id="@+id/iv_back"
                 android:layout_width="@dimen/dp_60"
                 android:layout_height="@dimen/dp_60"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_toRightOf="@+id/iv_home"
-                android:padding="5dp"
                 android:src="@drawable/ic_back" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
-    </RelativeLayout>
-    .
+    </LinearLayout>    .
 </LinearLayout>
