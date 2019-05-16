@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.androidGradlePluginVersion = '3.4.0'
+    ext.androidGradlePluginVersion = '3.4.1'
 
     repositories {
         google()
