@@ -72,7 +72,7 @@
                 android:gravity="center"
                 android:text="FACECASE"
                 android:textColor="@color/white"
-                android:textSize="70sp"
+                android:textSize="80sp"
                 android:textStyle="bold|italic" />
 
             <TextView
@@ -82,7 +82,7 @@
                 android:gravity="center"
                 android:text="Bet &amp; Bluff"
                 android:textColor="@color/white"
-                android:textSize="40sp"
+                android:textSize="60sp"
                 android:textStyle="bold|italic" />
 
         </RelativeLayout>

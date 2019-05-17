@@ -7,6 +7,7 @@
     <string name="app_version_text">Version:</string>
 
     <string name="txt_category">Choose a Category</string>
+    <string name="txt_facecase_introduction">FACECASE INTRODUCTION</string>
     <string name="txt_before_playing">BEFORE PLAYING</string>
 
     <string name="txt_before_playing_list"><![CDATA[1. Thoroughly shuffle the card deck <br/>

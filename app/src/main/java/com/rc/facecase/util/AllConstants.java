@@ -12,6 +12,7 @@ public class AllConstants {
     //Session keys
     public static final String SESSION_KEY_USER = "SESSION_KEY_USER";
     public static final String SESSION_DEVICE_IDENTIFIER = "SESSION_DEVICE_IDENTIFIER";
+    public static final String SESSION_INTRODUCTION = "SESSION_INTRODUCTION";
 
     public static final String SESSION_KEY_PICTURE_CATEGORY = "SESSION_KEY_PICTURE_CATEGORY";
     public static final String SESSION_KEY_MUSIC_CATEGORY = "SESSION_KEY_MUSIC_CATEGORY";
@@ -22,6 +23,7 @@ public class AllConstants {
     public static final String KEY_INTENT_EXTRA_ACTION = "KEY_INTENT_EXTRA_ACTION";
     public static final String KEY_INTENT_EXTRA_MUSIC = "KEY_INTENT_EXTRA_MUSIC";
     public static final String KEY_INTENT_BACKGROUND_MUSIC_SET = "KEY_INTENT_BACKGROUND_MUSIC_SET";
+    public static final String KEY_INTENT_EXTRA_HOME = "KEY_INTENT_EXTRA_HOME";
 
     public static final int EXTRA_ACTION_START = 0;
     public static final int EXTRA_ACTION_STOP = 1;

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -31,12 +30,16 @@ import com.reversecoder.library.util.AllSettingsManager;
 
 import java.util.List;
 
+import cn.ymex.popup.controller.AlertController;
+import cn.ymex.popup.dialog.PopupDialog;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.rc.facecase.util.AllConstants.KEY_INTENT_EXTRA_HOME;
+
 public class HomeActivity extends BaseActivity {
 
-    private ImageView ivPlay, ivQuit;
+    private ImageView ivPlay, ivQuit, ivIntroVideo;
     //Background task
     private APIInterface mApiInterface;
     private RegisterAppUserTask registerAppUserTask;
@@ -73,6 +76,7 @@ public class HomeActivity extends BaseActivity {
     public void initActivityViews() {
         ivPlay = (ImageView) findViewById(R.id.iv_play);
         ivQuit = (ImageView) findViewById(R.id.iv_quit);
+        ivIntroVideo = (ImageView) findViewById(R.id.iv_intro_video);
     }
 
     @Override
@@ -82,14 +86,14 @@ public class HomeActivity extends BaseActivity {
         setRuntimePermissionUpdateListener(new BaseUpdateListener() {
             @Override
             public void onUpdate(Object... update) {
-                if((Boolean) update[0]){
+                if ((Boolean) update[0]) {
                     loadFaceCaseData();
                 }
             }
         });
     }
 
-    private boolean loadFaceCaseData(){
+    private boolean loadFaceCaseData() {
         deviceUniqueIdentity = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_DEVICE_IDENTIFIER);
         if (AllSettingsManager.isNullOrEmpty(deviceUniqueIdentity)) {
             deviceUniqueIdentity = AppUtil.getAppDeviceUniqueIdentifier(getActivity());
@@ -129,7 +133,7 @@ public class HomeActivity extends BaseActivity {
                 new OnBaseClickListener() {
                     @Override
                     public void OnPermissionValidation(View view) {
-                        if(loadFaceCaseData()){
+                        if (loadFaceCaseData()) {
                             Intent iFacePlay = new Intent(getActivity(), CategoryActivity.class);
                             startActivity(iFacePlay);
                         }
@@ -150,9 +154,37 @@ public class HomeActivity extends BaseActivity {
                                 }
                             }
                         }).setNegativeButton("Cancel", null).show();
+
+//                showCloseAppDialog("Confirm", "Exit Facecase?");
             }
         });
+        ivIntroVideo.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(getActivity(), FaceCaseIntroductionActivity.class);
+                intent.putExtra(KEY_INTENT_EXTRA_HOME, true);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
 
+    private void showCloseAppDialog(String title, String message) {
+        PopupDialog.create(getActivity())
+                .outsideTouchHide(false)
+                .dismissTime(1000 * 5)
+                .controller(AlertController.build()
+                        .title(title + "\n")
+                        .message(message)
+                        .clickDismiss(true)
+                        .negativeButton(getString(R.string.dialog_cancel), null)
+                        .positiveButton(getString(R.string.dialog_ok), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                finish();
+                            }
+                        }))
+                .show();
     }
 
     @Override

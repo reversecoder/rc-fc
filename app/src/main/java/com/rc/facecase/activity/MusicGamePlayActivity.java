@@ -156,7 +156,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                             shapeRipple.setRippleShape(new Image(bitmap));
                             shapeRipple.setEnableSingleRipple(true);
                             shapeRipple.setEnableRandomPosition(true);
-                            shapeRipple.setRippleMaximumRadius(200);
+                            shapeRipple.setRippleMaximumRadius(400);
                             shapeRipple.setRippleCount(1);
                             shapeRipple.setRippleDuration(2700);
 
