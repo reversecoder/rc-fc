@@ -14,7 +14,6 @@ import android.util.Log;
 import com.devbrackets.android.exomedia.AudioPlayer;
 import com.devbrackets.android.exomedia.listener.OnCompletionListener;
 import com.rc.facecase.R;
-import com.rc.facecase.activity.MusicGamePlayActivity;
 import com.rc.facecase.activity.PictureGamePlayActivity;
 import com.rc.facecase.model.Items;
 import com.rc.facecase.util.AllConstants;
