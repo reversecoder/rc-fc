@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.rc.facecase.R;
 import com.rc.facecase.base.BaseActivity;
+import com.rc.facecase.enumeration.MODE;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.model.Items;
 import com.rc.facecase.model.ParamsUpdateUserHistory;
@@ -56,10 +57,6 @@ public class PictureGamePlayActivity extends BaseActivity {
     private String subCategoryName = "";
     private AppUser mAppUser;
     private Items items;
-
-    public enum MODE {GAME, PLAY_AGAIN, ASK_ANSWER, ANSWER}
-
-    ;
 
     //Background task
     private APIInterface mApiInterface;
@@ -269,6 +266,7 @@ public class PictureGamePlayActivity extends BaseActivity {
                 initActivityBackPress();
             }
         });
+
         ivAnswer7sec.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -324,6 +322,7 @@ public class PictureGamePlayActivity extends BaseActivity {
 
             }
         });
+
         ivPlay11Sec.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
@@ -337,9 +336,11 @@ public class PictureGamePlayActivity extends BaseActivity {
                 //   intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TIMER_SET);
                 startService(intentMediaService);
+
                 shapeRipple.startRipple();
                 initModeView(MODE.GAME);
                 ivLoading.setVisibility(View.GONE);
+
                 new CountDownTimer(secondPlayTime, interval) {
 
                     public void onTick(long millisUntilFinished) {
@@ -353,6 +354,7 @@ public class PictureGamePlayActivity extends BaseActivity {
                             intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
                             stopService(intentMediaServiceStop);
                         }
+
                         shapeRipple.stopRipple();
                         initModeView(MODE.ASK_ANSWER);
                     }

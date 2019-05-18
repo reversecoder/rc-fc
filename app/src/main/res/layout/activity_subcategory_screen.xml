@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/txt_pic_category"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPurpleDark"
                 android:textSize="@dimen/sp_25"
                 android:textStyle="bold|italic" />
 

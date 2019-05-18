@@ -46,22 +46,31 @@ public class CategoryViewHolder extends BaseViewHolder<Category> {
 //            ivCategory.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_music));
 //
 //        }
+
+        if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_PICTURE.toLowerCase())) {
+            llCategory.setBackgroundResource(R.drawable.ic_pictures);
+            tvCategory.setVisibility(View.GONE);
+        } else if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_MUSIC.toLowerCase())) {
+            llCategory.setBackgroundResource(R.drawable.ic_music);
+            tvCategory.setVisibility(View.GONE);
+        }
+
         tvCategory.setText(data.getCategory_name());
-        Log.e("Categorydata>>>>",data.toString()+"");
+        Log.e("Categorydata>>>>", data.toString() + "");
 
         llCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_PICTURE.toLowerCase())){
+                if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_PICTURE.toLowerCase())) {
                     Intent iFacePlay = new Intent(getContext(), PictureSubcategoryActivity.class);
                     iFacePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(data));
                     getContext().startActivity(iFacePlay);
-                } else if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_MUSIC.toLowerCase())){
+                } else if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_MUSIC.toLowerCase())) {
                     Intent iFaceMusicPlay = new Intent(getContext(), MusicSubcategoryActivity.class);
                     iFaceMusicPlay.putExtra(AllConstants.SESSION_KEY_MUSIC_CATEGORY, Parcels.wrap(data));
                     getContext().startActivity(iFaceMusicPlay);
                 }
-                Log.e("data>>>>",data.toString()+"");
+                Log.e("data>>>>", data.toString() + "");
 
             }
         });

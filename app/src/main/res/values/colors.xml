@@ -5,6 +5,12 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="color_bg">#A0CE67</color>
+    <color name="colorGreenDark">#006400</color>
+    <color name="colorGreenLight">#1EBD1E</color>
+    <color name="colorPurpleDark">#800080</color>
+    <color name="colorPurpleLight">#D52AD5</color>
+    <color name="colorYellowDark">#FFFF00</color>
+    <color name="colorYellowLight">#FCFC73</color>
     <!--
     <color name="color_bg">#403393</color> -->
 

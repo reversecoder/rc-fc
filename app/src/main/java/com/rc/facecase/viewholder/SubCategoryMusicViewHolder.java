@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.rc.facecase.R;
-import com.rc.facecase.activity.PictureGamePlayActivity;
+import com.rc.facecase.activity.MusicGamePlayActivity;
 import com.rc.facecase.model.Items;
 import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.util.AllConstants;
@@ -93,10 +93,9 @@ public class SubCategoryMusicViewHolder extends BaseViewHolder<SubCategory> {
     }
 
     private void switchActivity(String subCategoryName, Items item) {
-//        Intent iFacePlay = new Intent(getContext(), MusicGamePlayActivity.class);
-//        iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
-//        iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(item));
-//        getContext().startActivity(iFacePlay);
-
+        Intent iFacePlay = new Intent(getContext(), MusicGamePlayActivity.class);
+        iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
+        iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(item));
+        getContext().startActivity(iFacePlay);
     }
 }
