@@ -4,7 +4,7 @@
 
         <shape android:shape="rectangle">
             <!--apply a border around button-->
-            <stroke android:color="@color/colorYellowDark"
+            <stroke android:color="@color/color_white"
                 android:width="10dp" />
             <solid android:color="@color/color_bg"/>
             <!-- make the button corners rounded-->
@@ -16,7 +16,7 @@
 
             <stroke
                 android:width="10dp"
-                android:color="@color/colorYellowDark" />
+                android:color="@color/color_white" />
             <solid android:color="@color/color_bg"/>
             <corners
                 android:radius="5dp" />

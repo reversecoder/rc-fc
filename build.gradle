@@ -2,7 +2,7 @@
 
 buildscript {
     ext.androidGradlePluginVersion = '3.4.1'
-   // ext.androidGradlePluginVersion = '3.3.2'
+  //  ext.androidGradlePluginVersion = '3.3.2'
 
     repositories {
         google()
