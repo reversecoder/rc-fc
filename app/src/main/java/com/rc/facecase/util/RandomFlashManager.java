@@ -85,8 +85,25 @@ public class RandomFlashManager {
                 int lWidth = view.getWidth();
                 int lHeight = view.getHeight();
 
-                int boundX = getDisplaySize(mActivity).x - (3 * lWidth) / 2;
-                int boundY = getDisplaySize(mActivity).y - (3 * lHeight) / 2;
+                double screenInches = AppUtil.checkDimension(mActivity);
+                int boundX = 0, boundY = 0;
+                Logger.d(TAG, TAG + ">> screenInches: " + screenInches);
+                if (screenInches > 6 && screenInches < 9) {
+                    // 7 inch tablet
+                    Logger.d(TAG, TAG + ">> 7 inch tablet");
+                    Logger.d(TAG, TAG + ">> mobile phone");
+                    boundX = getDisplaySize(mActivity).x - (3 * lWidth) / 2;
+                    boundY = getDisplaySize(mActivity).y - (3 * lHeight) / 2;
+                } else if (screenInches > 9) {
+                    // 10 inch tablet
+                    Logger.d(TAG, TAG + ">> 10 inch tablet");
+                    boundX = getDisplaySize(mActivity).x - (4 * lWidth) / 2;
+                    boundY = getDisplaySize(mActivity).y - (4 * lHeight) / 2;
+                } else {
+                    Logger.d(TAG, TAG + ">> mobile phone");
+                    boundX = getDisplaySize(mActivity).x - (4 * lWidth) / 2;
+                    boundY = getDisplaySize(mActivity).y - (4 * lHeight) / 2;
+                }
                 Logger.d(TAG, TAG + ">> boundX: " + boundX + "\nboundY: " + boundY);
 
                 int randomX = new Random().nextInt(boundX);

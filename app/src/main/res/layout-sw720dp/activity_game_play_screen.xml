@@ -78,8 +78,8 @@
 
                     <ImageView
                         android:id="@+id/iv_flash_image"
-                        android:layout_width="@dimen/dp_200"
-                        android:layout_height="@dimen/dp_220"
+                        android:layout_width="@dimen/dp_270"
+                        android:layout_height="@dimen/dp_300"
                         android:scaleType="fitXY"
                         android:visibility="gone" />
 

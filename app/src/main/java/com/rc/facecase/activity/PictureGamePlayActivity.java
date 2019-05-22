@@ -178,6 +178,7 @@ public class PictureGamePlayActivity extends BaseActivity {
                     .load(R.drawable.gif_loading)
                     .into(ivLoading);
 
+            AppUtil.loadImage(getApplicationContext(), ivAnswer, items.getSource(), false, false, false);
 
             Glide
                     .with(PictureGamePlayActivity.this)
@@ -245,7 +246,6 @@ public class PictureGamePlayActivity extends BaseActivity {
 //                            }.start();
                         }
                     });
-            AppUtil.loadImage(getApplicationContext(), ivAnswer, items.getSource(), false, false, false);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

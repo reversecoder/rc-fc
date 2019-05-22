@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:id="@+id/ll_subcategory"
-        android:layout_width="400dp"
+        android:layout_width="350dp"
         android:layout_height="300dp"
         android:background="@drawable/selector_subcategory_bg"
         android:gravity="center"

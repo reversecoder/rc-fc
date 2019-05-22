@@ -1,7 +1,6 @@
 package com.rc.facecase.util;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -9,8 +8,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -24,10 +22,7 @@ import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,17 +31,14 @@ import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-
 import com.rc.facecase.R;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.retrofit.APIResponse;
-import com.reversecoder.library.random.RandomManager;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -60,7 +52,35 @@ public class AppUtil {
 
     private static String TAG = AppUtil.class.getSimpleName();
 
-    public static <T> ArrayList<T> convertToArrayList(T[] objectArray){
+    public static double checkDimension(Context context) {
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+
+        // since SDK_INT = 1;
+        int mWidthPixels = displayMetrics.widthPixels;
+        int mHeightPixels = displayMetrics.heightPixels;
+
+        // includes window decorations (statusbar bar/menu bar)
+        try {
+            Point realSize = new Point();
+            Display.class.getMethod("getRealSize", Point.class).invoke(display, realSize);
+            mWidthPixels = realSize.x;
+            mHeightPixels = realSize.y;
+        } catch (Exception ignored) {
+        }
+
+        DisplayMetrics dm = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(dm);
+        double x = Math.pow(mWidthPixels / dm.xdpi, 2);
+        double y = Math.pow(mHeightPixels / dm.ydpi, 2);
+        double screenInches = Math.sqrt(x + y);
+        Log.d("debug", "Screen inches : " + screenInches);
+        return screenInches;
+    }
+
+    public static <T> ArrayList<T> convertToArrayList(T[] objectArray) {
         return new ArrayList<T>(Arrays.asList(objectArray));
     }
 
@@ -187,7 +207,6 @@ public class AppUtil {
     }
 
 
-
     public static <C> List<C> asList(SparseArray<C> sparseArray) {
         if (sparseArray == null) return null;
         List<C> arrayList = new ArrayList<C>(sparseArray.size());
@@ -239,7 +258,7 @@ public class AppUtil {
             SessionManager.setStringSetting(context, AllConstants.SESSION_DEVICE_IDENTIFIER, deviceUniqueIdentifier);
 
         }
-        Logger.d(TAG, TAG + " >>> " + "AppUser(deviceUniqueIdentifier): " +deviceUniqueIdentifier);
+        Logger.d(TAG, TAG + " >>> " + "AppUser(deviceUniqueIdentifier): " + deviceUniqueIdentifier);
         return deviceUniqueIdentifier;
     }
 
@@ -346,8 +365,6 @@ public class AppUtil {
         animator.start();
         return animator;
     }
-
-
 
 
     public static float getPromotionalDiscountPrice(float subtotal, float promotionalDiscount) {
