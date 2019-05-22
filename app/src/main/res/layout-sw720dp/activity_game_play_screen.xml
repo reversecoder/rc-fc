@@ -73,7 +73,15 @@
                     <com.rodolfonavalon.shaperipplelibrary.ShapeRipple
                         android:id="@+id/shape_ripple"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iv_flash_image"
+                        android:layout_width="@dimen/dp_200"
+                        android:layout_height="@dimen/dp_220"
+                        android:scaleType="fitXY"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tv_count"
