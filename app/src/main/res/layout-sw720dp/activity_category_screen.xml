@@ -81,7 +81,7 @@
                         android:text="@string/txt_before_playing_list"
                         android:textAllCaps="true"
                         android:textColor="@color/colorBlueDark"
-                        android:textSize="30sp"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
