@@ -33,6 +33,7 @@ import com.rc.facecase.service.MediaService;
 import com.rc.facecase.util.AllConstants;
 import com.rc.facecase.util.AppUtil;
 import com.rc.facecase.util.Logger;
+import com.rc.facecase.util.RandomFlashManager;
 import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.network.NetworkManager;
 import com.reversecoder.library.storage.SessionManager;
@@ -57,10 +58,12 @@ public class MusicGamePlayActivity extends BaseActivity {
     private final long firstPlayTime = 15 * 1000, secondPlayTime = 21 * 1000;
     private final long interval = 1800;
     private TextView tvCount, tvTitle, tvAnswer;
-    private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec;
+    private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec,ivFlashImage;
     private RelativeLayout rlGameMode, rlPlayAgainMode, rlAskAnswerMode, rlAnswerMode;
 
-    private ShapeRipple shapeRipple;
+   // private ShapeRipple shapeRipple;
+   RandomFlashManager randomFlashManager;
+
     private LinearLayout linAnswer, linShowAnswer;
     //  private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
     private String subCategoryName = "", answerTitle = "";
@@ -107,8 +110,10 @@ public class MusicGamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityViews() {
-        shapeRipple = (ShapeRipple) findViewById(R.id.shape_ripple);
-        shapeRipple.setVisibility(View.GONE);
+//        shapeRipple = (ShapeRipple) findViewById(R.id.shape_ripple);
+//        shapeRipple.setVisibility(View.GONE);
+        ivFlashImage = (ImageView) findViewById(R.id.iv_flash_image);
+        ivFlashImage.setVisibility(View.GONE);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         ivHome = (ImageView) findViewById(R.id.iv_home);
         ivLoading = (ImageView) findViewById(R.id.iv_loading);
@@ -136,6 +141,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                 rlAnswerMode.setVisibility(View.GONE);
 //                shapeRipple.setVisibility(View.GONE);
                 ivLoading.setVisibility(View.VISIBLE);
+                ivFlashImage.setVisibility(View.VISIBLE);
                 break;
             case PLAY_AGAIN:
                 rlGameMode.setVisibility(View.GONE);
@@ -143,6 +149,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                 rlAskAnswerMode.setVisibility(View.GONE);
                 rlAnswerMode.setVisibility(View.GONE);
                 ivLoading.setVisibility(View.GONE);
+                ivFlashImage.setVisibility(View.GONE);
                 break;
             case ASK_ANSWER:
                 rlGameMode.setVisibility(View.GONE);
@@ -150,6 +157,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                 rlAskAnswerMode.setVisibility(View.VISIBLE);
                 rlAnswerMode.setVisibility(View.GONE);
                 ivLoading.setVisibility(View.GONE);
+                ivFlashImage.setVisibility(View.GONE);
                 break;
             case ANSWER:
                 rlGameMode.setVisibility(View.GONE);
@@ -157,6 +165,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                 rlAskAnswerMode.setVisibility(View.GONE);
                 rlAnswerMode.setVisibility(View.VISIBLE);
                 ivLoading.setVisibility(View.GONE);
+                ivFlashImage.setVisibility(View.GONE);
                 break;
         }
     }
@@ -191,37 +200,60 @@ public class MusicGamePlayActivity extends BaseActivity {
                         @Override
                         public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
                             //you can use loaded bitmap here
-                            shapeRipple.setVisibility(View.VISIBLE);
+                            //shapeRipple.setVisibility(View.VISIBLE);
+                            ivFlashImage.setImageBitmap(bitmap);
+                            ivFlashImage.setVisibility(View.VISIBLE);
                             ivLoading.setVisibility(View.GONE);
 
-                            shapeRipple.setRippleShape(new Image(bitmap));
-                            shapeRipple.setEnableSingleRipple(true);
-                            shapeRipple.setEnableRandomPosition(true);
-                            shapeRipple.setRippleMaximumRadius(400);
-                            shapeRipple.setRippleCount(1);
-                            shapeRipple.setRippleDuration(2700);
+//                            shapeRipple.setRippleShape(new Image(bitmap));
+//                            shapeRipple.setEnableSingleRipple(true);
+//                            shapeRipple.setEnableRandomPosition(true);
+//                            shapeRipple.setRippleMaximumRadius(400);
+//                            shapeRipple.setRippleCount(1);
+//                            shapeRipple.setRippleDuration(2700);
 
                             Intent intentMediaService = new Intent(getActivity(), MediaService.class);
                             intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
                             intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
                             getActivity().startService(intentMediaService);
 
-                            new CountDownTimer(firstPlayTime, interval) {
+                            randomFlashManager = new RandomFlashManager(getActivity(), ivFlashImage, firstPlayTime, interval, new RandomFlashManager.RandomFlashListener() {
+                                @Override
                                 public void onTick(long millisUntilFinished) {
                                     Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
                                     tvCount.setText("" + millisUntilFinished / interval);
                                 }
 
+                                @Override
                                 public void onFinish() {
-                                    if (isServiceRunning(getActivity(), MediaService.class)) {
-                                        Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+                                    if (isServiceRunning(MusicGamePlayActivity.this, MediaPlayingService.class)) {
+                                        Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
                                         intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-                                        getActivity().stopService(intentMediaService);
+                                        stopService(intentMediaService);
                                     }
-                                    shapeRipple.stopRipple();
+//                                    shapeRipple.stopRipple();
+                                    randomFlashManager.destroyFlashing();
                                     initModeView(MODE.PLAY_AGAIN);
                                 }
-                            }.start();
+                            });
+                            randomFlashManager.startFlashing();
+//
+//                            new CountDownTimer(firstPlayTime, interval) {
+//                                public void onTick(long millisUntilFinished) {
+//                                    Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
+//                                    tvCount.setText("" + millisUntilFinished / interval);
+//                                }
+//
+//                                public void onFinish() {
+//                                    if (isServiceRunning(getActivity(), MediaService.class)) {
+//                                        Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+//                                        intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+//                                        getActivity().stopService(intentMediaService);
+//                                    }
+//                                    shapeRipple.stopRipple();
+//                                    initModeView(MODE.PLAY_AGAIN);
+//                                }
+//                            }.start();
                         }
                     });
             AppUtil.loadImage(getApplicationContext(), ivAnswer, R.drawable.ic_placeholdersound, false, false, false);
@@ -346,32 +378,55 @@ public class MusicGamePlayActivity extends BaseActivity {
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
                 getActivity().startService(intentMediaService);
 
-                shapeRipple.startRipple();
+             //   shapeRipple.startRipple();
                 initModeView(MODE.GAME);
                 ivLoading.setVisibility(View.GONE);
 
-                new CountDownTimer(secondPlayTime, interval) {
-
+                randomFlashManager = new RandomFlashManager(getActivity(), ivFlashImage, secondPlayTime, interval, new RandomFlashManager.RandomFlashListener() {
+                    @Override
                     public void onTick(long millisUntilFinished) {
                         Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
                         tvCount.setText("" + millisUntilFinished / interval);
                     }
 
+                    @Override
                     public void onFinish() {
-                        if (isServiceRunning(getActivity(), MediaService.class)) {
-                            Intent intentMediaService = new Intent(getActivity(), MediaService.class);
-                            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-                            getActivity().stopService(intentMediaService);
-                        } else if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                        if (isServiceRunning(MusicGamePlayActivity.this, MediaPlayingService.class)) {
                             Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
                             intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-                            getActivity().stopService(intentMediaServiceStop);
+                            stopService(intentMediaServiceStop);
                         }
 
-                        shapeRipple.stopRipple();
+//                        shapeRipple.stopRipple();
+                        randomFlashManager.destroyFlashing();
                         initModeView(MODE.ASK_ANSWER);
                     }
-                }.start();
+                });
+                randomFlashManager.startFlashing();
+
+
+//                new CountDownTimer(secondPlayTime, interval) {
+//
+//                    public void onTick(long millisUntilFinished) {
+//                        Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
+//                        tvCount.setText("" + millisUntilFinished / interval);
+//                    }
+//
+//                    public void onFinish() {
+//                        if (isServiceRunning(getActivity(), MediaService.class)) {
+//                            Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+//                            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+//                            getActivity().stopService(intentMediaService);
+//                        } else if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+//                            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+//                            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+//                            getActivity().stopService(intentMediaServiceStop);
+//                        }
+//
+//                        shapeRipple.stopRipple();
+//                        initModeView(MODE.ASK_ANSWER);
+//                    }
+//                }.start();
             }
         });
     }
