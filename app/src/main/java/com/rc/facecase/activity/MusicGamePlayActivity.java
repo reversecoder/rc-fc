@@ -191,6 +191,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                     .load(R.drawable.gif_loading)
                     .into(ivLoading);
 
+            AppUtil.loadImage(getApplicationContext(), ivAnswer, R.drawable.ic_placeholdersound, false, false, false);
 
             Glide
                     .with(MusicGamePlayActivity.this)
@@ -256,8 +257,6 @@ public class MusicGamePlayActivity extends BaseActivity {
 //                            }.start();
                         }
                     });
-            AppUtil.loadImage(getApplicationContext(), ivAnswer, R.drawable.ic_placeholdersound, false, false, false);
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -9,9 +9,9 @@
 
     <LinearLayout
         android:id="@+id/ll_subcategory"
-        android:layout_width="150dp"
-        android:layout_height="80dp"
-        android:background="@drawable/selector_subcategory_bg"
+        android:layout_width="160dp"
+        android:layout_height="130dp"
+        android:background="@drawable/ic_subcategory"
         android:gravity="center"
         android:padding="@dimen/dp_10">
 
