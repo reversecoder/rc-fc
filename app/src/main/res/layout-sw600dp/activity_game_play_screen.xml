@@ -158,14 +158,14 @@
                                 android:layout_height="80dp"
                                 android:layout_marginRight="@dimen/dp_30"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/ic_answer" />
+                                android:src="@drawable/ic_answer1" />
 
                             <ImageView
                                 android:id="@+id/iv_play_11sec"
                                 android:layout_width="300dp"
                                 android:layout_height="80dp"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/ic_play11sec" />
+                                android:src="@drawable/ic_play11sec1" />
 
                         </LinearLayout>
 
@@ -230,7 +230,7 @@
                                 android:layout_width="300dp"
                                 android:layout_height="80dp"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/ic_answer" />
+                                android:src="@drawable/ic_answer1" />
 
                         </LinearLayout>
 
