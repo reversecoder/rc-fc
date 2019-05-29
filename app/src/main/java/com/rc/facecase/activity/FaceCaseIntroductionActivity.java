@@ -23,7 +23,7 @@ import static com.rc.facecase.util.AllConstants.SESSION_INTRODUCTION;
 public class FaceCaseIntroductionActivity extends AppCompatActivity {
 
     private String TAG = FaceCaseIntroductionActivity.class.getSimpleName();
-    private ImageView ivPlayIntroduction, ivSkip, ivHome;
+    private ImageView ivPlayIntroduction,ivStarBurst, ivSkip, ivHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class FaceCaseIntroductionActivity extends AppCompatActivity {
 
     private void initUI() {
         ivPlayIntroduction = (ImageView) findViewById(R.id.iv_play_introduction);
+        ivStarBurst = (ImageView) findViewById(R.id.iv_starburst);
         ivSkip = (ImageView) findViewById(R.id.iv_skip);
         ivHome = (ImageView) findViewById(R.id.iv_home);
 
@@ -69,6 +70,27 @@ public class FaceCaseIntroductionActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ivStarBurst.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                String socialLink = "https://www.google.com";
+
+                try {
+                    Uri uri = Uri.parse(socialLink);
+                    Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    youtubeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(youtubeIntent);
+
+                } catch (Exception e) {
+                    Logger.d("youtube api", "exception: " + e.getMessage());
+                    // Youtube is not installed. Open in the browser
+                    Uri uri = Uri.parse(socialLink);
+                    startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                }
+            }
+        });
+
 
         ivSkip.setOnClickListener(new OnSingleClickListener() {
             @Override

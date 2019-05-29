@@ -48,10 +48,10 @@ public class CategoryViewHolder extends BaseViewHolder<Category> {
 //        }
 
         if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_PICTURE.toLowerCase())) {
-            llCategory.setBackgroundResource(R.drawable.ic_pictures);
+            llCategory.setBackgroundResource(R.drawable.ic_picture1);
             tvCategory.setVisibility(View.GONE);
         } else if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_MUSIC.toLowerCase())) {
-            llCategory.setBackgroundResource(R.drawable.ic_music);
+            llCategory.setBackgroundResource(R.drawable.ic_music1);
             tvCategory.setVisibility(View.GONE);
         }
 

@@ -3,7 +3,7 @@
 
     <!-- Progress Dialog -->
     <string name="progress_dialog_loading">Loading...</string>
-    <string name="app_version_name">1.0.3</string>
+    <string name="app_version_name">1.0.6</string>
     <string name="app_version_text">Version:</string>
 
     <string name="txt_category">Choose a Category</string>
@@ -19,7 +19,7 @@
         7. Pick a card from the card deck first.  Follow the instructions on the card and choose a category to begin.]]></string>
     <string name="txt_pic_category">Picture Categories</string>
     <string name="txt_music_category">Music Categories</string>
-    <string name="txt_play_11_second_title">KE ABOUT 30 SECONDS TO GUESS OR PLAY FOR ADDITIONAL 11 SECOND</string>
+    <string name="txt_play_11_second_title">TAKE ABOUT 30 SECONDS TO GUESS OR PLAY FOR ADDITIONAL 11 SECOND</string>
     <string name="txt_time_answer">TIME TO ANSWER!</string>
 
     <!-- View text -->
