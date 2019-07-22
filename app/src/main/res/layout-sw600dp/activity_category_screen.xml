@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".2"
+            android:layout_weight=".18"
             android:gravity="center">
 
             <TextView
@@ -25,7 +25,7 @@
                 android:text="@string/txt_category"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="70sp"
+                android:textSize="65sp"
                 android:textStyle="bold|italic" />
 
         </LinearLayout>
@@ -33,40 +33,43 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".60"
+            android:layout_weight=".65"
             android:descendantFocusability="blocksDescendants">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="@dimen/dp_5">
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5"
+                android:paddingBottom="@dimen/dp_5">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_category_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:paddingBottom="@dimen/dp_10" />
+                    android:paddingBottom="@dimen/dp_5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
                     android:background="@drawable/curv_box_shape"
                     android:orientation="vertical"
-                    android:padding="@dimen/dp_10">
+                    android:padding="@dimen/dp_5">
 
                     <TextView
                         android:id="@+id/tv_playing_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/dp_5"
                         android:layout_gravity="center_horizontal"
-                        android:padding="@dimen/dp_10"
                         android:text="@string/txt_before_playing"
                         android:textAllCaps="true"
                         android:textColor="@color/colorPurpleDark"
-                        android:textSize="30sp"
+                        android:textSize="25sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -76,7 +79,7 @@
                         android:gravity="left"
                         android:paddingLeft="@dimen/dp_20"
                         android:paddingRight="@dimen/dp_20"
-                        android:paddingBottom="@dimen/dp_20"
+                        android:paddingBottom="@dimen/dp_10"
                         android:scaleType="centerCrop"
                         android:text="@string/txt_before_playing_list"
                         android:textAllCaps="true"
@@ -93,13 +96,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".2"
+            android:layout_weight=".18"
             android:paddingLeft="@dimen/dp_10">
 
             <ImageView
                 android:id="@+id/iv_home"
-                android:layout_width="@dimen/dp_100"
-                android:layout_height="@dimen/dp_100"
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="@dimen/dp_90"
                 android:layout_gravity="left|center_vertical"
                 android:src="@drawable/ic_home" />
 

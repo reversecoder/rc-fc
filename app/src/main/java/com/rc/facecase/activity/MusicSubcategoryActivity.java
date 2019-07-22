@@ -76,7 +76,7 @@ public class MusicSubcategoryActivity extends BaseActivity {
     public void initActivityViewsData(Bundle savedInstanceState) {
         subCategoryListAdapter = new MusicSubCategoryListAdapter( getApplicationContext());
         rvSubCategory.setNestedScrollingEnabled(false);
-        rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 3) );
+        rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 4) );
         rvSubCategory.setHasFixedSize( true );
         rvSubCategory.scrollToPosition(0);
         initSubCategoryData(musicCategory);

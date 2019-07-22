@@ -79,7 +79,7 @@ public class PictureSubcategoryActivity extends BaseActivity {
 
         subCategoryListAdapter = new SubCategoryListAdapter( getApplicationContext());
         rvSubCategory.setNestedScrollingEnabled(false);
-        rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 3) );
+        rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 4) );
         rvSubCategory.setHasFixedSize( true );
         rvSubCategory.scrollToPosition(0);
         initSubCategoryData(pictureCategory);
