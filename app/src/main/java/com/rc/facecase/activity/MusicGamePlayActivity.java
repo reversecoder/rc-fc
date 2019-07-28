@@ -55,7 +55,7 @@ import static com.rc.facecase.util.AppUtil.isServiceRunning;
 public class MusicGamePlayActivity extends BaseActivity {
 
     // PlayCountDownTimer playCountDownTimer;
-    private final long firstPlayTime = 7 * 1000, secondPlayTime = 10 * 1000;
+    private final long firstPlayTime = 7 * 1000, secondPlayTime = 11 * 1000;
     private final long interval = 900;
     private TextView tvCount, tvTitle, tvAnswer;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec,ivFlashImage;

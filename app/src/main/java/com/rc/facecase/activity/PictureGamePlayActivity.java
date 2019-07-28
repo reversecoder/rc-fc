@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.view.View;
@@ -36,7 +35,6 @@ import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.network.NetworkManager;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
-import com.rodolfonavalon.shaperipplelibrary.model.Image;
 
 import org.parceler.Parcels;
 
@@ -48,7 +46,7 @@ import static com.rc.facecase.util.AppUtil.isServiceRunning;
 
 public class PictureGamePlayActivity extends BaseActivity {
 
-    private final long firstPlayTime = 7 * 1000, secondPlayTime = 10 * 1000;
+    private final long firstPlayTime = 7 * 1000, secondPlayTime = 11 * 1000;
     private final long interval = 900;
     private TextView tvCount, tvTitle, tvAnswer;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec, ivFlashImage;
@@ -58,6 +56,7 @@ public class PictureGamePlayActivity extends BaseActivity {
     private String subCategoryName = "";
     private AppUser mAppUser;
     private Items items;
+    private Bitmap bitmapOriginal, bitmapScaled;
 
     //Background task
     private APIInterface mApiInterface;
@@ -184,12 +183,26 @@ public class PictureGamePlayActivity extends BaseActivity {
                     .with(PictureGamePlayActivity.this)
                     .asBitmap()
                     .load(items.getSource())
+//                    .load("https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Neymar_PSG.jpg/220px-Neymar_PSG.jpg")
+//                    .load("https://www.thesun.co.uk/wp-content/uploads/2019/07/NINTCHDBPICT000434076580.jpg")
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(final Bitmap bitmap, Transition<? super Bitmap> transition) {
+                            Logger.d(TAG, "bitmap>>original>> height: " + bitmap.getHeight() + " width: " + bitmap.getWidth());
+
+                            bitmapOriginal = bitmap;
+                            if (bitmap.getWidth() > bitmap.getHeight()) {
+                                Logger.d(TAG, "bitmap>> It's landscape image");
+                                bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int)AppUtil.dpToPixel(getActivity(), 150), (int)AppUtil.dpToPixel(getActivity(), 120) , true);
+                            } else {
+                                Logger.d(TAG, "bitmap>> It's portrait image");
+                                bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int)AppUtil.dpToPixel(getActivity(), 120), (int)AppUtil.dpToPixel(getActivity(), 150) , true);
+                            }
+                            Logger.d(TAG, "bitmap>>scaled>> height: " + bitmapScaled.getHeight() + " width: " + bitmapScaled.getWidth());
+
                             //you can use loaded bitmap here
 //                            shapeRipple.setVisibility(View.VISIBLE);
-                            ivFlashImage.setImageBitmap(bitmap);
+                            ivFlashImage.setImageBitmap(bitmapScaled);
                             ivFlashImage.setVisibility(View.VISIBLE);
                             ivLoading.setVisibility(View.GONE);
 
@@ -433,6 +446,15 @@ public class PictureGamePlayActivity extends BaseActivity {
     @Override
     public void initActivityDestroyTasks() {
         dismissProgressDialog();
+
+        if(bitmapOriginal !=null){
+            bitmapOriginal.recycle();
+        }
+
+        if(bitmapScaled !=null){
+            bitmapScaled.recycle();
+        }
+
         if (updateUserHistoryTask != null && updateUserHistoryTask.getStatus() == AsyncTask.Status.RUNNING) {
             updateUserHistoryTask.cancel(true);
         }

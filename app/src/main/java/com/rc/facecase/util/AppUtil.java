@@ -52,6 +52,18 @@ public class AppUtil {
 
     private static String TAG = AppUtil.class.getSimpleName();
 
+    public static float dpToPixel(Context c, float dp) {
+        float density = c.getResources().getDisplayMetrics().density;
+        float pixel = dp * density;
+        return pixel;
+    }
+
+    public static float pixelToDp(Context c, float pixel) {
+        float density = c.getResources().getDisplayMetrics().density;
+        float dp = pixel / density;
+        return dp;
+    }
+
     public static double checkDimension(Context context) {
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();
