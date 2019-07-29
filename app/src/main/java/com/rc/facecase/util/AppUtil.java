@@ -64,6 +64,25 @@ public class AppUtil {
         return dp;
     }
 
+    public static int getTabletSize(Context context) {
+        double screenInches = AppUtil.checkDimension(context);
+        int tabletSize = 0;
+        Logger.d(TAG, TAG + ">> screenInches: " + screenInches);
+        if (screenInches > 6 && screenInches < 9) {
+            // 7 inch tablet
+            tabletSize = 7;
+            Logger.d(TAG, TAG + ">> 7 inch tablet");
+        } else if (screenInches > 9) {
+            // 10 inch tablet
+            tabletSize = 10;
+            Logger.d(TAG, TAG + ">> 10 inch tablet");
+        } else {
+            tabletSize = (int) screenInches;
+            Logger.d(TAG, TAG + ">> mobile phone");
+        }
+        return tabletSize;
+    }
+
     public static double checkDimension(Context context) {
         WindowManager windowManager = ((Activity) context).getWindowManager();
         Display display = windowManager.getDefaultDisplay();

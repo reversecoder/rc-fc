@@ -3,17 +3,16 @@ package com.rc.facecase.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.rc.facecase.R;
 import com.rc.facecase.adapter.SubCategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
+import com.rc.facecase.decoration.EqualSpacingItemDecoration;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.util.AllConstants;
@@ -82,6 +81,8 @@ public class PictureSubcategoryActivity extends BaseActivity {
         rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 4) );
         rvSubCategory.setHasFixedSize( true );
         rvSubCategory.scrollToPosition(0);
+        // For spacing among items
+        rvSubCategory.addItemDecoration(new EqualSpacingItemDecoration(16, EqualSpacingItemDecoration.HORIZONTAL));
         initSubCategoryData(pictureCategory);
     }
 

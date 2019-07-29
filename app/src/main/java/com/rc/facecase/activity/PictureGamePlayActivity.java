@@ -193,10 +193,32 @@ public class PictureGamePlayActivity extends BaseActivity {
                             bitmapOriginal = bitmap;
                             if (bitmap.getWidth() > bitmap.getHeight()) {
                                 Logger.d(TAG, "bitmap>> It's landscape image");
-                                bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int)AppUtil.dpToPixel(getActivity(), 150), (int)AppUtil.dpToPixel(getActivity(), 120) , true);
+
+                                // Fix for different devices
+                                int tabletSize = AppUtil.getTabletSize(getActivity());
+                                Logger.d(TAG, "bitmap>> Tablet size: " + tabletSize);
+                                if (tabletSize == 10) {
+                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 220), (int) AppUtil.dpToPixel(getActivity(), 175), true);
+                                } else if (tabletSize == 7) {
+
+                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 180), (int) AppUtil.dpToPixel(getActivity(), 120), true);
+                                } else {
+                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 150), (int) AppUtil.dpToPixel(getActivity(), 100), true);
+                                }
                             } else {
                                 Logger.d(TAG, "bitmap>> It's portrait image");
-                                bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int)AppUtil.dpToPixel(getActivity(), 120), (int)AppUtil.dpToPixel(getActivity(), 150) , true);
+
+                                // Fix for different devices
+                                int tabletSize = AppUtil.getTabletSize(getActivity());
+                                Logger.d(TAG, "bitmap>> Tablet size: " + tabletSize);
+                                if (tabletSize == 10) {
+                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 175), (int) AppUtil.dpToPixel(getActivity(), 220), true);
+                                } else if (tabletSize == 7) {
+
+                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 120), (int) AppUtil.dpToPixel(getActivity(), 180), true);
+                                } else {
+                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 100), (int) AppUtil.dpToPixel(getActivity(), 150), true);
+                                }
                             }
                             Logger.d(TAG, "bitmap>>scaled>> height: " + bitmapScaled.getHeight() + " width: " + bitmapScaled.getWidth());
 
@@ -447,11 +469,11 @@ public class PictureGamePlayActivity extends BaseActivity {
     public void initActivityDestroyTasks() {
         dismissProgressDialog();
 
-        if(bitmapOriginal !=null){
+        if (bitmapOriginal != null) {
             bitmapOriginal.recycle();
         }
 
-        if(bitmapScaled !=null){
+        if (bitmapScaled != null) {
             bitmapScaled.recycle();
         }
 
