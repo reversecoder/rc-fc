@@ -13,6 +13,8 @@ import com.rc.facecase.R;
 import com.rc.facecase.adapter.SubCategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
 import com.rc.facecase.decoration.EqualSpacingItemDecoration;
+import com.rc.facecase.decoration.GridSpacingItemDecoration;
+import com.rc.facecase.decoration.ItemOffsetDecoration;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.util.AllConstants;
@@ -80,9 +82,12 @@ public class PictureSubcategoryActivity extends BaseActivity {
         rvSubCategory.setNestedScrollingEnabled(false);
         rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 4) );
         rvSubCategory.setHasFixedSize( true );
-        rvSubCategory.scrollToPosition(0);
         // For spacing among items
-        rvSubCategory.addItemDecoration(new EqualSpacingItemDecoration(16, EqualSpacingItemDecoration.HORIZONTAL));
+       // rvSubCategory.addItemDecoration(new EqualSpacingItemDecoration(16, EqualSpacingItemDecoration.HORIZONTAL));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.dp_2);
+        rvSubCategory.addItemDecoration(itemDecoration);
+
+        rvSubCategory.scrollToPosition(0);
         initSubCategoryData(pictureCategory);
     }
 

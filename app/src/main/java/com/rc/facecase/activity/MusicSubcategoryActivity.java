@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.rc.facecase.R;
 import com.rc.facecase.adapter.MusicSubCategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
+import com.rc.facecase.decoration.ItemOffsetDecoration;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.util.AllConstants;
 import com.rc.facecase.util.Logger;
@@ -78,6 +79,7 @@ public class MusicSubcategoryActivity extends BaseActivity {
         rvSubCategory.setNestedScrollingEnabled(false);
         rvSubCategory.setLayoutManager( new GridLayoutManager( getActivity(), 4) );
         rvSubCategory.setHasFixedSize( true );
+        rvSubCategory.addItemDecoration(new ItemOffsetDecoration(getActivity(), R.dimen.dp_2));
         rvSubCategory.scrollToPosition(0);
         initSubCategoryData(musicCategory);
     }
