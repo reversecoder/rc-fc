@@ -188,101 +188,84 @@ public class PictureGamePlayActivity extends BaseActivity {
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(final Bitmap bitmap, Transition<? super Bitmap> transition) {
-                            Logger.d(TAG, "bitmap>>original>> height: " + bitmap.getHeight() + " width: " + bitmap.getWidth());
-
-                            bitmapOriginal = bitmap;
-                            if (bitmap.getWidth() > bitmap.getHeight()) {
-                                Logger.d(TAG, "bitmap>> It's landscape image");
-
-                                // Fix for different devices
-                                int tabletSize = AppUtil.getTabletSize(getActivity());
-                                Logger.d(TAG, "bitmap>> Tablet size: " + tabletSize);
-                                if (tabletSize == 10) {
-                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 220), (int) AppUtil.dpToPixel(getActivity(), 175), true);
-                                } else if (tabletSize == 7) {
-
-                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 180), (int) AppUtil.dpToPixel(getActivity(), 120), true);
-                                } else {
-                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 150), (int) AppUtil.dpToPixel(getActivity(), 100), true);
-                                }
-                            } else {
-                                Logger.d(TAG, "bitmap>> It's portrait image");
-
-                                // Fix for different devices
-                                int tabletSize = AppUtil.getTabletSize(getActivity());
-                                Logger.d(TAG, "bitmap>> Tablet size: " + tabletSize);
-                                if (tabletSize == 10) {
-                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 175), (int) AppUtil.dpToPixel(getActivity(), 220), true);
-                                } else if (tabletSize == 7) {
-
-                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 120), (int) AppUtil.dpToPixel(getActivity(), 180), true);
-                                } else {
-                                    bitmapScaled = Bitmap.createScaledBitmap(bitmap, (int) AppUtil.dpToPixel(getActivity(), 100), (int) AppUtil.dpToPixel(getActivity(), 150), true);
-                                }
-                            }
-                            Logger.d(TAG, "bitmap>>scaled>> height: " + bitmapScaled.getHeight() + " width: " + bitmapScaled.getWidth());
-
-                            //you can use loaded bitmap here
-//                            shapeRipple.setVisibility(View.VISIBLE);
-                            ivFlashImage.setImageBitmap(bitmapScaled);
-                            ivFlashImage.setVisibility(View.VISIBLE);
-                            ivLoading.setVisibility(View.GONE);
-
-//                            shapeRipple.setRippleShape(new Image(bitmap));
-//                            shapeRipple.setEnableSingleRipple(true);
-//                            shapeRipple.setEnableRandomPosition(true);
-//                            shapeRipple.setRippleMaximumRadius(400);
-//                            shapeRipple.setRippleCount(1);
-//                            shapeRipple.setRippleDuration(2700);
-
-                            Intent intentMediaService = new Intent(PictureGamePlayActivity.this, MediaPlayingService.class);
-                            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
-//                                    intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
-                            intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TIMER_SET);
-                            startService(intentMediaService);
-
-                            randomFlashManager = new RandomFlashManager(getActivity(), ivFlashImage, firstPlayTime, interval, new RandomFlashManager.RandomFlashListener() {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-                                    Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
-                                    tvCount.setText("" + millisUntilFinished / interval);
+                            if (bitmap != null) {
+                                if (bitmapOriginal != null && !bitmapOriginal.isRecycled()) {
+                                    bitmapOriginal.recycle();
+                                    bitmapOriginal = null;
                                 }
 
-                                @Override
-                                public void onFinish() {
-                                    if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
-                                        Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
-                                        intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-                                        stopService(intentMediaService);
+                                if (bitmapScaled != null && !bitmapScaled.isRecycled()) {
+                                    bitmapScaled.recycle();
+                                    bitmapScaled = null;
+                                }
+
+                                bitmapOriginal = bitmap;
+                                Logger.d(TAG, "bitmap>>original>> height: " + bitmapOriginal.getHeight() + " width: " + bitmapOriginal.getWidth());
+                                if (bitmapOriginal.getWidth() > bitmapOriginal.getHeight()) {
+                                    Logger.d(TAG, "bitmap>> It's landscape image");
+
+                                    // Fix for different devices
+                                    int tabletSize = AppUtil.getTabletSize(getActivity());
+                                    Logger.d(TAG, "bitmap>> Tablet size: " + tabletSize);
+                                    if (tabletSize == 10) {
+                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 220), (int) AppUtil.dpToPixel(getActivity(), 175), true);
+                                    } else if (tabletSize == 7) {
+                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 150), (int) AppUtil.dpToPixel(getActivity(), 120), true);
+                                    } else {
+                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 150), (int) AppUtil.dpToPixel(getActivity(), 100), true);
                                     }
-//                                    shapeRipple.stopRipple();
-                                    randomFlashManager.destroyFlashing();
-                                    initModeView(MODE.PLAY_AGAIN);
-                                }
-                            });
-                            randomFlashManager.startFlashing();
+                                } else {
+                                    Logger.d(TAG, "bitmap>> It's portrait image");
 
-//                            new CountDownTimer(firstPlayTime, interval) {
-//                                public void onTick(long millisUntilFinished) {
-//                                    Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
-//                                    tvCount.setText("" + millisUntilFinished / interval);
-//                                }
-//
-//                                public void onFinish() {
-//                                    //   stopPlaying();
-//                                    if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
-//                                        Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
-//                                        intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-//                                        stopService(intentMediaService);
-//                                    }
+                                    // Fix for different devices
+                                    int tabletSize = AppUtil.getTabletSize(getActivity());
+                                    Logger.d(TAG, "bitmap>> Tablet size: " + tabletSize);
+                                    if (tabletSize == 10) {
+                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 175), (int) AppUtil.dpToPixel(getActivity(), 220), true);
+                                    } else if (tabletSize == 7) {
+                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 120), (int) AppUtil.dpToPixel(getActivity(), 150), true);
+                                    } else {
+                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 100), (int) AppUtil.dpToPixel(getActivity(), 150), true);
+                                    }
+                                }
+                                Logger.d(TAG, "bitmap>>scaled>> height: " + bitmapScaled.getHeight() + " width: " + bitmapScaled.getWidth());
+
+                                //you can use loaded bitmap here
+                                ivFlashImage.setImageBitmap(bitmapScaled);
+                                ivFlashImage.setVisibility(View.VISIBLE);
+                                ivLoading.setVisibility(View.GONE);
+
+                                Intent intentMediaService = new Intent(PictureGamePlayActivity.this, MediaPlayingService.class);
+                                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
+//                                    intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
+                                intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TIMER_SET);
+                                startService(intentMediaService);
+
+                                randomFlashManager = new RandomFlashManager(getActivity(), ivFlashImage, firstPlayTime, interval, new RandomFlashManager.RandomFlashListener() {
+                                    @Override
+                                    public void onTick(long millisUntilFinished) {
+                                        Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
+                                        tvCount.setText("" + millisUntilFinished / interval);
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
+                                            Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
+                                            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                                            stopService(intentMediaService);
+                                        }
 //                                    shapeRipple.stopRipple();
-//                                    initModeView(MODE.PLAY_AGAIN);
-//                                }
-//                            }.start();
+                                        randomFlashManager.destroyFlashing();
+                                        initModeView(MODE.PLAY_AGAIN);
+                                    }
+                                });
+                                randomFlashManager.startFlashing();
+                            }
                         }
                     });
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.d(TAG, "Exception: " + ex.getMessage());
         }
 
         //Check internet connection
@@ -426,25 +409,6 @@ public class PictureGamePlayActivity extends BaseActivity {
                     }
                 });
                 randomFlashManager.startFlashing();
-
-//                new CountDownTimer(secondPlayTime, interval) {
-//
-//                    public void onTick(long millisUntilFinished) {
-//                        Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
-//                        tvCount.setText("" + millisUntilFinished / interval);
-//                    }
-//
-//                    public void onFinish() {
-//                        if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
-//                            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
-//                            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-//                            stopService(intentMediaServiceStop);
-//                        }
-//
-//                        shapeRipple.stopRipple();
-//                        initModeView(MODE.ASK_ANSWER);
-//                    }
-//                }.start();
             }
         });
     }
@@ -469,12 +433,21 @@ public class PictureGamePlayActivity extends BaseActivity {
     public void initActivityDestroyTasks() {
         dismissProgressDialog();
 
-        if (bitmapOriginal != null) {
-            bitmapOriginal.recycle();
-        }
+        try {
+            if (bitmapOriginal != null && !bitmapOriginal.isRecycled()) {
+                bitmapOriginal.recycle();
+                bitmapOriginal = null;
+            }
 
-        if (bitmapScaled != null) {
-            bitmapScaled.recycle();
+            if (bitmapScaled != null && !bitmapScaled.isRecycled()) {
+                bitmapScaled.recycle();
+                bitmapScaled = null;
+            }
+
+            randomFlashManager.destroyFlashing();
+            ivFlashImage.setImageBitmap(null);
+        } catch (Exception ex) {
+            Logger.d(TAG, "exception: " + ex.getMessage());
         }
 
         if (updateUserHistoryTask != null && updateUserHistoryTask.getStatus() == AsyncTask.Status.RUNNING) {
@@ -584,18 +557,4 @@ public class PictureGamePlayActivity extends BaseActivity {
             }
         }
     }
-
-//    private void playingMusic(){
-//        stopPlaying();
-//        mp = MediaPlayer.create(PictureGamePlayActivity.this, R.raw.background);
-//        mp.start();
-//    }
-//
-//    private void stopPlaying() {
-//        if (mp != null) {
-//            mp.stop();
-//            mp.release();
-//            mp = null;
-//        }
-//    }
 }
