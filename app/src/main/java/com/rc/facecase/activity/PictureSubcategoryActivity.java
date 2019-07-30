@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import com.rc.facecase.R;
 import com.rc.facecase.adapter.SubCategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
-import com.rc.facecase.decoration.EqualSpacingItemDecoration;
-import com.rc.facecase.decoration.GridSpacingItemDecoration;
 import com.rc.facecase.decoration.ItemOffsetDecoration;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.model.SubCategory;
@@ -84,7 +82,7 @@ public class PictureSubcategoryActivity extends BaseActivity {
         rvSubCategory.setHasFixedSize( true );
         // For spacing among items
        // rvSubCategory.addItemDecoration(new EqualSpacingItemDecoration(16, EqualSpacingItemDecoration.HORIZONTAL));
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.dp_2);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.dp_2_5);
         rvSubCategory.addItemDecoration(itemDecoration);
 
         rvSubCategory.scrollToPosition(0);

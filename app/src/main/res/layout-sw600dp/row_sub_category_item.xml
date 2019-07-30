@@ -8,11 +8,11 @@
 
     <LinearLayout
         android:id="@+id/ll_subcategory"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_width="170dip"
+        android:layout_height="150dp"
         android:background="@drawable/ic_subcategory"
         android:gravity="center"
-        android:padding="@dimen/dp_10">
+     >
 
         <TextView
             android:id="@+id/tv_subcategory"
@@ -21,7 +21,8 @@
             android:gravity="center"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="28sp"
+            android:textSize="22sp"
+            android:padding="@dimen/dp_5"
             android:textStyle="bold" />
 
     </LinearLayout>

@@ -17,6 +17,7 @@
     <dimen name="dp_1">1dp</dimen>
     <dimen name="dp_1_8">1.8dp</dimen>
     <dimen name="dp_2">2dp</dimen>
+    <dimen name="dp_2_5">2.5dp</dimen>
     <dimen name="dp_3">3dp</dimen>
     <dimen name="dp_4">4dp</dimen>
     <dimen name="dp_5">5dp</dimen>
@@ -44,6 +45,7 @@
     <dimen name="dp_75">75dp</dimen>
     <dimen name="dp_80">80dp</dimen>
     <dimen name="dp_90">90dp</dimen>
+    <dimen name="dp_95">95dp</dimen>
     <dimen name="dp_100">100dp</dimen>
     <dimen name="dp_110">110dp</dimen>
     <dimen name="dp_115">115dp</dimen>
