@@ -189,15 +189,15 @@ public class PictureGamePlayActivity extends BaseActivity {
                         @Override
                         public void onResourceReady(final Bitmap bitmap, Transition<? super Bitmap> transition) {
                             if (bitmap != null) {
-                                if (bitmapOriginal != null && !bitmapOriginal.isRecycled()) {
-                                    bitmapOriginal.recycle();
-                                    bitmapOriginal = null;
-                                }
-
-                                if (bitmapScaled != null && !bitmapScaled.isRecycled()) {
-                                    bitmapScaled.recycle();
-                                    bitmapScaled = null;
-                                }
+//                                if (bitmapOriginal != null && !bitmapOriginal.isRecycled()) {
+//                                    bitmapOriginal.recycle();
+//                                    bitmapOriginal = null;
+//                                }
+//
+//                                if (bitmapScaled != null && !bitmapScaled.isRecycled()) {
+//                                    bitmapScaled.recycle();
+//                                    bitmapScaled = null;
+//                                }
 
                                 bitmapOriginal = bitmap;
                                 Logger.d(TAG, "bitmap>>original>> height: " + bitmapOriginal.getHeight() + " width: " + bitmapOriginal.getWidth());
@@ -431,27 +431,34 @@ public class PictureGamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityDestroyTasks() {
-        dismissProgressDialog();
-
         try {
-            if (bitmapOriginal != null && !bitmapOriginal.isRecycled()) {
-                bitmapOriginal.recycle();
-                bitmapOriginal = null;
+            dismissProgressDialog();
+
+            if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
+                Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+                intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                stopService(intentMediaServiceStop);
             }
 
-            if (bitmapScaled != null && !bitmapScaled.isRecycled()) {
-                bitmapScaled.recycle();
-                bitmapScaled = null;
-            }
+//            if (bitmapOriginal != null && !bitmapOriginal.isRecycled()) {
+//                bitmapOriginal.recycle();
+//                bitmapOriginal = null;
+//            }
+//
+//            if (bitmapScaled != null && !bitmapScaled.isRecycled()) {
+//                bitmapScaled.recycle();
+//                bitmapScaled = null;
+//            }
 
             randomFlashManager.destroyFlashing();
             ivFlashImage.setImageBitmap(null);
+
+            if (updateUserHistoryTask != null && updateUserHistoryTask.getStatus() == AsyncTask.Status.RUNNING) {
+                updateUserHistoryTask.cancel(true);
+            }
+
         } catch (Exception ex) {
             Logger.d(TAG, "exception: " + ex.getMessage());
-        }
-
-        if (updateUserHistoryTask != null && updateUserHistoryTask.getStatus() == AsyncTask.Status.RUNNING) {
-            updateUserHistoryTask.cancel(true);
         }
     }
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
@@ -38,8 +37,6 @@ import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.network.NetworkManager;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
-import com.rodolfonavalon.shaperipplelibrary.ShapeRipple;
-import com.rodolfonavalon.shaperipplelibrary.model.Image;
 
 import org.parceler.Parcels;
 
@@ -58,11 +55,11 @@ public class MusicGamePlayActivity extends BaseActivity {
     private final long firstPlayTime = 7 * 1000, secondPlayTime = 11 * 1000;
     private final long interval = 900;
     private TextView tvCount, tvTitle, tvAnswer;
-    private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec,ivFlashImage;
+    private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec, ivFlashImage;
     private RelativeLayout rlGameMode, rlPlayAgainMode, rlAskAnswerMode, rlAnswerMode;
 
-   // private ShapeRipple shapeRipple;
-   RandomFlashManager randomFlashManager;
+    // private ShapeRipple shapeRipple;
+    RandomFlashManager randomFlashManager;
 
     private LinearLayout linAnswer, linShowAnswer;
     //  private String imageUrl = "http://iexpresswholesale.com/faceoff-games/uploads/pictures/pele.jpg";
@@ -377,7 +374,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
                 getActivity().startService(intentMediaService);
 
-             //   shapeRipple.startRipple();
+                //   shapeRipple.startRipple();
                 initModeView(MODE.GAME);
                 ivLoading.setVisibility(View.GONE);
 
@@ -452,9 +449,25 @@ public class MusicGamePlayActivity extends BaseActivity {
 
     @Override
     public void initActivityDestroyTasks() {
-        dismissProgressDialog();
-        if (updateUserHistoryTask != null && updateUserHistoryTask.getStatus() == AsyncTask.Status.RUNNING) {
-            updateUserHistoryTask.cancel(true);
+        try {
+            dismissProgressDialog();
+
+            if (isServiceRunning(MusicGamePlayActivity.this, MediaService.class)) {
+                Intent intentMediaService = new Intent(MusicGamePlayActivity.this, MediaService.class);
+                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                stopService(intentMediaService);
+            } else if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+                intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                getActivity().stopService(intentMediaServiceStop);
+            }
+
+            if (updateUserHistoryTask != null && updateUserHistoryTask.getStatus() == AsyncTask.Status.RUNNING) {
+                updateUserHistoryTask.cancel(true);
+            }
+
+        } catch (Exception ex) {
+            Logger.d(TAG, "exception: " + ex.getMessage());
         }
     }
 

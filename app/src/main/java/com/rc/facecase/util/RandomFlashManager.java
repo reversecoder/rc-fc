@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.rc.facecase.R;
 
@@ -67,7 +68,8 @@ public class RandomFlashManager {
             mFlashCountDownTimer.cancel();
             mFlashCountDownTimer = null;
         }
-//        ImageBitmapRecycler.recycleBackgroundBitmap((ImageView) mFlashView);
+
+        ImageBitmapRecycler.recycleBackgroundBitmap((ImageView) mFlashView);
     }
 
     public Point getDisplaySize(@NonNull Context context) {
