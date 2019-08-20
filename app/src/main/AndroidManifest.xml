@@ -41,6 +41,12 @@
             android:name=".activity.CategoryActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
+
+        <activity
+            android:name=".activity.AdditionalCategoryActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
+
         <activity
             android:name=".activity.PictureSubcategoryActivity"
             android:screenOrientation="landscape"

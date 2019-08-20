@@ -7,15 +7,16 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rc.facecase.R;
+import com.rc.facecase.adapter.AdditionalCategoryListAdapter;
 import com.rc.facecase.adapter.CategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
+import com.rc.facecase.decoration.ItemOffsetDecoration;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.retrofit.APIClient;
@@ -29,23 +30,19 @@ import com.reversecoder.library.network.NetworkManager;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class CategoryActivity extends BaseActivity {
+public class AdditionalCategoryActivity extends BaseActivity {
 
-    private TextView tvPlayingList;
     private ImageView ivHome;
     private RecyclerView rvCategory;
-    private CategoryListAdapter categoryListAdapter;
+    private AdditionalCategoryListAdapter additionalCategoryListAdapter;
 
     private AppUser mAppUser;
-    Category pictureCategory, musicCategory;
     //Background task
     private APIInterface mApiInterface;
     private GetCategoryListTask getCategoryListTask;
@@ -57,7 +54,7 @@ public class CategoryActivity extends BaseActivity {
 
     @Override
     public int initActivityLayout() {
-        return R.layout.activity_category_screen;
+        return R.layout.activity_additonal_category_screen;
     }
 
     @Override
@@ -78,22 +75,23 @@ public class CategoryActivity extends BaseActivity {
     @Override
     public void initActivityViews() {
         rvCategory = (RecyclerView) findViewById(R.id.rv_category_list);
-        tvPlayingList = (TextView) findViewById(R.id.tv_playing_list);
-//        ivPicturePlay = (ImageView) findViewById(R.id.iv_picture_play);
-//        ivMusicPlay = (ImageView) findViewById(R.id.iv_music_play);
         ivHome = (ImageView) findViewById(R.id.iv_home);
     }
 
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
         mApiInterface = APIClient.getClient(getActivity()).create(APIInterface.class);
-        categoryListAdapter = new CategoryListAdapter(getApplicationContext());
+        additionalCategoryListAdapter = new AdditionalCategoryListAdapter(getApplicationContext());
         rvCategory.setNestedScrollingEnabled(false);
-        rvCategory.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        rvCategory.setHasFixedSize(true);
-        String sBeforePlaying= String.valueOf(Html.fromHtml(getResources().getString(R.string.txt_before_playing_list)));
-        tvPlayingList.setText(sBeforePlaying);
+        rvCategory.setLayoutManager( new GridLayoutManager( getActivity(), 4) );
+        rvCategory.setHasFixedSize( true );
+        // For spacing among items
+        // rvSubCategory.addItemDecoration(new EqualSpacingItemDecoration(16, EqualSpacingItemDecoration.HORIZONTAL));
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.dp_2_5);
+        rvCategory.addItemDecoration(itemDecoration);
+        rvCategory.scrollToPosition(0);
         String appUserID = SessionManager.getStringSetting(getActivity(), AllConstants.SESSION_KEY_USER);
+
         if (!AllSettingsManager.isNullOrEmpty(appUserID)) {
             mAppUser = APIResponse.getResponseObject(appUserID, AppUser.class);
             Logger.d(TAG, TAG + " >>> " + "mAppUser: " + mAppUser.toString());
@@ -145,11 +143,10 @@ public class CategoryActivity extends BaseActivity {
     }
 
     private void initCategoryData(List<Category> categories) {
-        if (categoryListAdapter != null) {
-            categoryListAdapter.addAll(categories);
-            rvCategory.setAdapter(categoryListAdapter);
-
-            categoryListAdapter.notifyDataSetChanged();
+        if (additionalCategoryListAdapter != null) {
+            additionalCategoryListAdapter.addAll(categories);
+            rvCategory.setAdapter(additionalCategoryListAdapter);
+            additionalCategoryListAdapter.notifyDataSetChanged();
         }
     }
 
@@ -198,23 +195,13 @@ public class CategoryActivity extends BaseActivity {
                     if (data != null && data.getSuccess().equalsIgnoreCase("1")) {
                         Logger.d(TAG, "APIResponse(GetCategoryListTask()): onResponse-object = " + data.toString());
 
-
                         if (data.getData().size() > 0) {
-                            List<Category> categoryList = new ArrayList<>();
-                            pictureCategory = data.getData().get(0);
-                            musicCategory = data.getData().get(1);
-                            categoryList.add(pictureCategory);
-                            categoryList.add(musicCategory);
-                            if (categoryList.size()>0 && categoryList !=null) {
-                                initCategoryData(categoryList);
+                            List<Category> additionalCategory = DataUtils.getCategoryList(data.getData());
+                            if (additionalCategory.size()>0 && additionalCategory!=null){
+                                initCategoryData(additionalCategory);
                             }
-
-                            Logger.d(TAG, "pictureCategory onResponse= " + pictureCategory.toString());
-                            Logger.d(TAG, "musicCategory onResponse= " + musicCategory.toString());
+                            Logger.d(TAG, "additionalCategory onResponse= " + additionalCategory.toString());
                         }
-//
-//                        //set count review number
-//                        tvReviewCount.setText(getString(R.string.view_review_count, data.getData().size()));
                     } else {
                         Toast.makeText(getActivity(), getResources().getString(R.string.toast_no_info_found), Toast.LENGTH_SHORT).show();
                     }

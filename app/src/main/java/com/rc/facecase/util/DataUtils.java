@@ -7,6 +7,9 @@ import com.rc.facecase.model.SubCategory;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.rc.facecase.util.AllConstants.CATEGORY_MUSIC;
+import static com.rc.facecase.util.AllConstants.CATEGORY_PICTURE;
+
 public final class DataUtils {
 
     public static List<Items> getItemsList(Category category, String SubCategoryNames) {
@@ -32,6 +35,27 @@ public final class DataUtils {
 
             }
             return null;
+        }
+    }
+
+
+    public static List<Category> getCategoryList(List<Category> categoryList) {
+        {
+            List<Category> categoryLists = new ArrayList<>();
+            if (categoryList!=null) {
+                if (categoryList.size()>0) {
+                    for (int i = 0; i < categoryList.size(); i++) {
+                        if (categoryList.get(i).getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_PICTURE.toLowerCase()) ||
+                                categoryList.get(i).getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_MUSIC.toLowerCase())) {
+
+                        } else {
+                                categoryLists.add(categoryList.get(i));
+                        }
+                    }
+                }
+
+            }
+            return categoryLists;
         }
     }
 }

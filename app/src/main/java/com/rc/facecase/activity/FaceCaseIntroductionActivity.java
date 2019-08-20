@@ -95,9 +95,9 @@ public class FaceCaseIntroductionActivity extends AppCompatActivity {
         ivSkip.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(FaceCaseIntroductionActivity.this, HomeActivity.class);
+                Intent intent = new Intent(FaceCaseIntroductionActivity.this, AdditionalCategoryActivity.class);
                 startActivity(intent);
-                finish();
+               // finish();
             }
         });
 

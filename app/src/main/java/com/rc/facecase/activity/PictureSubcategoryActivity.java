@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.rc.facecase.R;
 import com.rc.facecase.adapter.SubCategoryListAdapter;
@@ -24,15 +25,19 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.rc.facecase.util.AllConstants.CATEGORY_NAME;
+
 public class PictureSubcategoryActivity extends BaseActivity {
 
     private ImageView ivHome,ivBack;
+    private TextView tvTitle;
     private Category pictureCategory;
   //  SubCategory subCategory;
     private List<SubCategory> subCategories = new ArrayList<>();
   //  private NestedScrollView mainScrollView;
     private RecyclerView rvSubCategory;
     private SubCategoryListAdapter subCategoryListAdapter;
+    private String categoryName = "";
     @Override
     public String[] initActivityPermissions() {
         return new String[]{};
@@ -57,6 +62,8 @@ public class PictureSubcategoryActivity extends BaseActivity {
     @Override
     public void initIntentData(Bundle savedInstanceState, Intent intent) {
         if (intent != null) {
+            categoryName = getIntent().getExtras().getString(CATEGORY_NAME);
+
             Parcelable mParcelablePictureCategory = intent.getParcelableExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY);
             if (mParcelablePictureCategory != null) {
                 pictureCategory = Parcels.unwrap(mParcelablePictureCategory);
@@ -71,6 +78,7 @@ public class PictureSubcategoryActivity extends BaseActivity {
         rvSubCategory= (RecyclerView)findViewById(R.id.rv_subcategory);
         ivBack= (ImageView)findViewById(R.id.iv_back);
         ivHome = (ImageView) findViewById(R.id.iv_home);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
     }
 
     @Override
@@ -86,6 +94,7 @@ public class PictureSubcategoryActivity extends BaseActivity {
         rvSubCategory.addItemDecoration(itemDecoration);
 
         rvSubCategory.scrollToPosition(0);
+        tvTitle.setText(categoryName);
         initSubCategoryData(pictureCategory);
     }
 

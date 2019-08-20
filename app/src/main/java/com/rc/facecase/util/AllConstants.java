@@ -5,6 +5,7 @@ public class AllConstants {
     //Category key
     public static final String CATEGORY_PICTURE = "Pictures";
     public static final String CATEGORY_MUSIC = "Music";
+    public static final String CATEGORY_NAME= "CATEGORY_NAME";
 
     public static final String SUB_CATEGORY_NAME = "SUB_CATEGORY_NAME";
     public static final String ANSWER_TITLE = "ANSWER_TITLE";
