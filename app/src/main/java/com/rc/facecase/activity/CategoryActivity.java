@@ -200,11 +200,7 @@ public class CategoryActivity extends BaseActivity {
 
 
                         if (data.getData().size() > 0) {
-                            List<Category> categoryList = new ArrayList<>();
-                            pictureCategory = data.getData().get(0);
-                            musicCategory = data.getData().get(1);
-                            categoryList.add(pictureCategory);
-                            categoryList.add(musicCategory);
+                            List<Category> categoryList = DataUtils.getCategoryList(data.getData(),"1");
                             if (categoryList.size()>0 && categoryList !=null) {
                                 initCategoryData(categoryList);
                             }

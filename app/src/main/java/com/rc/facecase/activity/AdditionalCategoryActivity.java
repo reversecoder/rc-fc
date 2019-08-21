@@ -196,7 +196,7 @@ public class AdditionalCategoryActivity extends BaseActivity {
                         Logger.d(TAG, "APIResponse(GetCategoryListTask()): onResponse-object = " + data.toString());
 
                         if (data.getData().size() > 0) {
-                            List<Category> additionalCategory = DataUtils.getCategoryList(data.getData());
+                            List<Category> additionalCategory = DataUtils.getCategoryList(data.getData(),"2");
                             if (additionalCategory.size()>0 && additionalCategory!=null){
                                 initCategoryData(additionalCategory);
                             }

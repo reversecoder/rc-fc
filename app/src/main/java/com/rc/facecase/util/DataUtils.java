@@ -39,7 +39,7 @@ public final class DataUtils {
     }
 
 
-    public static List<Category> getCategoryList(List<Category> categoryList) {
+    public static List<Category> getCategoryList(List<Category> categoryList, String categorySet) {
         {
             List<Category> categoryLists = new ArrayList<>();
             if (categoryList!=null) {
@@ -47,9 +47,13 @@ public final class DataUtils {
                     for (int i = 0; i < categoryList.size(); i++) {
                         if (categoryList.get(i).getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_PICTURE.toLowerCase()) ||
                                 categoryList.get(i).getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_MUSIC.toLowerCase())) {
-
+                               if (categorySet.equalsIgnoreCase("1")){
+                                   categoryLists.add(categoryList.get(i));
+                               }
                         } else {
+                            if (categorySet.equalsIgnoreCase("2")) {
                                 categoryLists.add(categoryList.get(i));
+                            }
                         }
                     }
                 }
