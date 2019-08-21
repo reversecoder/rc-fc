@@ -17,6 +17,7 @@ import com.rc.facecase.adapter.AdditionalCategoryListAdapter;
 import com.rc.facecase.adapter.CategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
 import com.rc.facecase.decoration.ItemOffsetDecoration;
+import com.rc.facecase.enumeration.MODE;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.retrofit.APIClient;
@@ -196,7 +197,7 @@ public class AdditionalCategoryActivity extends BaseActivity {
                         Logger.d(TAG, "APIResponse(GetCategoryListTask()): onResponse-object = " + data.toString());
 
                         if (data.getData().size() > 0) {
-                            List<Category> additionalCategory = DataUtils.getCategoryList(data.getData(),"2");
+                            List<Category> additionalCategory = DataUtils.getCategoryList(data.getData(), MODE.ADDITIONAL);
                             if (additionalCategory.size()>0 && additionalCategory!=null){
                                 initCategoryData(additionalCategory);
                             }

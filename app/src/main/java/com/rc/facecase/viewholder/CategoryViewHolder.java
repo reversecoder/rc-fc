@@ -64,7 +64,7 @@ public class CategoryViewHolder extends BaseViewHolder<Category> {
                 if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_PICTURE.toLowerCase())) {
                     Intent iFacePlay = new Intent(getContext(), PictureSubcategoryActivity.class);
                     iFacePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(data));
-                    iFacePlay.putExtra(AllConstants.CATEGORY_NAME, "Picture Categories");
+                    iFacePlay.putExtra(AllConstants.CATEGORY_NAME, AllConstants.PICTURE_TITLE );
                     getContext().startActivity(iFacePlay);
                 } else if (data.getCategory_name().trim().toLowerCase().equalsIgnoreCase(CATEGORY_MUSIC.toLowerCase())) {
                     Intent iFaceMusicPlay = new Intent(getContext(), MusicSubcategoryActivity.class);

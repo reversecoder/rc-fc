@@ -48,7 +48,7 @@ public class AdditonalCategoryViewHolder extends BaseViewHolder<Category> {
 
                     Intent iFacePicturePlay = new Intent(getContext(), PictureSubcategoryActivity.class);
                     iFacePicturePlay.putExtra(AllConstants.SESSION_KEY_PICTURE_CATEGORY, Parcels.wrap(data));
-                    iFacePicturePlay.putExtra(AllConstants.CATEGORY_NAME, data.getCategory_name()+ " Categories");
+                    iFacePicturePlay.putExtra(AllConstants.CATEGORY_NAME, data.getCategory_name()+ AllConstants.CATEGORIES_TITLE);
                     getContext().startActivity(iFacePicturePlay);
 
                 Log.e("data>>>>", data.toString() + "");

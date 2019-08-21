@@ -27,6 +27,8 @@
                 android:textAllCaps="true"
                 android:textColor="@color/colorPurpleDark"
                 android:textSize="60sp"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10"
                 android:textStyle="bold|italic" />
 
         </LinearLayout>

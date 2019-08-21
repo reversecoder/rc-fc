@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.rc.facecase.R;
 import com.rc.facecase.adapter.CategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
+import com.rc.facecase.enumeration.MODE;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.model.Category;
 import com.rc.facecase.retrofit.APIClient;
@@ -200,7 +201,7 @@ public class CategoryActivity extends BaseActivity {
 
 
                         if (data.getData().size() > 0) {
-                            List<Category> categoryList = DataUtils.getCategoryList(data.getData(),"1");
+                            List<Category> categoryList = DataUtils.getCategoryList(data.getData(), MODE.PUBLIC);
                             if (categoryList.size()>0 && categoryList !=null) {
                                 initCategoryData(categoryList);
                             }
