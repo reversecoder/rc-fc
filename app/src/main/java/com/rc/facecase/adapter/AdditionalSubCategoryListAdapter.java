@@ -5,9 +5,9 @@ import android.view.ViewGroup;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.rc.facecase.model.Category;
-import com.rc.facecase.viewholder.AdditonalCategoryViewHolder;
-import com.rc.facecase.viewholder.CategoryViewHolder;
+import com.rc.facecase.model.SubCategory;
+import com.rc.facecase.viewholder.AdditionalSubCategoryViewHolder;
+import com.rc.facecase.viewholder.SubCategoryPictureViewHolder;
 
 import java.security.InvalidParameterException;
 
@@ -16,11 +16,13 @@ import java.security.InvalidParameterException;
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
  */
-public class AdditionalCategoryListAdapter extends RecyclerArrayAdapter<Category> {
+public class AdditionalSubCategoryListAdapter extends RecyclerArrayAdapter<SubCategory> {
 
     private static final int VIEW_TYPE_REGULAR = 1;
-    public AdditionalCategoryListAdapter(Context context) {
+
+    public AdditionalSubCategoryListAdapter(Context context) {
         super(context);
+
     }
 
     @Override
@@ -32,7 +34,7 @@ public class AdditionalCategoryListAdapter extends RecyclerArrayAdapter<Category
     public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_REGULAR:
-                return new AdditonalCategoryViewHolder(parent);
+                return new AdditionalSubCategoryViewHolder(parent);
             default:
                 throw new InvalidParameterException();
         }

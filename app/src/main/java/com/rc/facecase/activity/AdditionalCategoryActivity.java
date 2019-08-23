@@ -6,32 +6,27 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rc.facecase.R;
-import com.rc.facecase.adapter.AdditionalCategoryListAdapter;
-import com.rc.facecase.adapter.CategoryListAdapter;
+import com.rc.facecase.adapter.AdditionalSubCategoryListAdapter;
 import com.rc.facecase.base.BaseActivity;
 import com.rc.facecase.decoration.ItemOffsetDecoration;
-import com.rc.facecase.enumeration.MODE;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.model.Category;
+import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.retrofit.APIClient;
 import com.rc.facecase.retrofit.APIInterface;
 import com.rc.facecase.retrofit.APIResponse;
 import com.rc.facecase.util.AllConstants;
-import com.rc.facecase.util.DataUtils;
 import com.rc.facecase.util.Logger;
 import com.reversecoder.library.event.OnSingleClickListener;
 import com.reversecoder.library.network.NetworkManager;
 import com.reversecoder.library.storage.SessionManager;
 import com.reversecoder.library.util.AllSettingsManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,7 +36,7 @@ public class AdditionalCategoryActivity extends BaseActivity {
 
     private ImageView ivHome;
     private RecyclerView rvCategory;
-    private AdditionalCategoryListAdapter additionalCategoryListAdapter;
+    private AdditionalSubCategoryListAdapter additionalSubCategoryListAdapter;
 
     private AppUser mAppUser;
     //Background task
@@ -82,7 +77,7 @@ public class AdditionalCategoryActivity extends BaseActivity {
     @Override
     public void initActivityViewsData(Bundle savedInstanceState) {
         mApiInterface = APIClient.getClient(getActivity()).create(APIInterface.class);
-        additionalCategoryListAdapter = new AdditionalCategoryListAdapter(getApplicationContext());
+        additionalSubCategoryListAdapter = new AdditionalSubCategoryListAdapter(getApplicationContext());
         rvCategory.setNestedScrollingEnabled(false);
         rvCategory.setLayoutManager( new GridLayoutManager( getActivity(), 4) );
         rvCategory.setHasFixedSize( true );
@@ -143,11 +138,11 @@ public class AdditionalCategoryActivity extends BaseActivity {
 
     }
 
-    private void initCategoryData(List<Category> categories) {
-        if (additionalCategoryListAdapter != null) {
-            additionalCategoryListAdapter.addAll(categories);
-            rvCategory.setAdapter(additionalCategoryListAdapter);
-            additionalCategoryListAdapter.notifyDataSetChanged();
+    private void initCategoryData(List<SubCategory> subCategoryList) {
+        if (additionalSubCategoryListAdapter != null) {
+            additionalSubCategoryListAdapter.addAll(subCategoryList);
+            rvCategory.setAdapter(additionalSubCategoryListAdapter);
+            additionalSubCategoryListAdapter.notifyDataSetChanged();
         }
     }
 
@@ -170,7 +165,7 @@ public class AdditionalCategoryActivity extends BaseActivity {
         @Override
         protected Response doInBackground(String... params) {
             try {
-                Call<APIResponse<List<Category>>> call = mApiInterface.apiGetCategoryList(mAppUser.getId());
+                Call<APIResponse<List<Category>>> call = mApiInterface.apiGetAdditionalCategoryList(mAppUser.getId());
                 Response response = call.execute();
                 Logger.d(TAG, TAG + " Category>>> " + "response: " + response);
                 if (response.isSuccessful()) {
@@ -197,7 +192,7 @@ public class AdditionalCategoryActivity extends BaseActivity {
                         Logger.d(TAG, "APIResponse(GetCategoryListTask()): onResponse-object = " + data.toString());
 
                         if (data.getData().size() > 0) {
-                            List<Category> additionalCategory = DataUtils.getCategoryList(data.getData(), MODE.ADDITIONAL);
+                            List<SubCategory> additionalCategory = data.getData().get(0).getSub_categories();
                             if (additionalCategory.size()>0 && additionalCategory!=null){
                                 initCategoryData(additionalCategory);
                             }

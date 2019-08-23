@@ -201,7 +201,7 @@ public class CategoryActivity extends BaseActivity {
 
 
                         if (data.getData().size() > 0) {
-                            List<Category> categoryList = DataUtils.getCategoryList(data.getData(), MODE.PUBLIC);
+                            List<Category> categoryList = data.getData();
                             if (categoryList.size()>0 && categoryList !=null) {
                                 initCategoryData(categoryList);
                             }

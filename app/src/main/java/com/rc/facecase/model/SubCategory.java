@@ -10,6 +10,7 @@ public class SubCategory {
     private String id = "";
     private String category_id = "";
     private String sub_category_name = "";
+    private String is_picture = "";
     private List<Items> items = new ArrayList<>();
 
     public String getId() {
@@ -36,6 +37,14 @@ public class SubCategory {
         this.sub_category_name = sub_category_name;
     }
 
+    public String getIs_picture() {
+        return is_picture;
+    }
+
+    public void setIs_picture(String is_picture) {
+        this.is_picture = is_picture;
+    }
+
     public List<Items> getItems() {
         return items;
     }
@@ -50,6 +59,7 @@ public class SubCategory {
                 "id='" + id + '\'' +
                 ", category_id='" + category_id + '\'' +
                 ", sub_category_name='" + sub_category_name + '\'' +
+                ", is_picture='" + is_picture + '\'' +
                 ", items=" + items +
                 '}';
     }

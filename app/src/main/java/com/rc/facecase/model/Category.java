@@ -9,6 +9,7 @@ import java.util.List;
 public class Category {
     private String id = "";
     private String category_name = "";
+    private String is_paid = "";
     private List<SubCategory> sub_categories = new ArrayList<>();
 
     public String getId() {
@@ -35,11 +36,20 @@ public class Category {
         this.sub_categories = sub_categories;
     }
 
+    public String getIs_paid() {
+        return is_paid;
+    }
+
+    public void setIs_paid(String is_paid) {
+        this.is_paid = is_paid;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
                 "id='" + id + '\'' +
                 ", category_name='" + category_name + '\'' +
+                ", is_paid='" + is_paid + '\'' +
                 ", sub_categories=" + sub_categories +
                 '}';
     }

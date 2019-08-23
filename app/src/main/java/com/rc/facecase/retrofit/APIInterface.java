@@ -23,6 +23,10 @@ public interface APIInterface {
     @POST("addUser")
     Call<APIResponse<List<AppUser>>> apiAddUser(@Body ParamsAppUser paramToken);
 
+
+    @GET("additionaLists/{user_id}")
+    Call<APIResponse<List<Category>>> apiGetAdditionalCategoryList(@Path("user_id") String user_id);
+
     @GET("lists/{user_id}")
     Call<APIResponse<List<Category>>> apiGetCategoryList(@Path("user_id") String user_id);
 
