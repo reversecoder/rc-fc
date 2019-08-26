@@ -150,7 +150,7 @@ public class HomeActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                    initActivityBackPress();
+                                    finish();
                                 }
                             }
                         }).setNegativeButton("Cancel", null).show();
@@ -194,7 +194,17 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void initActivityBackPress() {
-        finish();
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Confirm")
+                .setMessage("Exit Facecase?")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            finish();
+                        }
+                    }
+                }).setNegativeButton("Cancel", null).show();
     }
 
     @Override
