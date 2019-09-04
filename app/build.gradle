@@ -154,4 +154,5 @@ dependencies {
     implementation project(':easyrecyclerview')
     implementation project(':ExoMedia')
     implementation project(':pdialog')
+    implementation project(':androidimageslider')
 }
