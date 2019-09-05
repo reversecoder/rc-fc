@@ -36,7 +36,8 @@ public class FaceCaseIntroductionActivity extends AppCompatActivity {
 
     private String TAG = FaceCaseIntroductionActivity.class.getSimpleName();
     private ImageView ivPlayIntroduction,ivStarBurst, ivSkip, ivHome;
-    private LinearLayout linIntroMian,linSliderLayout;
+    private LinearLayout linIntroMian;
+    private RelativeLayout linSliderLayout;
     private RelativeLayout relCross;
 
     //Image slider
@@ -64,9 +65,9 @@ public class FaceCaseIntroductionActivity extends AppCompatActivity {
     private void initUI() {
         ivPlayIntroduction = (ImageView) findViewById(R.id.iv_play_introduction);
         ivStarBurst = (ImageView) findViewById(R.id.iv_starburst);
-        ivSkip = (ImageView) findViewById(R.id.iv_skip);
+        ivSkip = (ImageView) findViewById(R.id.iv_additional_categories);
         ivHome = (ImageView) findViewById(R.id.iv_home);
-        linSliderLayout = (LinearLayout) findViewById(R.id.lin_slider_layout);
+        linSliderLayout = (RelativeLayout) findViewById(R.id.lin_slider_layout);
         linIntroMian = (LinearLayout) findViewById(R.id.lin_lay_intro_mian);
         relCross = (RelativeLayout) findViewById(R.id.rel_cross);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider_layout);
@@ -145,21 +146,24 @@ public class FaceCaseIntroductionActivity extends AppCompatActivity {
 
     private void initImageSlider() {
         List<Image> foodImages = new ArrayList<>();
-        foodImages.add(new Image("1", "", "", "https://cdn3.tmbi.com/toh/GoogleImages/Southern-Fried-Chicken-with-Gravy_exps33285_THRAA2874593C01_23_1b_RMS.jpg"));
-        foodImages.add(new Image("2", "", "", "https://i.ndtvimg.com/i/2018-02/fries_620x330_51517901541.jpg"));
-        foodImages.add(new Image("3", "", "", "http://bonesuckin.com/BSS-Recipes/wp-content/uploads/2012/05/BBQ-Fried-Chicken-BS_crop-1024x771.jpg"));
-        foodImages.add(new Image("4", "", "", "https://www.cbc.ca/food/content/images/recipes/KoreanChicken.jpg"));
-        foodImages.add(new Image("5", "", "", "http://bonesuckin.com/BSS-Recipes/wp-content/uploads/2012/05/BBQ-Fried-Chicken-BS_crop-1024x771.jpg"));
-        foodImages.add(new Image("6", "", "", "https://cdn3.tmbi.com/toh/GoogleImages/Southern-Fried-Chicken-with-Gravy_exps33285_THRAA2874593C01_23_1b_RMS.jpg"));
-        foodImages.add(new Image("7", "", "", "http://bonesuckin.com/BSS-Recipes/wp-content/uploads/2012/05/BBQ-Fried-Chicken-BS_crop-1024x771.jpg"));
+        foodImages.add(new Image(R.drawable.slider_1));
+        foodImages.add(new Image(R.drawable.slider_2));
+        foodImages.add(new Image(R.drawable.slider_3));
+        foodImages.add(new Image(R.drawable.slider_4));
+        foodImages.add(new Image(R.drawable.slider_5));
+        foodImages.add(new Image(R.drawable.slider_6));
+        foodImages.add(new Image(R.drawable.slider_7));
+        foodImages.add(new Image(R.drawable.slider_8));
+        foodImages.add(new Image(R.drawable.slider_9));
+        foodImages.add(new Image(R.drawable.slider_10));
 
         for (final Image image : foodImages) {
             TextSliderView textSliderView = new TextSliderView(getApplicationContext());
             // initialize a SliderLayout
             textSliderView
-                    .description(image.getId())
+                    .description("")
                     .descriptionVisibility(View.GONE)
-                    .image(image.getImage())
+                    .image(image.getResId())
                     .setScaleType(BaseSliderView.ScaleType.Fit)
                     .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                         @Override
@@ -170,18 +174,18 @@ public class FaceCaseIntroductionActivity extends AppCompatActivity {
                     });
 
             //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra", image.getId());
+//            textSliderView.bundle(new Bundle());
+//            textSliderView.getBundle()
+//                    .putString("extra", image.getId());
 
             mDemoSlider.addSlider(textSliderView);
         }
 
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.getRandomTransform());
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Visible);
         mDemoSlider.setCustomAnimation(new NoDescriptionAnimation());
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setDuration(7000);
+        mDemoSlider.setDuration(5000);
         mDemoSlider.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

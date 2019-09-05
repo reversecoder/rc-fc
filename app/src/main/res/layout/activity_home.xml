@@ -50,7 +50,8 @@
                         android:layout_width="@dimen/dp_60"
                         android:layout_height="@dimen/dp_60"
                         android:layout_marginRight="@dimen/dp_10"
-                        android:src="@drawable/ic_settings" />
+                        android:src="@drawable/ic_settings"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/iv_quit"

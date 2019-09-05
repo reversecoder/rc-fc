@@ -196,6 +196,9 @@ public class SliderLayout extends RelativeLayout{
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
                 switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        pauseAutoCycle();
+                        break;
                      case MotionEvent.ACTION_UP:
                         recoverCycle();
                         break;
@@ -343,7 +346,7 @@ public class SliderLayout extends RelativeLayout{
                     startAutoCycle();
                 }
             };
-            mResumingTimer.schedule(mResumingTask, 6000);
+            mResumingTimer.schedule(mResumingTask, 2000);
         }
     }
 
@@ -355,6 +358,9 @@ public class SliderLayout extends RelativeLayout{
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 pauseAutoCycle();
+                break;
+            case MotionEvent.ACTION_UP:
+                recoverCycle();
                 break;
         }
         return false;
