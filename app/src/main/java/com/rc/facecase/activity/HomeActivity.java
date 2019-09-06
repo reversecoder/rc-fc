@@ -161,7 +161,7 @@ public class HomeActivity extends BaseActivity {
         ivIntroVideo.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(getActivity(), FaceCaseIntroductionActivity.class);
+                Intent intent = new Intent(getActivity(), IntroductionActivity.class);
                 intent.putExtra(KEY_INTENT_EXTRA_HOME, true);
                 startActivity(intent);
                 finish();

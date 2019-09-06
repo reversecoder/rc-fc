@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -32,40 +34,41 @@ import static com.rc.facecase.util.AllConstants.SESSION_INTRODUCTION;
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
  */
-public class FaceCaseIntroductionActivity extends AppCompatActivity {
+public class IntroductionActivity extends AppCompatActivity {
 
-    private String TAG = FaceCaseIntroductionActivity.class.getSimpleName();
-    private ImageView ivPlayIntroduction,ivStarBurst, ivSkip, ivHome;
+    private String TAG = IntroductionActivity.class.getSimpleName();
+    private ImageView ivPlayIntroduction, ivStarBurst, ivAdditionalCategory, ivHome;
     private LinearLayout linIntroMian;
     private RelativeLayout linSliderLayout;
     private RelativeLayout relCross;
 
     //Image slider
     private SliderLayout mDemoSlider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_facecase_introduction);
+        setContentView(R.layout.activity_introduction);
 
         Intent intent = getIntent();
         if (intent != null) {
             boolean isFromHome = intent.getBooleanExtra(KEY_INTENT_EXTRA_HOME, false);
             if (!isFromHome &&
-                    SessionManager.getIntegerSetting(FaceCaseIntroductionActivity.this, SESSION_INTRODUCTION, 0) == 1) {
-                Intent intentHome = new Intent(FaceCaseIntroductionActivity.this, HomeActivity.class);
+                    SessionManager.getIntegerSetting(IntroductionActivity.this, SESSION_INTRODUCTION, 0) == 1) {
+                Intent intentHome = new Intent(IntroductionActivity.this, HomeActivity.class);
                 startActivity(intentHome);
                 finish();
             } else {
                 initUI();
             }
         }
-        SessionManager.setIntegerSetting(FaceCaseIntroductionActivity.this, SESSION_INTRODUCTION, 1);
+        SessionManager.setIntegerSetting(IntroductionActivity.this, SESSION_INTRODUCTION, 1);
     }
 
     private void initUI() {
         ivPlayIntroduction = (ImageView) findViewById(R.id.iv_play_introduction);
         ivStarBurst = (ImageView) findViewById(R.id.iv_starburst);
-        ivSkip = (ImageView) findViewById(R.id.iv_additional_categories);
+        ivAdditionalCategory = (ImageView) findViewById(R.id.iv_additional_categories);
         ivHome = (ImageView) findViewById(R.id.iv_home);
         linSliderLayout = (RelativeLayout) findViewById(R.id.lin_slider_layout);
         linIntroMian = (LinearLayout) findViewById(R.id.lin_lay_intro_mian);
@@ -118,26 +121,23 @@ public class FaceCaseIntroductionActivity extends AppCompatActivity {
         relCross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                linIntroMian.setVisibility(View.VISIBLE);
-                linSliderLayout.setVisibility(View.GONE);
-                mDemoSlider.stopAutoCycle();
-
+                closeSlider();
             }
         });
 
-        ivSkip.setOnClickListener(new OnSingleClickListener() {
+        ivAdditionalCategory.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(FaceCaseIntroductionActivity.this, AdditionalCategoryActivity.class);
+                Intent intent = new Intent(IntroductionActivity.this, AdditionalCategoryActivity.class);
                 startActivity(intent);
-               // finish();
+                // finish();
             }
         });
 
         ivHome.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent intent = new Intent(FaceCaseIntroductionActivity.this, HomeActivity.class);
+                Intent intent = new Intent(IntroductionActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -210,4 +210,36 @@ public class FaceCaseIntroductionActivity extends AppCompatActivity {
 //        //Image slider
 //        mDemoSlider.stopAutoCycle();
 //    }
+
+    private void closeSlider() {
+        Animation animation = AnimationUtils.loadAnimation(IntroductionActivity.this, R.anim.hide_view);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                linIntroMian.setVisibility(View.VISIBLE);
+                linSliderLayout.setVisibility(View.GONE);
+                mDemoSlider.stopAutoCycle();
+                mDemoSlider.removeAllSliders();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        linSliderLayout.startAnimation(animation);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (linSliderLayout.getVisibility() == View.VISIBLE) {
+            closeSlider();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
