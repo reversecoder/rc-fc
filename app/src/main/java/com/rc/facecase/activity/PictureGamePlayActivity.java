@@ -46,8 +46,8 @@ import static com.rc.facecase.util.AppUtil.isServiceRunning;
 
 public class PictureGamePlayActivity extends BaseActivity {
 
-    private final long firstPlayTime = 7 * 1000, secondPlayTime = 11 * 1000;
-    private final long interval = 900;
+    private final long firstPlayTime = 8 * 1000, secondPlayTime = 12 * 1000;
+    private final long interval = 1000;
     private TextView tvCount, tvTitle, tvAnswer;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec, ivFlashImage;
     private RelativeLayout rlGameMode, rlPlayAgainMode, rlAskAnswerMode, rlAnswerMode;
@@ -345,6 +345,12 @@ public class PictureGamePlayActivity extends BaseActivity {
         ivAnswer11sec.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
+                    Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+                    intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                    stopService(intentMediaServiceStop);
+                }
+
                 Intent intentMediaService = new Intent(PictureGamePlayActivity.this, MediaPlayingService.class);
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
                 //   intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
@@ -473,17 +479,17 @@ public class PictureGamePlayActivity extends BaseActivity {
         Logger.d(TAG, TAG + " onResume>>> " + "onResume>>>: ");
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
-            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
-            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-            stopService(intentMediaServiceStop);
-        }
-        Logger.d(TAG, TAG + " onRestart>>> " + "onRestart>>>: ");
-
-    }
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
+//            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+//            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+//            stopService(intentMediaServiceStop);
+//        }
+//        Logger.d(TAG, TAG + " onRestart>>> " + "onRestart>>>: ");
+//
+//    }
 
     @Override
     public void onPause() {

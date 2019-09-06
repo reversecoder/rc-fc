@@ -52,8 +52,8 @@ import static com.rc.facecase.util.AppUtil.isServiceRunning;
 public class MusicGamePlayActivity extends BaseActivity {
 
     // PlayCountDownTimer playCountDownTimer;
-    private final long firstPlayTime = 7 * 1000, secondPlayTime = 11 * 1000;
-    private final long interval = 900;
+    private final long firstPlayTime = 8 * 1000, secondPlayTime = 12 * 1000;
+    private final long interval = 1000;
     private TextView tvCount, tvTitle, tvAnswer;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec, ivFlashImage;
     private RelativeLayout rlGameMode, rlPlayAgainMode, rlAskAnswerMode, rlAnswerMode;
@@ -213,7 +213,7 @@ public class MusicGamePlayActivity extends BaseActivity {
                             Intent intentMediaService = new Intent(getActivity(), MediaService.class);
                             intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
                             intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
-                            getActivity().startService(intentMediaService);
+                            startService(intentMediaService);
 
                             randomFlashManager = new RandomFlashManager(getActivity(), ivFlashImage, firstPlayTime, interval, new RandomFlashManager.RandomFlashListener() {
                                 @Override
@@ -224,8 +224,8 @@ public class MusicGamePlayActivity extends BaseActivity {
 
                                 @Override
                                 public void onFinish() {
-                                    if (isServiceRunning(MusicGamePlayActivity.this, MediaPlayingService.class)) {
-                                        Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
+                                    if (isServiceRunning(MusicGamePlayActivity.this, MediaService.class)) {
+                                        Intent intentMediaService = new Intent(getActivity(), MediaService.class);
                                         intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
                                         stopService(intentMediaService);
                                     }
@@ -282,7 +282,8 @@ public class MusicGamePlayActivity extends BaseActivity {
                     Intent intentMediaService = new Intent(MusicGamePlayActivity.this, MediaService.class);
                     intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
                     stopService(intentMediaService);
-                } else if (isServiceRunning(MusicGamePlayActivity.this, MediaPlayingService.class)) {
+                }
+                if (isServiceRunning(MusicGamePlayActivity.this, MediaPlayingService.class)) {
                     Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
                     intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
                     stopService(intentMediaServiceStop);
@@ -311,9 +312,8 @@ public class MusicGamePlayActivity extends BaseActivity {
 
                 Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
-                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TADA_SET);
-                getActivity().startService(intentMediaService);
+                startService(intentMediaService);
 
                 initModeView(MODE.ANSWER);
 
@@ -342,11 +342,17 @@ public class MusicGamePlayActivity extends BaseActivity {
 //                    stopService(intentMediaService);
 //                }
 
+                if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                    Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+                    intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                    stopService(intentMediaServiceStop);
+                }
+
                 Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TADA_SET);
-                getActivity().startService(intentMediaService);
+                startService(intentMediaService);
 
                 initModeView(MODE.ANSWER);
 
@@ -369,10 +375,16 @@ public class MusicGamePlayActivity extends BaseActivity {
         ivPlay11Sec.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
+                if (isServiceRunning(MusicGamePlayActivity.this, MediaService.class)) {
+                    Intent intentMediaServiceStop = new Intent(getActivity(), MediaService.class);
+                    intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                    stopService(intentMediaServiceStop);
+                }
+
                 Intent intentMediaService = new Intent(getActivity(), MediaService.class);
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
-                getActivity().startService(intentMediaService);
+                startService(intentMediaService);
 
                 //   shapeRipple.startRipple();
                 initModeView(MODE.GAME);
@@ -387,8 +399,8 @@ public class MusicGamePlayActivity extends BaseActivity {
 
                     @Override
                     public void onFinish() {
-                        if (isServiceRunning(MusicGamePlayActivity.this, MediaPlayingService.class)) {
-                            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+                        if (isServiceRunning(MusicGamePlayActivity.this, MediaService.class)) {
+                            Intent intentMediaServiceStop = new Intent(getActivity(), MediaService.class);
                             intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
                             stopService(intentMediaServiceStop);
                         }
@@ -438,10 +450,11 @@ public class MusicGamePlayActivity extends BaseActivity {
             Intent intentMediaService = new Intent(MusicGamePlayActivity.this, MediaService.class);
             intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
             stopService(intentMediaService);
-        } else if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+        }
+        if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
             Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
             intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-            getActivity().stopService(intentMediaServiceStop);
+            stopService(intentMediaServiceStop);
         }
         finish();
 
@@ -456,10 +469,11 @@ public class MusicGamePlayActivity extends BaseActivity {
                 Intent intentMediaService = new Intent(MusicGamePlayActivity.this, MediaService.class);
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
                 stopService(intentMediaService);
-            } else if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+            }
+            if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
                 Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
                 intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-                getActivity().stopService(intentMediaServiceStop);
+                stopService(intentMediaServiceStop);
             }
 
             if (updateUserHistoryTask != null && updateUserHistoryTask.getStatus() == AsyncTask.Status.RUNNING) {
@@ -483,23 +497,23 @@ public class MusicGamePlayActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        if (isServiceRunning(getActivity(), MediaService.class)) {
-            Intent intentMediaService = new Intent(getActivity(), MediaService.class);
-            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-            getActivity().stopService(intentMediaService);
-        } else if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
-            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
-            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-            getActivity().stopService(intentMediaServiceStop);
-        }
-        Logger.d(TAG, TAG + " onRestart>>> " + "onRestart>>>: ");
-
-        //  Log.e("onRestart>>>", "onRestart");
-
-    }
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        if (isServiceRunning(getActivity(), MediaService.class)) {
+//            Intent intentMediaService = new Intent(getActivity(), MediaService.class);
+//            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+//            stopService(intentMediaService);
+//        } else if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+//            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+//            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+//            stopService(intentMediaServiceStop);
+//        }
+//        Logger.d(TAG, TAG + " onRestart>>> " + "onRestart>>>: ");
+//
+//        //  Log.e("onRestart>>>", "onRestart");
+//
+//    }
 
     @Override
     public void onPause() {
@@ -508,11 +522,12 @@ public class MusicGamePlayActivity extends BaseActivity {
             if (isServiceRunning(getActivity(), MediaService.class)) {
                 Intent intentMediaService = new Intent(getActivity(), MediaService.class);
                 intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-                getActivity().stopService(intentMediaService);
-            } else if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
+                stopService(intentMediaService);
+            }
+            if (isServiceRunning(getActivity(), MediaPlayingService.class)) {
                 Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
                 intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-                getActivity().stopService(intentMediaServiceStop);
+                stopService(intentMediaServiceStop);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -539,7 +554,7 @@ public class MusicGamePlayActivity extends BaseActivity {
         Intent intentMediaService = new Intent(getActivity(), MediaService.class);
         intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
         intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
-        getActivity().startService(intentMediaService);
+        startService(intentMediaService);
     }
 
     /************************
