@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.rc.facecase.R;
 import com.rc.facecase.base.BaseActivity;
+import com.rc.facecase.enumeration.CategoryType;
 import com.rc.facecase.enumeration.MODE;
 import com.rc.facecase.model.AppUser;
 import com.rc.facecase.model.Items;
@@ -41,6 +43,7 @@ import org.parceler.Parcels;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.rc.facecase.util.AllConstants.INTENT_KEY_CATEGORY_TYPE;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_NAME;
 import static com.rc.facecase.util.AppUtil.isServiceRunning;
 
@@ -48,15 +51,17 @@ public class PictureGamePlayActivity extends BaseActivity {
 
     private final long firstPlayTime = 8 * 1000, secondPlayTime = 12 * 1000;
     private final long interval = 1000;
-    private TextView tvCount, tvTitle, tvAnswer;
+    private TextView tvCount, tvTitle, tvAnswer,tvBuyThisCategory;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec, ivFlashImage;
     private RelativeLayout rlGameMode, rlPlayAgainMode, rlAskAnswerMode, rlAnswerMode;
+    private LinearLayout linTakeAbout30Second;
     //    private ShapeRipple shapeRipple;
     RandomFlashManager randomFlashManager;
     private String subCategoryName = "";
     private AppUser mAppUser;
     private Items items;
     private Bitmap bitmapOriginal, bitmapScaled;
+    private CategoryType mCategoryType;
 
     //Background task
     private APIInterface mApiInterface;
@@ -87,6 +92,11 @@ public class PictureGamePlayActivity extends BaseActivity {
     public void initIntentData(Bundle savedInstanceState, Intent intent) {
         if (intent != null) {
             subCategoryName = getIntent().getExtras().getString(SUB_CATEGORY_NAME);
+            String mParcelableCategoryType = intent.getStringExtra(INTENT_KEY_CATEGORY_TYPE);
+            if (!AllSettingsManager.isNullOrEmpty(mParcelableCategoryType)) {
+                mCategoryType = CategoryType.valueOf(mParcelableCategoryType);
+                Logger.d(TAG, TAG + " >>> " + "mCategoryType: " + mParcelableCategoryType);
+            }
             Parcelable mParcelableItem = intent.getParcelableExtra(AllConstants.INTENT_KEY_ITEM);
             if (mParcelableItem != null) {
                 items = Parcels.unwrap(mParcelableItem);
@@ -112,12 +122,32 @@ public class PictureGamePlayActivity extends BaseActivity {
         tvAnswer = (TextView) findViewById(R.id.tv_answer);
         ivAnswer = (ImageView) findViewById(R.id.iv_answer);
         tvCount = (TextView) findViewById(R.id.tv_count);
+        tvBuyThisCategory = (TextView) findViewById(R.id.tv_buy_this_category);
         rlGameMode = (RelativeLayout) findViewById(R.id.rl_game_mode);
         rlPlayAgainMode = (RelativeLayout) findViewById(R.id.rl_play_again_mode);
         rlAskAnswerMode = (RelativeLayout) findViewById(R.id.rl_ask_answer_mode);
         rlAnswerMode = (RelativeLayout) findViewById(R.id.rl_answer_mode);
+        linTakeAbout30Second = (LinearLayout) findViewById(R.id.lin_take_about_30second);
 
         initModeView(MODE.GAME);
+        initCheckCategoryView();
+    }
+
+    private void initCheckCategoryView() {
+        if (mCategoryType != null){
+            switch (mCategoryType){
+                case PICTURE_TO_CATEGORY:
+                    tvBuyThisCategory.setVisibility(View.GONE);
+                    ivPlay11Sec.setVisibility(View.VISIBLE);
+                    linTakeAbout30Second.setVisibility(View.VISIBLE);
+                    break;
+                case ADDITIONAL_TO_CATEGORY:
+                    tvBuyThisCategory.setVisibility(View.VISIBLE);
+                    ivPlay11Sec.setVisibility(View.GONE);
+                    linTakeAbout30Second.setVisibility(View.GONE);
+                    break;
+            }
+        }
     }
 
     private void initModeView(MODE mode) {

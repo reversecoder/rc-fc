@@ -39,7 +39,7 @@ import static com.rc.facecase.util.AllConstants.KEY_INTENT_EXTRA_HOME;
 
 public class HomeActivity extends BaseActivity {
 
-    private ImageView ivPlay, ivQuit, ivIntroVideo;
+    private ImageView ivPlay, ivQuit, ivIntroVideo,ivWatchSample;
     //Background task
     private APIInterface mApiInterface;
     private RegisterAppUserTask registerAppUserTask;
@@ -77,6 +77,7 @@ public class HomeActivity extends BaseActivity {
         ivPlay = (ImageView) findViewById(R.id.iv_play);
         ivQuit = (ImageView) findViewById(R.id.iv_quit);
         ivIntroVideo = (ImageView) findViewById(R.id.iv_intro_video);
+        ivWatchSample = (ImageView) findViewById(R.id.iv_watch_sample);
     }
 
     @Override
@@ -162,6 +163,16 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onSingleClick(View view) {
                 Intent intent = new Intent(getActivity(), IntroductionActivity.class);
+                intent.putExtra(KEY_INTENT_EXTRA_HOME, true);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        ivWatchSample.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                Intent intent = new Intent(getActivity(), WatchSampleActivity.class);
                 intent.putExtra(KEY_INTENT_EXTRA_HOME, true);
                 startActivity(intent);
                 finish();

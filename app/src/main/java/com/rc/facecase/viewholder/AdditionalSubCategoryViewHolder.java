@@ -12,6 +12,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.rc.facecase.R;
 import com.rc.facecase.activity.MusicGamePlayActivity;
 import com.rc.facecase.activity.PictureGamePlayActivity;
+import com.rc.facecase.enumeration.CategoryType;
 import com.rc.facecase.model.Items;
 import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.util.AllConstants;
@@ -20,6 +21,8 @@ import com.rc.facecase.util.Logger;
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import static com.rc.facecase.util.AllConstants.INTENT_KEY_CATEGORY_TYPE;
 
 /**
  * @author Md. Rashadul Alam
@@ -101,6 +104,7 @@ public class AdditionalSubCategoryViewHolder extends BaseViewHolder<SubCategory>
         } else {
             iFacePlay = new Intent(getContext(), MusicGamePlayActivity.class);
         }
+        iFacePlay.putExtra(INTENT_KEY_CATEGORY_TYPE, CategoryType.ADDITIONAL_TO_CATEGORY.name());
         iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
         iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(item));
         getContext().startActivity(iFacePlay);

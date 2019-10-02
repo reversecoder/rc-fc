@@ -22,6 +22,7 @@ public class AllConstants {
 
     //Intent keys
     public static final String INTENT_KEY_ITEM = "INTENT_KEY_ITEM";
+    public static final String INTENT_KEY_CATEGORY_TYPE = "INTENT_KEY_CATEGORY_TYPE";
     //Intent extra
     public static final String KEY_INTENT_EXTRA_ACTION = "KEY_INTENT_EXTRA_ACTION";
     public static final String KEY_INTENT_EXTRA_MUSIC = "KEY_INTENT_EXTRA_MUSIC";

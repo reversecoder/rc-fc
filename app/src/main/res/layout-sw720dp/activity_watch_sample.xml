@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,10 +24,10 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_facecase_introduction"
+                android:text="@string/txt_facecase_watch_sample"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="25sp"
+                android:textSize="80sp"
                 android:textStyle="bold|italic" />
 
         </LinearLayout>
@@ -35,35 +35,48 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".6"
+            android:layout_weight=".60"
             android:descendantFocusability="blocksDescendants">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="@dimen/dp_5">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="380dp"
                     android:layout_margin="@dimen/dp_10"
                     android:orientation="horizontal"
-                    android:padding="@dimen/dp_10">
+                    android:padding="@dimen/dp_5">
 
+                    <LinearLayout
+                        android:layout_width="0dip"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:layout_weight=".3"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/iv_starburst"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/ic_starburst" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dip"
                         android:layout_height="match_parent"
                         android:layout_weight=".3"
-                        android:background="@drawable/youtube_thumbnail"
                         android:gravity="center">
 
                         <ImageView
-                            android:id="@+id/iv_play_introduction"
-                            android:layout_width="90dp"
-                            android:layout_height="80dp"
-                            android:background="@drawable/youtube_play_icon" />
+                            android:id="@+id/iv_additional_categories"
+                            android:layout_width="360dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_additional_categories" />
 
                     </LinearLayout>
 
@@ -82,8 +95,8 @@
 
             <ImageView
                 android:id="@+id/iv_home"
-                android:layout_width="@dimen/dp_60"
-                android:layout_height="@dimen/dp_60"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_gravity="left|center_vertical"
                 android:src="@drawable/ic_home" />
 
@@ -133,4 +146,4 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

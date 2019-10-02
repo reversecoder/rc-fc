@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.rc.facecase.R;
 import com.rc.facecase.activity.PictureGamePlayActivity;
+import com.rc.facecase.enumeration.CategoryType;
 import com.rc.facecase.model.Items;
 import com.rc.facecase.model.SubCategory;
 import com.rc.facecase.util.AllConstants;
@@ -19,6 +20,8 @@ import com.rc.facecase.util.Logger;
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import static com.rc.facecase.util.AllConstants.INTENT_KEY_CATEGORY_TYPE;
 
 /**
  * @author Md. Rashadul Alam
@@ -95,6 +98,7 @@ public class SubCategoryPictureViewHolder extends BaseViewHolder<SubCategory> {
 
     private void switchActivity(String subCategoryName, Items item) {
         Intent iFacePlay = new Intent(getContext(), PictureGamePlayActivity.class);
+        iFacePlay.putExtra(INTENT_KEY_CATEGORY_TYPE, CategoryType.PICTURE_TO_CATEGORY.name());
         iFacePlay.putExtra(AllConstants.SUB_CATEGORY_NAME, subCategoryName);
         iFacePlay.putExtra(AllConstants.INTENT_KEY_ITEM, Parcels.wrap(item));
         getContext().startActivity(iFacePlay);

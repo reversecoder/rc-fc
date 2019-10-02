@@ -46,6 +46,10 @@
             android:name=".activity.AdditionalCategoryActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
+        <activity
+            android:name=".activity.WatchSampleActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen" />
 
         <activity
             android:name=".activity.PictureSubcategoryActivity"
