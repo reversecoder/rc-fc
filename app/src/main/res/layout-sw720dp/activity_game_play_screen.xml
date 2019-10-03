@@ -157,24 +157,14 @@
                                 android:layout_height="120dp"
                                 android:layout_marginRight="@dimen/dp_30"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/ic_answer1" />
+                                android:background="@drawable/ic_answer1" />
 
                             <ImageView
                                 android:id="@+id/iv_play_11sec"
                                 android:layout_width="360dp"
                                 android:layout_height="120dp"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/ic_play11sec1" />
-
-                            <TextView
-                                android:id="@+id/tv_buy_this_category"
-                                android:layout_width="360dp"
-                                android:layout_height="120dp"
-                                android:text="@string/txt_buy_this_category"
-                                android:textColor="@color/color_white"
-                                android:textSize="20sp"
-                                android:textStyle="bold|italic"
-                                android:visibility="gone"/>
+                                android:background="@drawable/ic_play11sec1" />
 
                         </LinearLayout>
 

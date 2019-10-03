@@ -43,6 +43,7 @@ import org.parceler.Parcels;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static com.rc.facecase.enumeration.CategoryType.PICTURE_TO_CATEGORY;
 import static com.rc.facecase.util.AllConstants.INTENT_KEY_CATEGORY_TYPE;
 import static com.rc.facecase.util.AllConstants.SUB_CATEGORY_NAME;
 import static com.rc.facecase.util.AppUtil.isServiceRunning;
@@ -51,7 +52,7 @@ public class PictureGamePlayActivity extends BaseActivity {
 
     private final long firstPlayTime = 8 * 1000, secondPlayTime = 12 * 1000;
     private final long interval = 1000;
-    private TextView tvCount, tvTitle, tvAnswer,tvBuyThisCategory;
+    private TextView tvCount, tvTitle, tvAnswer;
     private ImageView ivBack, ivHome, ivLoading, ivAnswer, ivAnswer11sec, ivPlay11Sec, ivAnswer7sec, ivFlashImage;
     private RelativeLayout rlGameMode, rlPlayAgainMode, rlAskAnswerMode, rlAnswerMode;
     private LinearLayout linTakeAbout30Second;
@@ -122,7 +123,6 @@ public class PictureGamePlayActivity extends BaseActivity {
         tvAnswer = (TextView) findViewById(R.id.tv_answer);
         ivAnswer = (ImageView) findViewById(R.id.iv_answer);
         tvCount = (TextView) findViewById(R.id.tv_count);
-        tvBuyThisCategory = (TextView) findViewById(R.id.tv_buy_this_category);
         rlGameMode = (RelativeLayout) findViewById(R.id.rl_game_mode);
         rlPlayAgainMode = (RelativeLayout) findViewById(R.id.rl_play_again_mode);
         rlAskAnswerMode = (RelativeLayout) findViewById(R.id.rl_ask_answer_mode);
@@ -134,16 +134,14 @@ public class PictureGamePlayActivity extends BaseActivity {
     }
 
     private void initCheckCategoryView() {
-        if (mCategoryType != null){
-            switch (mCategoryType){
+        if (mCategoryType != null) {
+            switch (mCategoryType) {
                 case PICTURE_TO_CATEGORY:
-                    tvBuyThisCategory.setVisibility(View.GONE);
-                    ivPlay11Sec.setVisibility(View.VISIBLE);
+                    ivPlay11Sec.setBackgroundResource(R.drawable.ic_play11sec1);
                     linTakeAbout30Second.setVisibility(View.VISIBLE);
                     break;
                 case ADDITIONAL_TO_CATEGORY:
-                    tvBuyThisCategory.setVisibility(View.VISIBLE);
-                    ivPlay11Sec.setVisibility(View.GONE);
+                    ivPlay11Sec.setBackgroundResource(R.drawable.ic_buy_this_category);
                     linTakeAbout30Second.setVisibility(View.GONE);
                     break;
             }
@@ -414,37 +412,42 @@ public class PictureGamePlayActivity extends BaseActivity {
                     intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
                     stopService(intentMediaServiceStop);
                 }
-                Intent intentMediaService = new Intent(PictureGamePlayActivity.this, MediaPlayingService.class);
-                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
-                //   intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
-                intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TIMER_SET);
-                startService(intentMediaService);
+
+                if (mCategoryType == PICTURE_TO_CATEGORY) {
+                    Intent intentMediaService = new Intent(PictureGamePlayActivity.this, MediaPlayingService.class);
+                    intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
+                    //   intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
+                    intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TIMER_SET);
+                    startService(intentMediaService);
 
 //                shapeRipple.startRipple();
-                initModeView(MODE.GAME);
-                ivLoading.setVisibility(View.GONE);
+                    initModeView(MODE.GAME);
+                    ivLoading.setVisibility(View.GONE);
 
-                randomFlashManager = new RandomFlashManager(getActivity(), ivFlashImage, secondPlayTime, interval, new RandomFlashManager.RandomFlashListener() {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
-                        tvCount.setText("" + millisUntilFinished / interval);
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
-                            Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
-                            intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-                            stopService(intentMediaServiceStop);
+                    randomFlashManager = new RandomFlashManager(getActivity(), ivFlashImage, secondPlayTime, interval, new RandomFlashManager.RandomFlashListener() {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
+                            tvCount.setText("" + millisUntilFinished / interval);
                         }
 
+                        @Override
+                        public void onFinish() {
+                            if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
+                                Intent intentMediaServiceStop = new Intent(getActivity(), MediaPlayingService.class);
+                                intentMediaServiceStop.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                                stopService(intentMediaServiceStop);
+                            }
+
 //                        shapeRipple.stopRipple();
-                        randomFlashManager.destroyFlashing();
-                        initModeView(MODE.ASK_ANSWER);
-                    }
-                });
-                randomFlashManager.startFlashing();
+                            randomFlashManager.destroyFlashing();
+                            initModeView(MODE.ASK_ANSWER);
+                        }
+                    });
+                    randomFlashManager.startFlashing();
+                } else {
+                    Toast.makeText(getActivity(), "Buy this category", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

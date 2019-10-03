@@ -118,7 +118,7 @@
 
                     <ImageView
                         android:id="@+id/iv_play"
-                        android:layout_width="290dp"
+                        android:layout_width="280dp"
                         android:layout_height="80dp"
                         android:layout_marginBottom="@dimen/dp_5"
                         android:scaleType="fitXY"
@@ -126,14 +126,14 @@
 
                     <ImageView
                         android:id="@+id/iv_watch_sample"
-                        android:layout_width="290dp"
+                        android:layout_width="280dp"
                         android:layout_height="80dp"
                         android:layout_marginBottom="@dimen/dp_5"
-                        android:src="@drawable/ic_play2" />
+                        android:src="@drawable/ic_watch_sample" />
 
                     <ImageView
                         android:id="@+id/iv_intro_video"
-                        android:layout_width="290dp"
+                        android:layout_width="280dp"
                         android:layout_height="80dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/ic_play2" />
