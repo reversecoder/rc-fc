@@ -100,12 +100,12 @@ public class RandomFlashManager {
                         } else if (screenInches > 9) {
                             // 10 inch tablet
                             Logger.d(TAG, TAG + ">> 10 inch tablet");
-                            boundX = getDisplaySize(mActivity).x - (4 * lWidth) / 2;
-                            boundY = getDisplaySize(mActivity).y - (4 * lHeight) / 2;
+                            boundX = getDisplaySize(mActivity).x - (3 * lWidth) / 2;
+                            boundY = getDisplaySize(mActivity).y - (3 * lHeight) / 2;
                         } else {
                             Logger.d(TAG, TAG + ">> mobile phone");
-                            boundX = getDisplaySize(mActivity).x - (4 * lWidth) / 2;
-                            boundY = getDisplaySize(mActivity).y - (4 * lHeight) / 2;
+                            boundX = getDisplaySize(mActivity).x - (3 * lWidth) / 2;
+                            boundY = getDisplaySize(mActivity).y - (3 * lHeight) / 2;
                         }
                         Logger.d(TAG, TAG + ">> boundX: " + boundX + "\nboundY: " + boundY);
 
