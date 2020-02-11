@@ -28,7 +28,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         // define your base Applications name here
-        resValue 'string', 'app_name', 'FaceCase'
+        resValue 'string', 'app_name', 'Face Case'
     }
 
     buildTypes {
