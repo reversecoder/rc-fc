@@ -258,7 +258,7 @@
                             android:id="@+id/iv_answer"
                             android:layout_width="200dp"
                             android:layout_height="200dp"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="fitXY" />
 
                         <TextView
                             android:id="@+id/tv_answer"

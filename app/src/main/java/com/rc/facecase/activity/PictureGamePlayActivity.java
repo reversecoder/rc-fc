@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -205,7 +207,7 @@ public class PictureGamePlayActivity extends BaseActivity {
                     .load(R.drawable.gif_loading)
                     .into(ivLoading);
 
-            AppUtil.loadImage(getApplicationContext(), ivAnswer, items.getSource(), false, false, false);
+//            AppUtil.loadImage(getApplicationContext(), ivAnswer, items.getSource(), false, false, false);
 
             Glide
                     .with(PictureGamePlayActivity.this)
@@ -217,18 +219,11 @@ public class PictureGamePlayActivity extends BaseActivity {
                         @Override
                         public void onResourceReady(final Bitmap bitmap, Transition<? super Bitmap> transition) {
                             if (bitmap != null) {
-//                                if (bitmapOriginal != null && !bitmapOriginal.isRecycled()) {
-//                                    bitmapOriginal.recycle();
-//                                    bitmapOriginal = null;
-//                                }
-//
-//                                if (bitmapScaled != null && !bitmapScaled.isRecycled()) {
-//                                    bitmapScaled.recycle();
-//                                    bitmapScaled = null;
-//                                }
-
                                 bitmapOriginal = bitmap;
                                 Logger.d(TAG, "bitmap>>original>> height: " + bitmapOriginal.getHeight() + " width: " + bitmapOriginal.getWidth());
+
+                                // Find optimal size of image
+                                int optimizedWidth = 0, optimizedHeight = 0;
                                 if (bitmapOriginal.getWidth() > bitmapOriginal.getHeight()) {
                                     Logger.d(TAG, "bitmap>> It's landscape image");
 
@@ -236,11 +231,17 @@ public class PictureGamePlayActivity extends BaseActivity {
                                     int tabletSize = AppUtil.getTabletSize(getActivity());
                                     Logger.d(TAG, "bitmap>> Tablet size: " + tabletSize);
                                     if (tabletSize == 10) {
-                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 330), (int) AppUtil.dpToPixel(getActivity(), 280), true);
+                                        optimizedWidth = (int) AppUtil.dpToPixel(getActivity(), 330);
+                                        optimizedHeight = (int) AppUtil.dpToPixel(getActivity(), 280);
+//                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 330), (int) AppUtil.dpToPixel(getActivity(), 280), true);
                                     } else if (tabletSize == 7) {
-                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 230), (int) AppUtil.dpToPixel(getActivity(), 200), true);
+                                        optimizedWidth = (int) AppUtil.dpToPixel(getActivity(), 230);
+                                        optimizedHeight = (int) AppUtil.dpToPixel(getActivity(), 200);
+//                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 230), (int) AppUtil.dpToPixel(getActivity(), 200), true);
                                     } else {
-                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 180), (int) AppUtil.dpToPixel(getActivity(), 130), true);
+                                        optimizedWidth = (int) AppUtil.dpToPixel(getActivity(), 180);
+                                        optimizedHeight = (int) AppUtil.dpToPixel(getActivity(), 130);
+//                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 180), (int) AppUtil.dpToPixel(getActivity(), 130), true);
                                     }
                                 } else {
                                     Logger.d(TAG, "bitmap>> It's portrait image");
@@ -249,46 +250,70 @@ public class PictureGamePlayActivity extends BaseActivity {
                                     int tabletSize = AppUtil.getTabletSize(getActivity());
                                     Logger.d(TAG, "bitmap>> Tablet size: " + tabletSize);
                                     if (tabletSize == 10) {
-                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 280), (int) AppUtil.dpToPixel(getActivity(), 330), true);
+                                        optimizedWidth = (int) AppUtil.dpToPixel(getActivity(), 280);
+                                        optimizedHeight = (int) AppUtil.dpToPixel(getActivity(), 330);
+//                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 280), (int) AppUtil.dpToPixel(getActivity(), 330), true);
                                     } else if (tabletSize == 7) {
-                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 200), (int) AppUtil.dpToPixel(getActivity(), 230), true);
+                                        optimizedWidth = (int) AppUtil.dpToPixel(getActivity(), 200);
+                                        optimizedHeight = (int) AppUtil.dpToPixel(getActivity(), 230);
+//                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 200), (int) AppUtil.dpToPixel(getActivity(), 230), true);
                                     } else {
-                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 130), (int) AppUtil.dpToPixel(getActivity(), 180), true);
+                                        optimizedWidth = (int) AppUtil.dpToPixel(getActivity(), 130);
+                                        optimizedHeight = (int) AppUtil.dpToPixel(getActivity(), 180);
+//                                        bitmapScaled = Bitmap.createScaledBitmap(bitmapOriginal, (int) AppUtil.dpToPixel(getActivity(), 130), (int) AppUtil.dpToPixel(getActivity(), 180), true);
                                     }
                                 }
-                                Logger.d(TAG, "bitmap>>scaled>> height: " + bitmapScaled.getHeight() + " width: " + bitmapScaled.getWidth());
 
-                                //you can use loaded bitmap here
-                                ivFlashImage.setImageBitmap(bitmapScaled);
-                                ivFlashImage.setVisibility(View.VISIBLE);
-                                ivLoading.setVisibility(View.GONE);
+                                // Use optimal size to load scaled bitmap
+                                Glide
+                                        .with(PictureGamePlayActivity.this)
+                                        .asBitmap()
+                                        .load(items.getSource())
+                                        .override(optimizedWidth, optimizedHeight)
+                                        .into(new SimpleTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                if (resource != null) {
+                                                    bitmapScaled = resource;
+                                                    Logger.d(TAG, "bitmap>>scaled>> height: " + bitmapScaled.getHeight() + " width: " + bitmapScaled.getWidth());
 
-                                Intent intentMediaService = new Intent(PictureGamePlayActivity.this, MediaPlayingService.class);
-                                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
+                                                    //you can use loaded bitmap here
+                                                    ivFlashImage.setImageBitmap(bitmapScaled);
+                                                    ivFlashImage.setVisibility(View.VISIBLE);
+                                                    ivLoading.setVisibility(View.GONE);
+
+                                                    Intent intentMediaService = new Intent(PictureGamePlayActivity.this, MediaPlayingService.class);
+                                                    intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_START);
 //                                    intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_MUSIC, Parcels.wrap(items));
-                                intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TIMER_SET);
-                                startService(intentMediaService);
+                                                    intentMediaService.putExtra(AllConstants.KEY_INTENT_BACKGROUND_MUSIC_SET, AllConstants.BACKGROUND_MUSIC_TIMER_SET);
+                                                    startService(intentMediaService);
 
-                                randomFlashManager = new RandomFlashManager(getActivity(), ivFlashImage, firstPlayTime, interval, new RandomFlashManager.RandomFlashListener() {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
-                                        Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
-                                        tvCount.setText("" + millisUntilFinished / interval);
-                                    }
+                                                    randomFlashManager = new RandomFlashManager(getActivity(), ivFlashImage, firstPlayTime, interval, new RandomFlashManager.RandomFlashListener() {
+                                                        @Override
+                                                        public void onTick(long millisUntilFinished) {
+                                                            Logger.d(TAG, TAG + " >>> " + "leftSeconds>>>: " + millisUntilFinished / interval);
+                                                            tvCount.setText("" + millisUntilFinished / interval);
+                                                        }
 
-                                    @Override
-                                    public void onFinish() {
-                                        if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
-                                            Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
-                                            intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
-                                            stopService(intentMediaService);
-                                        }
+                                                        @Override
+                                                        public void onFinish() {
+                                                            if (isServiceRunning(PictureGamePlayActivity.this, MediaPlayingService.class)) {
+                                                                Intent intentMediaService = new Intent(getActivity(), MediaPlayingService.class);
+                                                                intentMediaService.putExtra(AllConstants.KEY_INTENT_EXTRA_ACTION, AllConstants.EXTRA_ACTION_STOP);
+                                                                stopService(intentMediaService);
+                                                            }
 //                                    shapeRipple.stopRipple();
-                                        randomFlashManager.destroyFlashing();
-                                        initModeView(MODE.PLAY_AGAIN);
-                                    }
-                                });
-                                randomFlashManager.startFlashing();
+                                                            randomFlashManager.destroyFlashing();
+                                                            initModeView(MODE.PLAY_AGAIN);
+                                                        }
+                                                    });
+                                                    randomFlashManager.startFlashing();
+
+                                                    // Set answer image
+                                                    ivAnswer.setImageBitmap(bitmapScaled);
+                                                }
+                                            }
+                                        });
                             }
                         }
                     });
