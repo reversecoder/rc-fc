@@ -73,10 +73,10 @@
 
                         <ImageView
                             android:id="@+id/iv_additional_categories"
-                            android:layout_width="360dp"
-                            android:layout_height="120dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_additional_categories" />
+                            android:src="@drawable/ic_additional_categories2" />
 
                     </LinearLayout>
 
