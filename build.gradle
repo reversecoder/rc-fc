@@ -33,8 +33,8 @@ allprojects {
         }
         
     }
-    ext.appVersionCode = 203
-    ext.appVersionName = '2.0.3'
+    ext.appVersionCode = 204
+    ext.appVersionName = '2.0.4'
     ext.appMinSdkVersion = 15
     ext.appTargetSdkVersion = 28
     ext.appCompileSdkVersion = 28
